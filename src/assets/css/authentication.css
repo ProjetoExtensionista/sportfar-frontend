@@ -1,4 +1,3 @@
-
 /* CSS Global */
 body {
     background-image: linear-gradient(45deg, var(--second-color), var(--main-color));
@@ -30,6 +29,10 @@ a:hover {
 }
 
 /* Bloco Principal */
+.main-block {
+    background-image: linear-gradient(45deg, var(--second-color), var(--main-color));
+}
+
 .main-block.login {
     overflow-x: hidden;
     min-height: 532px;
