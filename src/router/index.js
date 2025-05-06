@@ -14,5 +14,11 @@ const router = createRouter({
   routes,
 })
 
+router.afterEach((to) => {
+  const pageName = to.name?.toString() || ''
+  document.body.className = '' 
+  document.body.classList.add(pageName)
+})
+
 export default router
 
