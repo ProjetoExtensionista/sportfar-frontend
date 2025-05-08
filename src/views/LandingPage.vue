@@ -1,6 +1,6 @@
 <template>
     <!-- Navegação -->
-    <header class="position-fixed w-100 p-3 d-flex align-items-center justify-content-center" style="z-index: 10;">
+    <header class="position-fixed w-100 p-3 d-flex align-items-center justify-content-center" :class="{ 'hide-header': isMenuOpen }" style="z-index: 10;">
         <div class="navi-shadow w-100">
             <div class="navi-box w-100 h-100 d-flex align-items-center px-8">
                 <div class="me-auto">
@@ -21,26 +21,26 @@
                     </a>
                 </div>
                 <div class="d-md-flex d-none ms-auto align-items-center justify-content-center">
-                    <a class="black-link me-2" href="../assets/login.html">
+                    <a class="black-link me-2" href="register">
                         <p class="mb-0">Cadastrar-se</p>
                     </a>
                     <div class="h-line me-2"></div>
-                    <button type="button" class="position-relative d-flex align-items-center justify-content-center btn main-btn " style="border-radius: 11px;">
+                    <a href="login" class="position-relative d-flex align-items-center justify-content-center btn main-btn " style="border-radius: 11px;">
                         <div class="btn-hover"></div>
                         <p class="mb-0">Login</p>
-                    </button> 
+                    </a> 
                 </div>
-                <div class="d-flex d-md-none me-2 open-btn-menu">
+                <div class="d-flex d-md-none me-2 open-btn-menu" @click="openMenu">
                     <i class="fa-regular fa-bars"></i>
                 </div>
             </div>
         </div>
     </header>
     
-    <div class="menu p-3 position-fixed h-100" style="z-index: 1030; ">
+    <div class="menu p-3 position-fixed h-100" :class="{ 'show-menu': isMenuOpen }" style="z-index: 1030; ">
         <div class="menu-shadow">
             <div class="menu-header p-3 position-relative">
-                <div class="p-2 position-absolute close-btn-menu">
+                <div class="p-2 position-absolute close-btn-menu" @click="closeMenu">
                     <i class="fa-regular fa-xmark"></i>
                 </div>
                 <div>
@@ -323,9 +323,496 @@
     </footer>
 </template>
 
+
 <script setup>
-    import '../assets/js/landing-page.js'
+    import { ref } from 'vue'
+
+    const isMenuOpen = ref(false)
+
+    function openMenu() {
+    isMenuOpen.value = true
+    }
+
+    function closeMenu() {
+    console.log('teste')
+    isMenuOpen.value = false
+    }
 </script>
 
-<style scoped src="../assets/css/global.css"></style>
-<style scoped src="../assets/css/landing-page.css"></style>
+<style >
+/* espa'camento global do site */
+.LandingPage .px-10 {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.LandingPage .px-8 {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+/* btn global do site */
+.LandingPage .main-btn {
+    overflow: hidden;
+    background-color: var(--main-color);
+}
+
+.LandingPage .main-btn .btn-hover {
+    transition: 0.4s ease-in all;
+    position: absolute;
+    width: 0;
+    height: 100%;
+    border-radius: 40px;
+    background-color: transparent;
+}
+
+.LandingPage .main-btn:hover .btn-hover {
+    width: 140%;
+    background-color: #37d7528f;
+}
+
+.LandingPage .main-btn p {
+    z-index: 10;
+    color: white;
+    font-weight: 700 !important;
+}
+
+/* Inicio CSS-Global */
+.LandingPage .pt-100 {
+    padding-top: 100px;
+}
+
+.LandingPage .py-100 {
+    padding: 100px 0;
+}
+
+.LandingPage .py-200 {
+    padding: 200px 0;
+}
+
+.LandingPage .pt-150 {
+    padding-top: 150px !important;
+}
+
+.LandingPage .mt-100 {
+    margin-top: 100px;
+}
+
+.LandingPage .mb-200 {
+    margin-bottom: 200px;
+}
+
+.LandingPage .mb-100 {
+    margin-bottom: 100px;
+}
+
+.LandingPage .mb-60 {
+    margin-bottom: 60px;
+}
+
+.LandingPage .shadow {
+    box-shadow: 0 0 3px rgba(30, 41, 59, 0.15) !important;
+}
+
+.LandingPage .shadow-lg {
+    box-shadow: 0 10px 25px rgba(30, 41, 59, 0.15) !important;
+}
+
+.LandingPage .shadow-md {
+    box-shadow: 0 5px 13px rgba(30, 41, 59, 0.2) !important;
+}
+
+/* Text */
+.LandingPage .text-primary {
+    color: var(--second-color) !important;
+}
+
+.LandingPage .text-muted {
+    color: #94a3b8 !important;
+}
+
+.LandingPage a.text-muted:hover,
+.LandingPage a.text-muted:focus {
+    color: #8596ae !important;
+}
+
+.LandingPage .text-muted {
+    color: #94a3b8 !important;
+}
+
+.LandingPage a.text-muted:hover,
+.LandingPage a.text-muted:focus {
+    color: #8596ae !important;
+}
+
+.LandingPage a {
+    transition: ease-in-out 0.2s all;
+}
+
+.LandingPage a:hover { 
+    color: var(--main-color);
+}
+
+/* Final CSS-Global */
+
+/* Inicio Background */
+
+.LandingPage .bg-half-170 {
+    padding: 170px 0;
+    background-size: cover !important;
+    align-self: center;
+    position: relative;
+    background-position: center center;
+}
+
+@media (max-width: 767px) {
+    .LandingPage .bg-half-170 {
+        padding: 120px 0;
+        height: auto;
+    }
+}
+
+.LandingPage .bg-soft-primary {
+    background-color: rgba(56, 189, 248, 0.05) !important;
+    color: var(--second-color) !important;
+}
+
+/* Final Background */
+
+/* Inicio Nav */
+.LandingPage header {
+    top: 0px;
+    transition: all ease-in-out 0.4s;
+}
+
+.LandingPage header.hide-header {
+    top: -90px;
+}
+
+.LandingPage .navi-box {
+    max-width: 1210px;
+    height: 70px;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.LandingPage .navi-shadow{
+    padding: 8px;
+    max-width: 1210px;
+    height: 70px;
+    border-radius: 22px;
+    background-color: #eeefef96;
+}
+
+.LandingPage .black-link {
+    font-size: 14px;
+    color: #212529;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.LandingPage .h-line {
+    height: 20px;
+    width: 2px;
+    background-color: #212529;
+}
+
+/* Final Nav */
+
+/* inicio menu */
+.LandingPage .menu {
+    left: -280px;
+    transition: all ease-in-out 0.4s;
+}
+
+.LandingPage .menu.show-menu {
+    left: 0px;
+}
+
+.LandingPage .menu-shadow{
+    padding: 8px;
+    width: 260px;
+    height: 100%;
+    border-radius: 22px;
+    background-color: #eeefef96;
+}
+
+.LandingPage .menu-header {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.LandingPage .menu-header .close-btn-menu {
+    top: 10px;
+    right: 10px;
+}
+
+/* final menu */
+
+/* Inicio Title */
+
+.LandingPage .title-heading {
+    line-height: 26px;
+}
+
+.LandingPage .title-heading .heading {
+    font-size: 48px !important;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+    .LandingPage .title-heading .heading {
+        font-size: 40px !important;
+    }
+}
+
+.LandingPage .title-heading .heading.sub-heading {
+    font-size: 32px !important;
+}
+
+@media (max-width: 768px) {
+    .LandingPage .title-heading .heading.sub-heading {
+        font-size: 28px !important;
+    }
+}
+
+.LandingPage .title-heading .letter-spacing {
+    letter-spacing: 1px;
+}
+
+.LandingPage .title-heading .para-desc {
+    font-size: 20px;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+    .LandingPage .title-heading .para-desc {
+        font-size: 16px !important;
+    }
+}
+
+/* Final Title */
+
+/* Inicio Subtitle */
+
+.LandingPage .about-right {
+    display: flex;
+    justify-content: end;
+}
+
+.LandingPage .about-right .img-one {
+    max-width: 80%;
+}
+
+.LandingPage .about-right .img-one .cta-video {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+}
+
+.LandingPage .about-right .img-two {
+    position: absolute;
+    left: 0;
+    bottom: 5%;
+    max-width: 250px;
+}
+
+.LandingPage .about-left .img-one {
+    max-width: 80%;
+}
+
+.LandingPage .about-left .img-one .cta-video {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+}
+
+.LandingPage .about-left .img-two {
+    position: absolute;
+    right: 0;
+    bottom: 5%;
+    max-width: 250px;
+}
+
+.LandingPage .about-right {
+    display: flex;
+    justify-content: end;
+}
+
+.LandingPage .about-right .img-one {
+    max-width: 80%;
+}
+
+.LandingPage .about-right .img-one .cta-video {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+}
+
+.LandingPage .about-right .img-two {
+    position: absolute;
+    left: 0;
+    bottom: 5%;
+    max-width: 250px;
+}
+
+/* Final Subtitle */
+
+/* Inicio Section */
+
+.LandingPage .section-title {
+    position: relative;
+}
+
+.LandingPage .section-title .title {
+    letter-spacing: 0.5px;
+    font-size: 30px !important;
+}
+
+@media (max-width: 768px) {
+    .LandingPage .section-title .title {
+        font-size: 26px !important;
+    }
+}
+
+.LandingPage .services-more .item {
+    padding: 50px 35px;
+    border: 1px solid var(--main-color);
+    margin-top: 15px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.LandingPage .services-more .item i {
+    display: inline-block;
+    font-size: 40px;
+    margin-bottom: 30px;
+    background: var(--main-color);
+    color: white;
+    height: 70px;
+    width: 70px;
+    text-align: center;
+    line-height: 70px;
+    border-radius: 50%;
+}
+
+.LandingPage .sub-heading {
+    text-transform: uppercase;
+    color: var(--main-color);
+    font-weight: 600;
+    background: var(--main-color);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 20px;
+}
+
+/* Final Section */
+
+/* Inicio Card */
+
+.LandingPage .para-desc {
+    max-width: 600px;
+}
+
+.LandingPage .card-integration {
+    background: linear-gradient(154deg, rgba(255, 255, 255, .08) 0%, rgba(255, 255, 255, .03) 100%);
+    border-radius: 20px;
+    box-shadow: inset 0 1px 1px #ffffff1a;
+    height: 180px;
+    width: 180px;
+    overflow: hidden;
+    position: relative;
+}
+
+.LandingPage .card-integration p {
+    font-size: 17px;
+    font-weight: 600;
+    color: #363636;
+}
+
+.LandingPage .card-integration p.card-title {
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.LandingPage .card-integration p.card-subtitle {
+    color: rgb(135, 135, 135);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 150%;
+}
+
+.LandingPage .card-integration p.card-description {
+    color: rgb(89, 89, 89);
+    font-weight: 500;
+    font-size: 12px;
+    margin-bottom: 0;
+} 
+
+/* Final Card */
+
+/* line section */
+.LandingPage .brand-style-one-items {
+    background-image: url(../images/13.png);
+    height: 400px;
+    border-radius: 10px;
+    position: relative;
+    z-index: 1;
+    background-size: 300px;
+    background-repeat: no-repeat;
+    background-position: 100% 100%;
+    background-color: #10393b;
+}
+
+/* Inicio Footer */
+
+.LandingPage a {
+    position: relative;
+    color: #adb5bd;
+}
+
+.LandingPage .bg-footer {
+    background-color: #10393b !important;
+}
+
+.LandingPage .footer-py-60 {
+    padding: 60px 0;
+}
+
+.LandingPage .footer-bar {
+    border-top: 1px solid #353739;
+}
+.LandingPage .footer-py-30 {
+    padding: 30px 0;
+}
+
+.LandingPage .footer-list li {
+    margin-bottom: 10px;
+}
+
+.LandingPage .footer-list li a {
+    transition: all 0.5s ease;
+}
+
+.LandingPage .footer-list li a:hover {
+    color: #e6e8ea;
+}
+
+.LandingPage .footer-list li:last-child {
+    margin-bottom: 0;
+}
+
+.LandingPage .footer-head {
+    letter-spacing: 1px;
+    font-weight: 500;
+    color: #f8f9fc;
+}
+
+/* Final Footer */
+</style>
