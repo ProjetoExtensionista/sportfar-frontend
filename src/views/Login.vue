@@ -2,8 +2,7 @@
     <div class="main-block login vw-100 vh-100 d-flex align-items-center justify-content-center">
         <div class="rounded login-box">
             <div class="p-4">
-                <h4 class="text-center mb-2">Login</h4>
-                <p class="text-center mb-0 subtitle">Digite seu e-mail e senha abaixo</p>
+                <img src="" alt="">
             </div>
             <div class="line"></div>
             <div class="p-4">
@@ -129,7 +128,7 @@ function togglePassword() {
 
 /* CSS Global */
 .Login body {
-    background-image: linear-gradient(45deg, var(--second-color), var(--main-color));
+    background-image: white;
     overflow-x: hidden;
 }
 
@@ -159,7 +158,7 @@ function togglePassword() {
 
 /* Bloco Principal */
 .Login .main-block {
-    background-image: linear-gradient(45deg, var(--second-color), var(--main-color));
+    background-image: white;
 }
 
 .Login .main-block.login {
