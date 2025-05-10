@@ -1,7 +1,7 @@
 <template>
     <div class="main-block register vw-100 vh-100 d-flex align-items-center justify-content-center">
         <div class="rounded login-box">
-            <div class="p-4" align-item-center>
+            <div class="p-4">
                 <img src="../assets/images/logo-login.png" alt="">
             </div>
             <div class="line"></div>
