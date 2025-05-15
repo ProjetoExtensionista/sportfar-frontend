@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import NotFound from '../views/NotFound.vue'
 import ForgotPass from '../views/ForgotPass.vue'
+import Dashboard from '../views/Dashboard.vue'
 
 const routes = [
 	{ path: '/', name: 'Home', component: LandingPage },
@@ -12,6 +13,7 @@ const routes = [
 	{ path: '/register', name: 'Register', component: Register },
 	{ path: '/not-found', name: 'NotFound', component: NotFound },
 	{ path: '/forgot-pass', name: 'ForgotPass', component: ForgotPass },
+	{ path: '/dashboard', name: 'Dashboard', component: Dashboard },
 ]
 
 const router = createRouter({
