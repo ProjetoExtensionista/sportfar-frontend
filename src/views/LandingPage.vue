@@ -35,6 +35,42 @@
                 </div>
             </div>
         </div>
+    </header><!-- Navegação -->
+    <header class="position-fixed w-100 p-3 d-flex align-items-center justify-content-center" :class="{ 'hide-header': isMenuOpen }" style="z-index: 10;">
+        <div class="navi-shadow w-100">
+            <div class="navi-box w-100 h-100 d-flex align-items-center px-8">
+                <div class="me-auto">
+                    <img src="../assets/images/logo.png" alt="" width="160">
+                </div>
+                <div class="d-md-flex d-none gap-4">
+                    <a href="#home" class="black-link">
+                        <p class="mb-0">Início</p>
+                    </a>
+                    <a href="#about" class="black-link">
+                        <p class="mb-0">Sobre nós</p>
+                    </a>
+                    <a href="#services" class="black-link">
+                        <p class="mb-0">Recursos</p>
+                    </a>
+                    <a href="#contact" class="black-link">
+                        <p class="mb-0">Contato</p>
+                    </a>
+                </div>
+                <div class="d-md-flex d-none ms-auto align-items-center justify-content-center">
+                    <a class="black-link me-2" href="register">
+                        <p class="mb-0">Cadastrar-se</p>
+                    </a>
+                    <div class="h-line me-2"></div>
+                    <a href="login" class="position-relative d-flex align-items-center justify-content-center btn main-btn " style="border-radius: 11px;">
+                        <div class="btn-hover"></div>
+                        <p class="mb-0">Login</p>
+                    </a> 
+                </div>
+                <div class="d-flex d-md-none me-2 open-btn-menu" @click="openMenu">
+                    <i class="fa-regular fa-bars"></i>
+                </div>
+            </div>
+        </div>
     </header>
     
     <div class="menu p-3 position-fixed h-100" :class="{ 'show-menu': isMenuOpen }" style="z-index: 1030; ">
@@ -340,7 +376,7 @@
 </script>
 
 <style >
-/* espa'camento global do site */
+/* espacamento global do site */
 .LandingPage .px-10 {
     padding-right: 10px;
     padding-left: 10px;
