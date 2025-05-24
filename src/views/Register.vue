@@ -2,8 +2,7 @@
     <div class="main-block register vw-100 vh-100 d-flex align-items-center justify-content-center">
         <div class="rounded login-box">
             <div class="p-4">
-                <h4 class="text-center mb-2">Crie uma conta</h4>
-                <p class="text-center mb-0 subtitle">Insira seus dados abaixo para criar conta</p>
+                <img src="../assets/images/logo-login.png" alt="">
             </div>
             <div class="line"></div>
             <div class="p-4">
@@ -142,7 +141,7 @@ function toggleConfirmPassword() {
 
 /* CSS Global */
 .Register body {
-    background-image: linear-gradient(45deg, var(--second-color), var(--main-color));
+    background-image: white;
     overflow-x: hidden;
 }
 
@@ -172,7 +171,7 @@ function toggleConfirmPassword() {
 
 /* Bloco Principal */
 .Register .main-block {
-    background-image: linear-gradient(45deg, var(--second-color), var(--main-color));
+    background-image: white;
 }
 
 .Register .main-block.login {
