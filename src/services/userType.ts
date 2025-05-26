@@ -5,6 +5,28 @@ export interface UserType {
   type: string
 }
 
+`
+FUNÇÃO PARA CRIAR UM USUÁRIO ESPECIFICO PARA UM PROFESSOR
+
+export interface User {
+  full_name: string
+  cpf: string
+  birth_date: Date
+  email: string
+  password_temp: string
+  address: string
+  city: string
+  cep: string
+  phone: string
+}
+
+export const createUser = async (data: User) => {
+  const response = await axiosInstance.post('/user', data)
+  return response.data
+}
+  
+`
+
 export const createUserType = async (data: UserType) => {
   const response = await axiosInstance.post('/user/type', data)
   return response.data
