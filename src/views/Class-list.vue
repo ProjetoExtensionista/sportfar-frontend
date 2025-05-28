@@ -7,6 +7,9 @@ import Header from './components/Header.vue'
         <Header>
         </Header>
         <div class="d-flex" style="margin-top: 20px;">
+            <button class="btn-add rounded">
+                <p class="mb-0">Adicionar Turma</p>
+            </button>
             <div>
                  <div class="main-search d-flex align-items-end">
                     <div class=" mb-3 position-relative w-100">
@@ -62,25 +65,25 @@ import Header from './components/Header.vue'
                     </div>
                     <div class="filters">
                         <div>
-                            <p class="title-filter">Status da Turma</p>
+                            <p class="title-filter">Horários</p>
                         </div>
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
-                            <div class="form-check">
+                            <div class="form-check w-50">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                 <label class="form-check-label" for="flexCheckDefault">
-                                    Aberta
+                                    Manhã
                                 </label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check w-50">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
                                 <label class="form-check-label" for="flexCheckChecked">
-                                    Fechado
+                                    Tarde
                                 </label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check w-50">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
                                 <label class="form-check-label" for="flexCheckChecked">
-                                    Fechado
+                                    Noite
                                 </label>
                             </div>
                         </div>
@@ -111,8 +114,11 @@ import Header from './components/Header.vue'
                         <p class="mb-0">Handbal</p>
                     </div>
                 </div>
-                <div class="submain-block h-100 w-100">
-
+                <div class="submain-block ">
+                    <div class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
+                        <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhuma turma</p>
+                        <img src="../assets/images/caixa.png" alt="Caixa" width="120">
+                    </div>
                 </div>
             </div>
         </div>
@@ -120,17 +126,45 @@ import Header from './components/Header.vue'
 </template>
 
 
-<style>
+<style scoped>
+body, p, h1, h2, h3, h4, h5, h6, label, span {
+    font-family: "Montserrat", sans-serifs;
+}
+
 #modalities {
     overflow: hidden;
     height: 100vh;
     max-height: 100vh;
 }
 
+#modalities .btn-add {
+    bottom: 20px;
+    right: 20px;
+    position: absolute;
+    background-color: white;
+    border-width: 1px 0px 0px 1px;
+    border-style: solid;
+    border-color: #c3c3c3a2;
+    box-shadow: 4px 4px 8px 0px #00000040;
+    padding: 12px 24px;
+}
+
+#modalities .btn-add p {
+    font-size: 16px;
+    font-weight: 700;
+}
+
 #modalities .submain-block {
+    height: calc(100% - 93px);
     border-top: 3px solid #d9d9d9;
     border-left: 3px solid #d9d9d9;
     border-top-left-radius: 32px;
+}
+
+#modalities .submain-block .subtitle{
+    font-size: 17px;
+    font-weight: 600;
+    color: #212529;
 }
 
 #modalities .sub-header {

@@ -5,7 +5,8 @@ import Register from '../views/Register.vue'
 import NotFound from '../views/NotFound.vue'
 import ForgotPass from '../views/ForgotPass.vue'
 import Dashboard from '../views/Dashboard.vue'
-import Modalities from '../views/Modalities.vue'
+import ClassList from '../views/Class-list.vue'
+import Class from '../views/Class.vue'
 
 const routes = [
 	{ path: '/', name: 'Home', component: LandingPage },
@@ -15,7 +16,8 @@ const routes = [
 	{ path: '/not-found', name: 'NotFound', component: NotFound },
 	{ path: '/forgot-pass', name: 'ForgotPass', component: ForgotPass },
 	{ path: '/dashboard', name: 'Dashboard', component: Dashboard },
-	{ path: '/modalities', name: 'Modalities', component: Modalities },
+	{ path: '/class-list', name: 'ClassList', component: ClassList },
+	{ path: '/class', name: 'Class', component: Class },
 ]
 
 const router = createRouter({
