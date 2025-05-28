@@ -1,5 +1,6 @@
 <script setup>
 import Header from './components/Header.vue'
+import CardBox from './components/CardBox.vue'
 </script>
 
 <template>
@@ -7,8 +8,11 @@ import Header from './components/Header.vue'
         <Header>
         </Header>
         <div class="d-flex" style="margin-top: 20px;">
+            <button class="btn-add rounded">
+                <p class="mb-0">Adicionar Turma</p>
+            </button>
             <div>
-                 <div class="main-search d-flex align-items-end">
+                <div class="main-search d-flex align-items-end">
                     <div class=" mb-3 position-relative w-100">
                         <input type="text" class="input-search form-control" placeholder="Digite o nome da turma">
                         <i class="input-icon fa-regular fa-magnifying-glass"></i>
@@ -39,7 +43,8 @@ import Header from './components/Header.vue'
                             <p class="title-filter">Buscar Professor</p>
                         </div>
                         <div class=" mb-3 position-relative">
-                            <input type="text" class="input-search form-control" placeholder="Digite o nome do professor">
+                            <input type="text" class="input-search form-control"
+                                placeholder="Digite o nome do professor">
                             <i class="input-icon fa-regular fa-magnifying-glass"></i>
                         </div>
                         <div class="results">
@@ -62,25 +67,25 @@ import Header from './components/Header.vue'
                     </div>
                     <div class="filters">
                         <div>
-                            <p class="title-filter">Status da Turma</p>
+                            <p class="title-filter">Horários</p>
                         </div>
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
-                            <div class="form-check">
+                            <div class="form-check w-50">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                 <label class="form-check-label" for="flexCheckDefault">
-                                    Aberta
+                                    Manhã
                                 </label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check w-50">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
                                 <label class="form-check-label" for="flexCheckChecked">
-                                    Fechado
+                                    Tarde
                                 </label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check w-50">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
                                 <label class="form-check-label" for="flexCheckChecked">
-                                    Fechado
+                                    Noite
                                 </label>
                             </div>
                         </div>
@@ -101,7 +106,7 @@ import Header from './components/Header.vue'
                     <div class="opt-modality d-flex align-items-center justify-content-center">
                         <p class="mb-0">Basquete</p>
                     </div>
-                   <div class="opt-modality d-flex align-items-center justify-content-center">
+                    <div class="opt-modality d-flex align-items-center justify-content-center">
                         <p class="mb-0">Volei</p>
                     </div>
                     <div class="opt-modality d-flex align-items-center justify-content-center">
@@ -111,26 +116,68 @@ import Header from './components/Header.vue'
                         <p class="mb-0">Handbal</p>
                     </div>
                 </div>
-                <div class="submain-block h-100 w-100">
-
+                <div class="submain-block ">
+                    <div class="d-flex flex-wrap align-items-start justify-content-start gap-5 mt-5 ms-5">
+                            <CardBox icon='<i class="fa-light fa-user-tie"></i>' title="Professores" subtitle="R$ 56,50"
+                                color="green" />
+                            <CardBox icon='<i class="fa-light fa-users-line"></i>' title="Alunos" subtitle="20"
+                                color="Orange" />
+                            <CardBox icon='<i class="fa-light fa-screen-users"></i>' title="Turmas" subtitle="20"
+                                color="Red" />
+                            <CardBox icon='<i class="fa-light fa-court-sport"></i>' title="Modalidades" subtitle="teste"
+                                color="Blue" />
+                        </div>
+                    <div class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
+                        <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhuma turma</p>
+                        <img src="../assets/images/caixa.png" alt="Caixa" width="120">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </template>
 
 
-<style>
+<style scoped>
+body, p, h1, h2, h3, h4, h5, h6, label, span {
+    font-family: "Montserrat", sans-serifs;
+}
+
 #modalities {
     overflow: hidden;
     height: 100vh;
     max-height: 100vh;
 }
 
+#modalities .btn-add {
+    bottom: 20px;
+    right: 20px;
+    position: absolute;
+    background-color: white;
+    border-width: 1px 0px 0px 1px;
+    border-style: solid;
+    border-color: #c3c3c3a2;
+    box-shadow: 4px 4px 8px 0px #00000040;
+    padding: 12px 24px;
+}
+
+#modalities .btn-add p {
+    font-size: 16px;
+    font-weight: 700;
+}
+
 #modalities .submain-block {
+    height: calc(100% - 93px);
     border-top: 3px solid #d9d9d9;
     border-left: 3px solid #d9d9d9;
     border-top-left-radius: 32px;
+}
+
+#modalities .submain-block .subtitle{
+    font-size: 17px;
+    font-weight: 600;
+    color: #212529;
 }
 
 #modalities .sub-header {
