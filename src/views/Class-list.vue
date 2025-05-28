@@ -1,5 +1,6 @@
 <script setup>
 import Header from './components/Header.vue'
+import CardBox from './components/CardBox.vue'
 </script>
 
 <template>
@@ -11,7 +12,7 @@ import Header from './components/Header.vue'
                 <p class="mb-0">Adicionar Turma</p>
             </button>
             <div>
-                 <div class="main-search d-flex align-items-end">
+                <div class="main-search d-flex align-items-end">
                     <div class=" mb-3 position-relative w-100">
                         <input type="text" class="input-search form-control" placeholder="Digite o nome da turma">
                         <i class="input-icon fa-regular fa-magnifying-glass"></i>
@@ -42,7 +43,8 @@ import Header from './components/Header.vue'
                             <p class="title-filter">Buscar Professor</p>
                         </div>
                         <div class=" mb-3 position-relative">
-                            <input type="text" class="input-search form-control" placeholder="Digite o nome do professor">
+                            <input type="text" class="input-search form-control"
+                                placeholder="Digite o nome do professor">
                             <i class="input-icon fa-regular fa-magnifying-glass"></i>
                         </div>
                         <div class="results">
@@ -104,7 +106,7 @@ import Header from './components/Header.vue'
                     <div class="opt-modality d-flex align-items-center justify-content-center">
                         <p class="mb-0">Basquete</p>
                     </div>
-                   <div class="opt-modality d-flex align-items-center justify-content-center">
+                    <div class="opt-modality d-flex align-items-center justify-content-center">
                         <p class="mb-0">Volei</p>
                     </div>
                     <div class="opt-modality d-flex align-items-center justify-content-center">
@@ -112,6 +114,19 @@ import Header from './components/Header.vue'
                     </div>
                     <div class="opt-modality d-flex align-items-center justify-content-center">
                         <p class="mb-0">Handbal</p>
+                    </div>
+                    <div class="submain-block h-100 w-100">
+                        <!--  vou arrumar essa bomba depois  -->
+                        <div class="d-flex flex-wrap align-items-start justify-content-start gap-5 mt-5 ms-5">
+                            <CardBox icon='<i class="fa-light fa-user-tie"></i>' title="Professores" subtitle="R$ 56,50"
+                                color="green" />
+                            <CardBox icon='<i class="fa-light fa-users-line"></i>' title="Alunos" subtitle="20"
+                                color="Orange" />
+                            <CardBox icon='<i class="fa-light fa-screen-users"></i>' title="Turmas" subtitle="20"
+                                color="Red" />
+                            <CardBox icon='<i class="fa-light fa-court-sport"></i>' title="Modalidades" subtitle="teste"
+                                color="Blue" />
+                        </div>
                     </div>
                 </div>
                 <div class="submain-block ">
@@ -123,6 +138,7 @@ import Header from './components/Header.vue'
             </div>
         </div>
     </div>
+
 </template>
 
 
