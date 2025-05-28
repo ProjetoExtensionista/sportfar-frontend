@@ -115,9 +115,9 @@ import CardBox from './components/CardBox.vue'
                     <div class="opt-modality d-flex align-items-center justify-content-center">
                         <p class="mb-0">Handbal</p>
                     </div>
-                    <div class="submain-block h-100 w-100">
-                        <!--  vou arrumar essa bomba depois  -->
-                        <div class="d-flex flex-wrap align-items-start justify-content-start gap-5 mt-5 ms-5">
+                </div>
+                <div class="submain-block ">
+                    <div class="d-flex flex-wrap align-items-start justify-content-start gap-5 mt-5 ms-5">
                             <CardBox icon='<i class="fa-light fa-user-tie"></i>' title="Professores" subtitle="R$ 56,50"
                                 color="green" />
                             <CardBox icon='<i class="fa-light fa-users-line"></i>' title="Alunos" subtitle="20"
@@ -127,9 +127,6 @@ import CardBox from './components/CardBox.vue'
                             <CardBox icon='<i class="fa-light fa-court-sport"></i>' title="Modalidades" subtitle="teste"
                                 color="Blue" />
                         </div>
-                    </div>
-                </div>
-                <div class="submain-block ">
                     <div class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
                         <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhuma turma</p>
                         <img src="../assets/images/caixa.png" alt="Caixa" width="120">
