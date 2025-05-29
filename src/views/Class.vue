@@ -1,5 +1,6 @@
 <script setup>
 import Header from './components/Header.vue'
+import SubHeader from './components/SubHeader.vue'
 </script>
 
 <template>
@@ -11,14 +12,10 @@ import Header from './components/Header.vue'
                 <p class="mb-0">Criar Turma</p>
             </button>
             <div class="main-block h-100 w-100">
-                <div class="sub-header d-flex align-items-end w-100">
-                    <div class="opt-title d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Formulário para criação de turmas</p>
-                    </div>
-                </div>
+                <SubHeader></SubHeader>
                 <div class="d-flex submain-block  w-100 p-5 overflow-auto">
-                    <div class="col-6 py-5 pe-3 form">
-                        <div class="mb-3 d-flex justify-content-center">
+                    <div class="col-6 pe-3 d-flex flex-column justify-content-center form">
+                        <div class=" d-flex justify-content-center">
                             <label for="modality" class="col-sm-2 col-form-label">Modalidade</label>
                             <select name="modality" class="form-select" >
                                 <option selected>Open this select menu</option>
@@ -27,26 +24,26 @@ import Header from './components/Header.vue'
                                 <option value="3">Three</option>
                             </select>
                         </div>
-                        <div class="mb-3 d-flex justify-content-center">
+                        <div class=" d-flex justify-content-center">
                             <label for="date" class="col-sm-2 col-form-label">Data de Realização</label>
                             <div class="double-input d-flex">
                                 <input type="date" class="form-control" name="start_date">
                                 <input type="date" class="form-control" name="final_date"> 
                             </div>
                         </div>
-                        <div class="mb-3 d-flex justify-content-center">
+                        <div class=" d-flex justify-content-center">
                             <label for="workload" class="col-sm-2 col-form-label">Carga Horária</label>
                             <input type="text" class="form-control" name="workload" v-model="workload" @input="filterNumbers('workload')" placeholder="4">
                         </div>
-                        <div class="mb-3 d-flex justify-content-center">
+                        <div class=" d-flex justify-content-center">
                             <label for="teacher" class="col-sm-2 col-form-label">Professor</label>
                             <input type="text" class="form-control" name="teacher" placeholder="Selecione o(s) professor(es)">
                         </div>
-                        <div class="mb-3 d-flex justify-content-center">
+                        <div class=" d-flex justify-content-center">
                             <label for="customRange1" class="form-label">Quant. Vagas</label>
                             <input v-model="vacant"  @input="printVacant" type="range" step="5" min="0" max="100" value="10" class="form-range" name="vacant">
                         </div>
-                        <div class="mb-3 d-flex justify-content-center">
+                        <div class=" d-flex justify-content-center">
                             <label for="teacher" class="col-sm-2 col-form-label">Status da Turma</label>
                             <div class="d-flex justify-content-start gap-2 form-block-input">
                                 <button type="button" class="btn btn-primary">Aberta</button>
@@ -54,7 +51,7 @@ import Header from './components/Header.vue'
                                 <button type="button" class="btn btn-secondary">Inativa</button>
                             </div>
                         </div>
-                        <div class="mb-3 d-flex justify-content-center">
+                        <div class=" d-flex justify-content-center">
                             <label for="inputPassword" class="col-sm-2 col-form-label">Dia da Semana</label>
                             <select class="form-select" name="weekday">
                                 <option selected>Selecione o dia da semana</option>
@@ -63,14 +60,14 @@ import Header from './components/Header.vue'
                                 <option value="3">Three</option>
                             </select>
                         </div>
-                        <div class="mb-3 d-flex justify-content-center">
+                        <div class=" d-flex justify-content-center">
                             <label for="inputPassword" class="col-sm-2 col-form-label">Horário da Aula</label>
                             <div class="double-input d-flex">
                                 <input type="time" class="form-control" name="start_time">
                                 <input type="time" class="form-control" name="end_time"> 
                             </div>
                         </div>
-                        <div class="mb-3 d-flex justify-content-center">
+                        <div class=" d-flex justify-content-center">
                             <label for="inputPassword" class="col-sm-2 col-form-label">Faixa Etária</label>
                             <div class="double-input d-flex">
                                 <input type="text" class="form-control" name="age_group_1" v-model="age_group_1" @input="filterNumbers('age_group_1')">
@@ -147,7 +144,13 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     border-left: 3px solid #d9d9d9;
 }
 #class .submain-block .form {
+    padding-top: 30px;
+    padding-bottom: 30px;
     border-right: 3px solid #d9d9d9;
+}
+
+#class .submain-block .form > div {
+    margin-bottom: 10px;
 }
 
 #class .submain-block .form label {
@@ -158,6 +161,38 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     width: 100%;
     max-width: 360px;
     margin: 0;
+}
+
+#class .submain-block .form button {
+    width: calc(100% / 3);
+}
+
+@media screen and (max-height: 740px){
+    #class .submain-block {
+        height: calc(100% - 163px);
+    }
+
+    #class .submain-block .form {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    #class .submain-block .form label {
+        min-width: 132px;
+        font-size: 12px;
+    }
+
+    #class .submain-block .form select, #class .submain-block .form .form-block-input, #class .submain-block .form input, #class .submain-block .form .double-input{
+        height: 30px;
+        max-width: 240px;
+        font-size: 12px;
+    }
+
+    #class .submain-block .form button {
+        height: 30px;
+        line-height: 0 !important;
+        font-size: 12px;
+    }
 }
 
 #class .submain-block .form .double-input select, #class .submain-block .form .double-input input{
@@ -198,23 +233,6 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
   border-radius: 50%;
   top: -23px;
   left: calc(50% - 5.5px);
-}
-
-#class .sub-header {
-    margin-top: 3px;
-    height: 90px;
-    padding-left: 82px;
-}
-
-
-#class .sub-header .opt-title {
-    position: relative;
-    height: 56px;
-}
-
-#class .sub-header .opt-title p {
-    height: fit-content;
-    font-weight: 700;
 }
 
 #class .menu-modalities{

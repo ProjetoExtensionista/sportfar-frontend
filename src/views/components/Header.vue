@@ -29,12 +29,18 @@
     </header>
 </template>
 
-<style>
+<style scoped> 
 
 #header {
     height: 90px;
     padding: 16px 82px;
     background-color: white;
+}
+
+@media screen and (max-height: 740px){
+    #header {
+        height: 70px;
+    }
 }
 
 #header .logo-header {
