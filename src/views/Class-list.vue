@@ -117,13 +117,13 @@ import CardModality from './components/CardModality.vue'
                     </div>
                 </div>
                 <div class="submain-block ">
-                    <div class="d-flex flex-wrap align-items-start justify-content-start gap-5 mt-5 ms-5">
+                    <div v-if="1==1" class="d-flex flex-wrap align-items-start justify-content-start gap-5 mt-5 ms-5">
                             <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#0D6EFD" img="futebol.png" />
                             <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#FF6607" img="basquete.png" />
                             <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#FFC107" img="volei.png" />
                             <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#2F7345" img="futebol.png" />
                         </div>
-                    <div class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
+                    <div v-else class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
                         <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhuma turma</p>
                         <img src="../assets/images/caixa.png" alt="Caixa" width="120">
                     </div>
