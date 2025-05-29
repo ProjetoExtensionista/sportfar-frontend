@@ -17,7 +17,7 @@ import Header from './components/Header.vue'
                     </div>
                 </div>
                 <div class="d-flex submain-block  w-100 p-5 overflow-auto">
-                    <div class="col-6 p-7 form">
+                    <div class="col-6 py-5 pe-3 form">
                         <div class="mb-3 d-flex justify-content-center">
                             <label for="modality" class="col-sm-2 col-form-label">Modalidade</label>
                             <select name="modality" class="form-select" >
@@ -78,7 +78,7 @@ import Header from './components/Header.vue'
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 px-5">
+                    <div class="col-6 py-5 pe-3">
 
                     </div>
                 </div>
@@ -142,7 +142,7 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
 }
 
 #class .submain-block {
-    height: calc(100% - 93px);
+    height: calc(100% - 203px);
     border-top: 3px solid #d9d9d9;
     border-left: 3px solid #d9d9d9;
 }
