@@ -97,6 +97,148 @@ const professoresFiltrados = computed(() => {
     return nomeMatch && emailMatch && telefoneMatch
   })
 })
+
+
+// SEÇÃO PARA DESATIVAR UM PROFESSOR
+
+function desativarProfessor(email) {
+  // 1. Encontrar o professor a ser desativado
+  const professor = professores.value.find(p => p.email === email)
+  if (!professor) return
+
+  // 2. Chamar API se necessário
+  console.log('Desativando professor:', professor)
+  // await apiDesativarProfessor(email)
+
+  // 3. Remover da lista de professores
+  professores.value = professores.value.filter(p => p.email !== email)
+
+  // 4. Adicionar na lista de usuários
+  usuariosExistentes.value.push({
+    nome: professor.name,
+    email: professor.email,
+    telefone: professor.phone,
+    photo: professor.photo || ''
+  })
+}
+
+
+
+// SEÇÃO PARA CRIAR UM PROFESSOR NOVO - DOIS MODELOS
+
+const filtroEmail = ref('')
+const abrirModal = ref(false)
+
+const novoUsuario = ref({
+  full_name: '',
+  cpf: '',
+  birth_date: '',
+  email: '',
+  password: '',
+  address: '',
+  city: '',
+  cep: '',
+  phone: '',
+})
+
+// SUBSTITUIR POR API
+const usuariosExistentes = ref([
+  { nome: 'João Lima', email: 'joao@example.com' },
+  { nome: 'Maria Costa', email: 'maria@example.com' }
+])
+
+const usuariosFiltrados = computed(() => {
+  return usuariosExistentes.value.filter(user =>
+    user.email.toLowerCase().includes(filtroEmail.value.toLowerCase())
+  )
+})
+
+
+// MODELO 1: CRIANDO USUARIO DO ZERO
+function criarNovoUsuario() {
+  const camposObrigatorios = [
+    'full_name', 'cpf', 'birth_date', 'email',
+    'address', 'city', 'cep', 'password'
+  ]
+
+  const labels = {
+    full_name: 'Nome completo',
+    cpf: 'CPF',
+    birth_date: 'Data de nascimento',
+    email: 'Email',
+    password: 'Senha',
+    address: 'Endereço',
+    city: 'Cidade',
+    cep: 'CEP'
+  }
+
+  const faltando = camposObrigatorios.filter(
+    campo => !novoUsuario.value[campo]?.toString().trim()
+  )
+
+  if (faltando.length > 0) {
+    const faltandoLabel = faltando.map(campo => labels[campo] || campo)
+    alert(`Preencha todos os campos obrigatórios:\n- ${faltandoLabel.join('\n- ')}`)
+    return
+  }
+
+  try {
+    // Simulação de chamada à API — substitua por sua função real
+    // await apiCriarUsuario(novoUsuario.value)
+    console.log('Usuário criado:', novoUsuario.value)
+
+    // Adiciona à lista de professores
+    professores.value.push({
+      name: novoUsuario.value.full_name,
+      email: novoUsuario.value.email,
+      phone: novoUsuario.value.phone || '',
+      photo: novoUsuario.value.photo || 'foto1.jpg', // substitua por real se aplicável
+      cor: corAleatoria()
+    })
+
+    // Remove da lista de usuários (caso esteja lá por algum motivo)
+    usuariosExistentes.value = usuariosExistentes.value.filter(
+      u => u.email !== novoUsuario.value.email
+    )
+
+    // Limpa o formulário
+    Object.keys(novoUsuario.value).forEach(key => {
+      novoUsuario.value[key] = ''
+    })
+
+    // Fecha o modal
+    abrirModal.value = false
+  } catch (error) {
+    console.error('Erro ao criar usuário:', error)
+    alert('Erro ao criar o usuário. Tente novamente.')
+  }
+}
+
+
+// MODELO 2: RELACIONAR UM USUÁRIO ANTIGO
+function relacionarUsuarioExistente(usuario) {
+  // Chamar API aqui, se necessário
+  console.log('Relacionando usuário:', usuario)
+  // await apiRelacionarUsuario(usuario)
+
+  // 1. Remove o usuário da lista de disponíveis
+  usuariosExistentes.value = usuariosExistentes.value.filter(
+    u => u.email !== usuario.email
+  )
+
+  // 2. Adiciona na lista de professores
+  professores.value.push({
+    name: usuario.nome,
+    email: usuario.email,
+    phone: usuario.telefone || '',
+    photo: usuario.photo || 'foto1.jpg', // Se tiver
+    cor: corAleatoria()
+  })
+
+  // 3. Fecha o modal
+  abrirModal.value = false
+}
+
 </script>
 
 <template>
@@ -118,7 +260,10 @@ const professoresFiltrados = computed(() => {
       </aside>
 
       <section class="conteudo-professores">
-        <h1 class="titulo">LISTA PROFESSORES</h1>
+        <div class="topo-professores">
+          <h1 class="titulo">LISTA PROFESSORES</h1>
+          <button @click="abrirModal = true">Novo Professor</button>
+        </div>
 
         <div class="lista-cards">
           <CardBoxTeacher
@@ -129,10 +274,53 @@ const professoresFiltrados = computed(() => {
             :phone="prof.phone"
             :photo="prof.photo"
             :cor="prof.cor"
+            @deletar="desativarProfessor"
           />
         </div>
+
       </section>
     </div>
+
+  <div v-if="abrirModal" class="modal-overlay">
+    <div class="modal-content">
+      <!-- Botão de fechar -->
+      <button class="fechar-modal" @click="abrirModal = false">×</button>
+
+      <h2>Cadastrar Professor</h2>
+
+      <div class="modal-grid">
+        <!-- Criar novo usuário -->
+        <section class="modal-section">
+          <h3>Criar novo usuário</h3>
+          <input v-model="novoUsuario.full_name" placeholder="Nome completo" />
+          <input v-model="novoUsuario.cpf" placeholder="CPF" />
+          <input v-model="novoUsuario.birth_date" type="date" placeholder="Data de nascimento" />
+          <input v-model="novoUsuario.email" placeholder="Email" />
+          <input v-model="novoUsuario.address" placeholder="Endereço" />
+          <input v-model="novoUsuario.city" placeholder="Cidade" />
+          <input v-model="novoUsuario.cep" placeholder="CEP" />
+          <input v-model="novoUsuario.phone" placeholder="Telefone (opcional)" />
+          <input v-model="novoUsuario.password" placeholder="Senha" />
+
+          <button @click="criarNovoUsuario">Criar</button>
+        </section>
+
+        <!-- Relacionar com usuário existente -->
+        <section class="modal-section">
+          <h3>Relacionar usuário existente</h3>
+          <input v-model="filtroEmail" placeholder="Filtrar por email" />
+
+          <ul class="usuarios-lista">
+            <li v-for="user in usuariosFiltrados" :key="user.email" class="usuario-item">
+              <span>{{ user.nome }} ({{ user.email }})</span>
+              <button @click="relacionarUsuarioExistente(user)">Relacionar</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+
   </div>
 </template>
 
@@ -154,7 +342,7 @@ const professoresFiltrados = computed(() => {
 }
 
 .filtros {
-  width: 25%;
+  width: 20%;
   background-color: white;
   padding: 20px;
   border-radius: 12px;
@@ -228,4 +416,103 @@ const professoresFiltrados = computed(() => {
     justify-content: center;
   }
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 95%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.fechar-modal {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.modal-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.usuarios-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 50vh;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.usuario-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.usuario-item:last-child {
+  border-bottom: none;
+}
+
+
+.topo-professores {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.topo-professores .titulo {
+  margin: 0;
+}
+
+.topo-professores button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #0d6efd;
+  color: white;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.topo-professores button:hover {
+  background-color: #0b5ed7;
+}
+
 </style>
