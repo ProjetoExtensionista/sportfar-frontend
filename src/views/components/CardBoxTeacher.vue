@@ -12,6 +12,9 @@ const props = defineProps({
 const modalidadeCor = computed(() => {
   return props.cor || '#607D8B'
 })
+
+defineEmits(['deletar'])
+
 </script>
 
 <template>
@@ -26,6 +29,9 @@ const modalidadeCor = computed(() => {
     <div class="card-body">
       <p><strong>Telefone:</strong> {{ phone }}</p>
       <p><strong>Email:</strong> <a :href="'mailto:' + email">{{ email }}</a></p>
+      <button class="botao-deletar" @click="$emit('deletar', email)" title="Deletar professor">
+        Desativar
+      </button>
     </div>
   </div>
 </template>
@@ -76,5 +82,20 @@ const modalidadeCor = computed(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 160px;
+}
+
+
+.botao-deletar {
+  background: none;
+  border: none;
+  color: black;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.botao-deletar:hover {
+  transform: scale(1.2);
+  color: #ff4d4f;
 }
 </style>
