@@ -1,6 +1,6 @@
 <script setup>
 import Header from './components/Header.vue'
-import CardBox from './components/CardBox.vue'
+import CardModality from './components/CardModality.vue'
 </script>
 
 <template>
@@ -118,10 +118,10 @@ import CardBox from './components/CardBox.vue'
                 </div>
                 <div class="submain-block ">
                     <div class="d-flex flex-wrap align-items-start justify-content-start gap-5 mt-5 ms-5">
-                            <CardBox icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#0D6EFD" />
-                            <CardBox icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="" hour="" professor="" color="green" />
-                            <CardBox icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="" hour="" professor="" color="green" />
-                            <CardBox icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="" hour="" professor="" color="green" />
+                            <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#0D6EFD" img="futebol.png" />
+                            <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#FF6607" img="basquete.png" />
+                            <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#FFC107" img="volei.png" />
+                            <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#2F7345" img="futebol.png" />
                         </div>
                     <div class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
                         <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhuma turma</p>
