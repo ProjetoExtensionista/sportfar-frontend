@@ -118,14 +118,10 @@ import CardBox from './components/CardBox.vue'
                 </div>
                 <div class="submain-block ">
                     <div class="d-flex flex-wrap align-items-start justify-content-start gap-5 mt-5 ms-5">
-                            <CardBox icon='<i class="fa-light fa-user-tie"></i>' title="Professores" subtitle="R$ 56,50"
-                                color="green" />
-                            <CardBox icon='<i class="fa-light fa-users-line"></i>' title="Alunos" subtitle="20"
-                                color="Orange" />
-                            <CardBox icon='<i class="fa-light fa-screen-users"></i>' title="Turmas" subtitle="20"
-                                color="Red" />
-                            <CardBox icon='<i class="fa-light fa-court-sport"></i>' title="Modalidades" subtitle="teste"
-                                color="Blue" />
+                            <CardBox icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#0D6EFD" />
+                            <CardBox icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="" hour="" professor="" color="green" />
+                            <CardBox icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="" hour="" professor="" color="green" />
+                            <CardBox icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="" hour="" professor="" color="green" />
                         </div>
                     <div class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
                         <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhuma turma</p>
