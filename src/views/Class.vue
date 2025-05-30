@@ -1,7 +1,9 @@
 <script setup>
 import Header from './components/Header.vue'
 import SubHeader from './components/SubHeader.vue'
+import CardModality from './components/CardModality.vue'
 </script>
+
 
 <template>
     <div id="class">
@@ -14,7 +16,7 @@ import SubHeader from './components/SubHeader.vue'
             <div class="main-block h-100 w-100">
                 <SubHeader></SubHeader>
                 <div class="d-flex submain-block  w-100 p-5 overflow-auto">
-                    <div class="col-6 pe-3 d-flex flex-column justify-content-center form">
+                    <div class="col-6 pe-3 d-flex flex-column justify-content-start form">
                         <div class=" d-flex justify-content-center">
                             <label for="modality" class="col-sm-2 col-form-label">Modalidade</label>
                             <select name="modality" class="form-select" >
@@ -75,8 +77,24 @@ import SubHeader from './components/SubHeader.vue'
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 py-5 pe-3">
-
+                    <div class="col-6 d-flex flex-column align-items-center justify-content-start form">
+                        <div class=" d-flex justify-content-center">
+                            <label for="date" class="col-sm-2 col-form-label">Prazo de Inscrições</label>
+                            <div class="d-flex flex-column" style="width: 240px;">
+                                <div class="double-input d-flex" style="margin-bottom: 10px;">
+                                    <input type="time" class="form-control" name="start_date">
+                                    <input type="date" class="form-control" name="final_date"> 
+                                </div>
+                                <div class="double-input d-flex">
+                                    <input type="time" class="form-control" name="start_date">
+                                    <input type="date" class="form-control" name="final_date"> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="preview-card p-4 mt-5">
+                            <p class="title-preview">Pré visualização</p>
+                            <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#FFC107" img="volei.png" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -147,6 +165,10 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     padding-top: 30px;
     padding-bottom: 30px;
     border-right: 3px solid #d9d9d9;
+}
+
+#class .submain-block .form:last-child {
+    border-right: 0px solid transparent;
 }
 
 #class .submain-block .form > div {
@@ -300,6 +322,16 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     top: calc(50% - 5px);
     left: 8px;
     font-size: 12px;
+}
+
+#class .preview-card {
+    width: 376px;
+    border: 3px solid #d9d9d9;
+    border-radius: 30px;
+}
+
+#class .preview-card .title-preview{
+    font-weight: 600;
 }
 
 ::-webkit-scrollbar {

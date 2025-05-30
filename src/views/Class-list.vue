@@ -8,9 +8,9 @@ import CardModality from './components/CardModality.vue'
         <Header>
         </Header>
         <div class="d-flex" style="margin-top: 20px;">
-            <button class="btn-add rounded">
+            <a class="btn-add rounded" href="class">
                 <p class="mb-0">Adicionar Turma</p>
-            </button>
+            </a>
             <div>
                 <div class="main-search d-flex align-items-end">
                     <div class=" mb-3 position-relative w-100">
@@ -155,13 +155,16 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     border-style: solid;
     border-color: #c3c3c3a2;
     box-shadow: 4px 4px 8px 0px #00000040;
+    text-decoration: none !important;
     padding: 12px 24px;
 }
 
 #modalities .btn-add p {
+    color: #212529;
     font-size: 16px;
     font-weight: 700;
 }
+
 
 #modalities .submain-block {
     height: calc(100% - 93px);
