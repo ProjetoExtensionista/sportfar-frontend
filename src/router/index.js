@@ -8,6 +8,9 @@ import Dashboard from '../views/Dashboard.vue'
 import ClassList from '../views/Class-list.vue'
 import Class from '../views/Class.vue'
 import Teachers from '../views/Teachers.vue'
+import Modalities from "../views/Modalities.vue";
+import ModalitiesForm from '../views/ModalitiesForm.vue'
+import GerenciarCadastro from '../views/TelaGerenciaCadastro.vue'
 
 const routes = [
 	{ path: '/', name: 'Home', component: LandingPage },
@@ -19,7 +22,10 @@ const routes = [
 	{ path: '/dashboard', name: 'Dashboard', component: Dashboard },
 	{ path: '/class-list', name: 'ClassList', component: ClassList },
 	{ path: '/class', name: 'Class', component: Class },
-	{ path: '/teachers', name: 'Teachers', component: Teachers }
+	{ path: '/teachers', name: 'Teachers', component: Teachers },
+	{ path: '/modalities', name: 'Modalities', component: Modalities },
+	{ path: '/modalities/edit/:id?', name: 'ModalitiesForm', component: ModalitiesForm, props: true },
+	{ path: '/tela-gerencia-cadastro', name: 'TelaGerenciaCadastro', component: GerenciarCadastro }
 ]
 
 const router = createRouter({
