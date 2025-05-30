@@ -3,7 +3,7 @@
 		<div class="card-header w-100 p-2" :style="'border-bottom: 2px solid '+color2+';'">
 			<h4 class="mb-2">{{ title }}</h4>
 		</div>
-		<div class=" card-body p-2  ">
+		<div class=" card-body p-2  d-flex flex-column justify-content-end">
 			<p class=" mb-0">{{ day }} </p>
 			<p class=" mb-0">{{ hour }}</p>
 			<p class=" mb-0">Prof. <span class="fw-bold"> {{ professor }}</span></p>
