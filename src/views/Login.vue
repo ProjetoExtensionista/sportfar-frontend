@@ -8,7 +8,7 @@
             <div class="p-4">
                 <div class="mb-2">
                     <label for="email" class="form-label"><p class="mb-0">Email</p></label>
-                    <input type="email" class="form-control" id="email">
+                    <input type="email" class="form-control" id="email"  ref="email" >
                 </div>
                 <div class="position-relative">
                     <i :class="['password-icon', 'fa-light', isPasswordVisible ? 'fa-eye-slash' : 'fa-eye']" @click="togglePassword"></i>
@@ -18,9 +18,9 @@
                             <p class="p-link info-subtitle mb-0 l-spacing-2">Esqueceu sua senha?</p><a class="mb-0 info-link" href="forgot-pass"> Recuperar </a>
                         </div>
                     </div>
-                    <input :type="isPasswordVisible ? 'text' : 'password'" class="form-control" id="password">
+                    <input :type="isPasswordVisible ? 'text' : 'password'" class="form-control" id="password"  ref="password" >
                 </div>
-                <button type="button" class="mt-4 position-relative d-flex align-items-center justify-content-center btn main-btn w-100">
+                <button type="button" class="mt-4 position-relative d-flex align-items-center justify-content-center btn main-btn w-100" @click="loginBtn">
                     <div class="btn-hover"></div>
                     <p class="mb-0">Entrar</p>
                 </button> 
@@ -40,6 +40,30 @@ const isPasswordVisible = ref(false)
 function togglePassword() {
   isPasswordVisible.value = !isPasswordVisible.value
 }
+
+import {instance} from  '../../ConfigAxios.js'
+
+const email = ref(null)
+const password = ref(null)
+
+function loginBtn() {
+    const emailInfo = email.value.value
+    const passInfo = password.value.value
+
+    instance({
+        method: "POST",
+        url: "/auth/login",
+        data: {
+            email: emailInfo,
+            password: passInfo
+        }
+    }).then(response => {
+        console.log(response.data)
+    }).catch(error => {
+        console.error(error)
+    })
+}
+
 </script>
 
 <style>
