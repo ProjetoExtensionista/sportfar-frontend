@@ -134,6 +134,23 @@ import CardModality from './components/CardModality.vue'
 
 </template>
 
+<script setup>
+
+import {instance} from  '../../ConfigAxios.js'
+
+function loginBtn() {
+    instance({
+        method: "GET",
+        url: "/auth/Class-list",
+        data: {}
+    }).then(response => {
+        console.log(response.data)
+    }).catch(error => {
+        console.error(error)
+    })
+}
+</script>
+
 
 <style scoped>
 body, p, h1, h2, h3, h4, h5, h6, label, span {
