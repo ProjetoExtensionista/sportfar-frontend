@@ -5,7 +5,7 @@
                 <div class="logo-header">
                     <img src="../../assets/images/logo.png" alt="" width="160">
                 </div>
-                <div class="ms-auto links-header d-flex gap-4 align-items-center">
+                <div class="ms-auto links-header d-flex gap-4 align-items-center pe-0">
                     <a href="#home" class="">
                         <p class="mb-0 active">Home</p>
                     </a>

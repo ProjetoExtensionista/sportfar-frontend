@@ -103,26 +103,41 @@ import CardModality from './components/CardModality.vue'
                             <div></div>
                         </div>
                     </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Basquete</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Volei</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Futsal</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Handbal</p>
-                    </div>
                 </div>
                 <div class="submain-block ">
                     <div v-if="1==1" class="card-space d-flex flex-wrap align-items-start justify-content-start">
-                            <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#0D6EFD" img="futebol.png" />
-                            <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#FF6607" img="basquete.png" />
-                            <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#FFC107" img="volei.png" />
-                            <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#2F7345" img="futebol.png" />
-                        </div>
+                        <table class="categories-list">
+                            <tbody>
+                                <tr class="flex-container flex-nowrap td-reviews-page">
+                                    <td class="title-categ-list flex-container flex-item flex-nowrap flex-align-left first-td">
+                                        <div>
+                                                                                                    <h5>teste</h5>
+                                                                                            </div>
+                                    </td>
+                                    <td class="title-categ-list flex-container td-center flex-align-left">
+                                        <div>
+                                            <h5>teste 2</h5>
+                                        </div>
+                                    </td>
+                                    <td class="title-categ-list flex-container td-center flex-align-left">
+                                        <div>
+                                            <p>teste 3</p>
+                                        </div> 
+                                    </td>
+                                    <td >
+                                        <div class="d-flex w-100 h-100 align-items-center justify-content-end">
+                                            <a href="reviews-edit/151" class="btn-action d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                            <a href="reviews-edit/151" class="btn-action d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>                                         
+                            </tbody>
+                        </table>
+                    </div>
                     <div v-else class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
                         <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhuma turma</p>
                         <img src="../assets/images/caixa.png" alt="Caixa" width="120">
@@ -333,5 +348,46 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     }
 }
 
+/* tabulacao */
+table {
+    box-shadow: 0px 2px 3px 0px rgb(167 167 167 / 33%);
+    border-radius: 10px;
+    width: 100%;
+    background-color: #F3F3F3;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
 
+table tr {
+    height: 70px;
+    border-bottom: #ece9e9 2px solid;
+}
+
+table td {
+    min-height: 70px;
+    flex-grow: 1;
+    padding: 15px;
+    height: 100%;
+    border-right: #ece9e9 2px solid;
+}
+
+table td:last-child {
+    border-right: #ece9e9 0px solid;
+}
+
+table td .btn-action {
+    text-decoration: none !important;
+    text-align: center;
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+    border-radius: 5px;
+    background-color: rgb(219 219 219);
+    border: none;
+    cursor: pointer;
+}
+
+table td .btn-action i {
+    color: #3D3D3D;
+}
 </style>
