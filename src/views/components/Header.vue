@@ -1,35 +1,36 @@
 <template>
-    <header class=" w-100 d-flex align-items-center justify-content-center" id="header">
-        <div class="w-100 position-relative">
-            <div class=" w-100 h-100 d-flex align-items-center">
-                <div class="logo-header">
-                    <img src="../../assets/images/logo.png" alt="" width="160">
-                </div>
-                <div class="ms-auto links-header d-flex gap-4 align-items-center pe-0">
-                    <a href="#home" class="">
-                        <p class="mb-0 active">Home</p>
-                    </a>
-                    <a href="#" class="">
-                        <p class="mb-0">Modalidades</p>
-                    </a>
-                    <a href="#" class="">
-                        <p class="mb-0">Turmas</p>
-                    </a>
-                    <a href="#" class="">
-                        <p class="mb-0">Professores</p>
-                    </a>
-                    <a href="#" class="">
-                        <p class="mb-0">Calendário</p>
-                    </a>
-                    
-                </div>
-            </div>
-            <div class="line-header"></div>
+    <header class="w-100 d-flex align-items-center justify-content-center" id="header">
+      <div class="w-100 position-relative">
+        <div class="w-100 h-100 d-flex align-items-center">
+          <div class="logo-header">
+            <img src="../../assets/images/logo.png" alt="Logo" width="160" />
+          </div>
+          <div class="ms-auto links-header d-flex gap-4 align-items-center pe-0">
+            <router-link to="/" class="">
+              <p :class="{ active: $route.name === 'Home' }" class="mb-0">Home</p>
+            </router-link>
+            <router-link to="/modalidades">
+              <p :class="{ active: $route.name === 'modalidades' }" class="mb-0">Modalidades</p>
+            </router-link>
+            <router-link to="/turmas">
+              <p :class="{ active: $route.name === 'turmas' }" class="mb-0">Turmas</p>
+            </router-link>
+            <router-link to="/teachers">
+              <p :class="{ active: $route.name === 'Teachers' }" class="mb-0">Professores</p>
+            </router-link>
+            <router-link to="/calendario">
+              <p :class="{ active: $route.name === 'calendario' }" class="mb-0">Calendário</p>
+            </router-link>
+          </div>
         </div>
+        <div class="line-header"></div>
+      </div>
     </header>
-</template>
+  </template>
+  
 
 <style scoped> 
+
 
 #header {
     height: 90px;

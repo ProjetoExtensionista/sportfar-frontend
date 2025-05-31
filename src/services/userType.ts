@@ -27,6 +27,11 @@ export const createUser = async (data: User) => {
   
 `
 
+export const getUsers = async () => {
+  const response = await axiosInstance.get(`/users`)
+  return response.data
+}
+
 export const createUserType = async (data: UserType) => {
   const response = await axiosInstance.post('/user/type', data)
   return response.data
