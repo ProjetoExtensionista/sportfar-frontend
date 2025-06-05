@@ -151,10 +151,9 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     right: 82px;
     position: absolute;
     background-color: white;
-    border-width: 1px 0px 0px 1px;
+    border-width: 1px;
     border-style: solid;
     border-color: #c3c3c3a2;
-    box-shadow: 4px 4px 8px 0px #00000040;
     text-decoration: none !important;
     padding: 12px 24px;
 }

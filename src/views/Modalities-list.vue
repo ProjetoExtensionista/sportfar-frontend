@@ -1,8 +1,3 @@
-<script setup>
-import Header from './components/Header.vue'
-import CardModality from './components/CardModality.vue'
-</script>
-
 <template>
     <div id="modalities">
         <Header>
@@ -106,37 +101,7 @@ import CardModality from './components/CardModality.vue'
                 </div>
                 <div class="submain-block ">
                     <div v-if="1==1" class="card-space d-flex flex-wrap align-items-start justify-content-start">
-                        <table class="categories-list">
-                            <tbody>
-                                <tr class="flex-container flex-nowrap td-reviews-page">
-                                    <td class="title-categ-list flex-container flex-item flex-nowrap flex-align-left first-td">
-                                        <div>
-                                                                                                    <h5>teste</h5>
-                                                                                            </div>
-                                    </td>
-                                    <td class="title-categ-list flex-container td-center flex-align-left">
-                                        <div>
-                                            <h5>teste 2</h5>
-                                        </div>
-                                    </td>
-                                    <td class="title-categ-list flex-container td-center flex-align-left">
-                                        <div>
-                                            <p>teste 3</p>
-                                        </div> 
-                                    </td>
-                                    <td >
-                                        <div class="d-flex w-100 h-100 align-items-center justify-content-end">
-                                            <a href="reviews-edit/151" class="btn-action d-flex align-items-center justify-content-center">
-                                                <i class="fas fa-pencil-alt"></i>
-                                            </a>
-                                            <a href="reviews-edit/151" class="btn-action d-flex align-items-center justify-content-center">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>                                         
-                            </tbody>
-                        </table>
+                        <TableList :tableHeader="tableHeader" :tableValues="tableValues" />
                     </div>
                     <div v-else class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
                         <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhuma turma</p>
@@ -148,6 +113,29 @@ import CardModality from './components/CardModality.vue'
     </div>
 
 </template>
+
+
+<script setup lang="ts">
+import Header from './components/Header.vue'
+import TableList from './components/TableList.vue'
+
+const tableHeader = ["Coluna1", "Coluna2", "Coluna3", "Coluna4"];
+
+const tableValues = [
+  {
+    Coluna1: "Valor 1",
+    Coluna2: "Valor 2",
+    Coluna3: "Valor 3",
+    Coluna4: "Valor 4",
+  },
+  {
+    Coluna1: "Outro 1",
+    Coluna2: "Outro 2",
+    Coluna3: "Outro 3",
+    Coluna4: "Outro 4",
+  }
+];
+</script>
 
 
 <style scoped>
@@ -166,10 +154,9 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     right: 82px;
     position: absolute;
     background-color: white;
-    border-width: 1px 0px 0px 1px;
+    border-width: 1px;
     border-style: solid;
     border-color: #c3c3c3a2;
-    box-shadow: 4px 4px 8px 0px #00000040;
     text-decoration: none !important;
     padding: 12px 24px;
 }
@@ -348,46 +335,4 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     }
 }
 
-/* tabulacao */
-table {
-    box-shadow: 0px 2px 3px 0px rgb(167 167 167 / 33%);
-    border-radius: 10px;
-    width: 100%;
-    background-color: #F3F3F3;
-    border-spacing: 0;
-    border-collapse: collapse;
-}
-
-table tr {
-    height: 70px;
-    border-bottom: #ece9e9 2px solid;
-}
-
-table td {
-    min-height: 70px;
-    flex-grow: 1;
-    padding: 15px;
-    height: 100%;
-    border-right: #ece9e9 2px solid;
-}
-
-table td:last-child {
-    border-right: #ece9e9 0px solid;
-}
-
-table td .btn-action {
-    text-decoration: none !important;
-    text-align: center;
-    height: 30px;
-    width: 30px;
-    margin-left: 10px;
-    border-radius: 5px;
-    background-color: rgb(219 219 219);
-    border: none;
-    cursor: pointer;
-}
-
-table td .btn-action i {
-    color: #3D3D3D;
-}
 </style>
