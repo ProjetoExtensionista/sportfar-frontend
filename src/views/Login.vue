@@ -58,7 +58,6 @@ function loginBtn() {
             password: passInfo
         }
     }).then(response => {
-        console.log(response.data.accessToken)
 
         if(response != null && response.data.accessToken){
             sessionStorage.setItem('accesstoken', response.data.accessToken);

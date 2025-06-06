@@ -21,13 +21,28 @@
             <router-link to="/calendario">
               <p :class="{ active: $route.name === 'calendario' }" class="mb-0">Calendário</p>
             </router-link>
+            <div @click="logoutBtn">
+              <p class="logout mb-0">sair</p>
+            </div>
           </div>
         </div>
         <div class="line-header"></div>
       </div>
     </header>
   </template>
-  
+
+<script setup>
+
+function logoutBtn() {
+
+  const token = sessionStorage.getItem('accesstoken');
+    if (token) {
+      sessionStorage.removeItem('accesstoken');
+       window.location.href = "/login";
+    }
+}
+
+</script>
 
 <style scoped> 
 
@@ -71,6 +86,12 @@
 #header .links-header a:hover p{
     color: #191919;
 }
+
+#header .logout:hover  {
+  color: #191919;
+  cursor: pointer;
+}
+
 
 #header .line-header {
     width: calc(100% + 164px);
