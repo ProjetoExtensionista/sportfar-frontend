@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import Header from './components/Header.vue'
 import CardBoxTeacher from './components/CardBoxTeacher.vue'
 // import { getProfessores } from './services/professor.js'
+import { getUsers } from '../services/userType.ts'
 
 const professores = ref([])
 
@@ -74,6 +75,7 @@ async function carregarProfessores() {
 
 onMounted(() => {
   carregarProfessores()
+  loadUsers()
 })
 
 function limparTexto(texto) {
@@ -118,7 +120,7 @@ function desativarProfessor(email) {
     nome: professor.name,
     email: professor.email,
     telefone: professor.phone,
-    photo: professor.photo || ''
+    photo: professor.photo || '..assets/images/user_icon.png'
   })
 }
 
@@ -147,6 +149,20 @@ const usuariosExistentes = ref([
   { nome: 'Maria Costa', email: 'maria@example.com' }
 ])
 
+async function loadUsers() {
+  
+  try {
+    const dados = await getUsers()
+    usuariosExistentes.value = dados.map(p => ({
+      nome: p.fullName,
+      email: p.email,
+      photo: p.photo || '/src/assets/images/user_icon.png'
+    }))
+  } catch (error) {
+    console.error('Erro ao carregar professores:', error)
+  }
+}
+
 const usuariosFiltrados = computed(() => {
   return usuariosExistentes.value.filter(user =>
     user.email.toLowerCase().includes(filtroEmail.value.toLowerCase())
@@ -156,6 +172,7 @@ const usuariosFiltrados = computed(() => {
 
 // MODELO 1: CRIANDO USUARIO DO ZERO
 function criarNovoUsuario() {
+
   const camposObrigatorios = [
     'full_name', 'cpf', 'birth_date', 'email',
     'address', 'city', 'cep', 'password'
@@ -214,7 +231,6 @@ function criarNovoUsuario() {
   }
 }
 
-
 // MODELO 2: RELACIONAR UM USUÁRIO ANTIGO
 function relacionarUsuarioExistente(usuario) {
   // Chamar API aqui, se necessário
@@ -222,6 +238,7 @@ function relacionarUsuarioExistente(usuario) {
   // await apiRelacionarUsuario(usuario)
 
   // 1. Remove o usuário da lista de disponíveis
+
   usuariosExistentes.value = usuariosExistentes.value.filter(
     u => u.email !== usuario.email
   )

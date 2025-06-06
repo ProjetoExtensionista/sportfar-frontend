@@ -14,7 +14,7 @@ import CardModality from './components/CardModality.vue'
                 <p class="mb-0">Criar Turma</p>
             </button>
             <div class="main-block h-100 w-100">
-                <SubHeader></SubHeader>
+                <SubHeader backUrl="class-list"></SubHeader>
                 <div class="d-flex submain-block  w-100 p-5 overflow-auto">
                     <div class="col-6 pe-3 d-flex flex-column justify-content-start form">
                         <div class=" d-flex justify-content-center">
@@ -141,13 +141,10 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
 
 #class .btn-add {
     bottom: 20px;
-    right: 20px;
+    right: 82px;
     position: absolute;
     background-color: white;
-    border-width: 1px 0px 0px 1px;
-    border-style: solid;
-    border-color: #c3c3c3a2;
-    box-shadow: 4px 4px 8px 0px #00000040;
+    border: 1px solid #c3c3c3a2;
     padding: 12px 24px;
 }
 

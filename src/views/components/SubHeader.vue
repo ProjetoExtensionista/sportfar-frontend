@@ -2,21 +2,25 @@
     <div class="sub-header d-flex align-items-end w-100">
         <div class="opt-title w-100 d-flex align-items-center justify-content-between">
             <p class="mb-0">Formulário para criação de turmas</p>
-            <a href="" class="back-link rounded"><i class="fa-solid fa-arrow-left"></i>Voltar</a>
+            <a :href="backUrl" class="back-link rounded"><i class="fa-solid fa-arrow-left"></i>Voltar</a>
         </div>
     </div>
 </template>
 
+<script setup lang="ts">
+    
+    const props = defineProps<{
+        backUrl: string
+    }>()
+</script>
+
 <style scoped>
 .sub-header a{
     background-color: white;
-    border-width: 1px 0px 0px 1px;
-    border-style: solid;
-    border-color: #c3c3c3a2;
-    box-shadow: 4px 4px 8px 0px #00000040;
+    border: 1px solid #c3c3c3a2;
     text-decoration: none !important;
-    padding: 4px 12px;
-    font-size: 13px;
+    padding: 6px 16px;
+    font-size: 16px;
     color: #212529;
     font-weight: 600;
 }

@@ -1,8 +1,3 @@
-<script setup>
-import Header from './components/Header.vue'
-import CardModality from './components/CardModality.vue'
-</script>
-
 <template>
     <div id="modalities">
         <Header>
@@ -103,26 +98,11 @@ import CardModality from './components/CardModality.vue'
                             <div></div>
                         </div>
                     </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Basquete</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Volei</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Futsal</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Handbal</p>
-                    </div>
                 </div>
                 <div class="submain-block ">
                     <div v-if="1==1" class="card-space d-flex flex-wrap align-items-start justify-content-start">
-                            <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#0D6EFD" img="futebol.png" />
-                            <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#FF6607" img="basquete.png" />
-                            <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#FFC107" img="volei.png" />
-                            <CardModality icon='<i class="fa-light fa-user-tie"></i>' title="Categoria Sub-15" day="Sábados" hour="Das 10:00 ás 12:30" professor="Mauricio" color="#2F7345" img="futebol.png" />
-                        </div>
+                        <TableList :tableHeader="tableHeader" :tableValues="tableValues" />
+                    </div>
                     <div v-else class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
                         <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhuma turma</p>
                         <img src="../assets/images/caixa.png" alt="Caixa" width="120">
@@ -134,21 +114,27 @@ import CardModality from './components/CardModality.vue'
 
 </template>
 
-<script setup>
 
-import {instance} from  '../../ConfigAxios.js'
+<script setup lang="ts">
+import Header from './components/Header.vue'
+import TableList from './components/TableList.vue'
 
-function loginBtn() {
-    instance({
-        method: "GET",
-        url: "/auth/Class-list",
-        data: {}
-    }).then(response => {
-        console.log(response.data)
-    }).catch(error => {
-        console.error(error)
-    })
-}
+const tableHeader = ["Coluna1", "Coluna2", "Coluna3", "Coluna4"];
+
+const tableValues = [
+  {
+    Coluna1: "Valor 1",
+    Coluna2: "Valor 2",
+    Coluna3: "Valor 3",
+    Coluna4: "Valor 4",
+  },
+  {
+    Coluna1: "Outro 1",
+    Coluna2: "Outro 2",
+    Coluna3: "Outro 3",
+    Coluna4: "Outro 4",
+  }
+];
 </script>
 
 
@@ -348,6 +334,5 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
         height: 180px;
     }
 }
-
 
 </style>
