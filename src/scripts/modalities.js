@@ -10,6 +10,8 @@ export function useFormModalidades() {
     onMounted(async () => {
         let id = route.params.id ?? null;
 
+        console.log(id);
+
         if (id) {
             let response = await ModalitiesService.getById(id);
             modalidade.value = response.data;
@@ -25,7 +27,7 @@ export function useFormModalidades() {
     async function save() {
         let response = await ModalitiesService.create(modalidade.value);
         if (response.success) {
-            await router.push({ name: 'Modalities' });
+            await router.push({ name: 'ModalitiesList' });
             return;
         }
         console.log(response.error);
@@ -43,15 +45,24 @@ export function useFormModalidades() {
 }
 
 export function useListModalides(){
-    const modalidades = ref([]);
+    const tableValues = ref([]);
 
     onMounted(async () => {
         await getDados();
     });
 
+    function normalizeReturn(data){
+        return data.map(i => {
+            return {
+                'id': i.id,
+                'Nome': i.name
+            }
+        })
+    }
+
     async function getDados() {
         let response = await ModalitiesService.getAll();
-        modalidades.value = response.data;
+        tableValues.value = normalizeReturn(response.data);
     }
 
     function editar(id) {
@@ -66,7 +77,7 @@ export function useListModalides(){
     }
 
     return {
-        modalidades,
+        tableValues,
         editar,
         excluir,
     };

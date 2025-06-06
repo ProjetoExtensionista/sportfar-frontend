@@ -3,7 +3,7 @@
         <Header>
         </Header>
         <div class="d-flex" style="margin-top: 20px;">
-            <a class="btn-add rounded" href="class">
+            <a class="btn-add rounded" href="modalities-edit/">
                 <p class="mb-0">Adicionar Turma</p>
             </a>
             <div>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="submain-block ">
                     <div v-if="1==1" class="card-space d-flex flex-wrap align-items-start justify-content-start">
-                        <TableList :tableHeader="tableHeader" :tableValues="tableValues" />
+                        <TableList :tableHeader="tableHeader" :tableValues="tableValues" :onEdit="editar" :onDelete="excluir"/>
                     </div>
                     <div v-else class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
                         <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhuma turma</p>
@@ -118,23 +118,12 @@
 <script setup lang="ts">
 import Header from './components/Header.vue'
 import TableList from './components/TableList.vue'
+import { useListModalides} from "../scripts/modalities.js";
 
-const tableHeader = ["Coluna1", "Coluna2", "Coluna3", "Coluna4"];
+const tableHeader = ["Nome"];
 
-const tableValues = [
-  {
-    Coluna1: "Valor 1",
-    Coluna2: "Valor 2",
-    Coluna3: "Valor 3",
-    Coluna4: "Valor 4",
-  },
-  {
-    Coluna1: "Outro 1",
-    Coluna2: "Outro 2",
-    Coluna3: "Outro 3",
-    Coluna4: "Outro 4",
-  }
-];
+const { tableValues, editar, excluir } = useListModalides();
+
 </script>
 
 

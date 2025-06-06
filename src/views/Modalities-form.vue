@@ -9,7 +9,7 @@
     <div class="container-sections">
       <section class="container-dados-modalidades">
         <div class="form-dados">
-          <label>Nome: <input type="text" v-model="modalidade.name" /></label>
+          <label>Nome: <input type="text" v-model="modalidade.name" maxlength="100" /></label>
         </div>
       </section>
     </div>
