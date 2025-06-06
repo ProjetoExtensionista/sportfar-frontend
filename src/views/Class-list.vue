@@ -1,6 +1,7 @@
 <script setup>
 import Header from './components/Header.vue'
 import CardModality from './components/CardModality.vue'
+
 </script>
 
 <template>
@@ -103,18 +104,10 @@ import CardModality from './components/CardModality.vue'
                             <div></div>
                         </div>
                     </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Basquete</p>
+                    <div v-for="modalidade in modalidades" class="opt-modality d-flex align-items-center justify-content-center">
+                        <p class="mb-0">{{modalidade.name}}</p>
                     </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Volei</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Futsal</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Handbal</p>
-                    </div>
+
                 </div>
                 <div class="submain-block ">
                     <div v-if="1==1" class="card-space d-flex flex-wrap align-items-start justify-content-start">
@@ -135,20 +128,15 @@ import CardModality from './components/CardModality.vue'
 </template>
 
 <script setup>
+import ModalitiesService from "../services/ModalitiesService.js";
+import { onMounted, ref } from 'vue'
 
-import {instance} from  '../../ConfigAxios.js'
+const modalidades = ref({});
 
-function loginBtn() {
-    instance({
-        method: "GET",
-        url: "/auth/Class-list",
-        data: {}
-    }).then(response => {
-        console.log(response.data)
-    }).catch(error => {
-        console.error(error)
-    })
-}
+onMounted(async () => {
+    let response = await ModalitiesService.getAll();
+        modalidades.value = response.data;
+})
 </script>
 
 
@@ -165,12 +153,13 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
 
 #modalities .btn-add {
     bottom: 20px;
-    right: 82px;
+    right: 20px;
     position: absolute;
     background-color: white;
-    border-width: 1px;
+    border-width: 1px 0px 0px 1px;
     border-style: solid;
     border-color: #c3c3c3a2;
+    box-shadow: 4px 4px 8px 0px #00000040;
     text-decoration: none !important;
     padding: 12px 24px;
 }
