@@ -1,7 +1,3 @@
-<script setup>
-import Header from './components/Header.vue'
-import CardModality from './components/CardModality.vue'
-</script>
 
 <template>
     <div id="modalities">
@@ -103,17 +99,12 @@ import CardModality from './components/CardModality.vue'
                             <div></div>
                         </div>
                     </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Basquete</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Volei</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Futsal</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Handbal</p>
+                    <div
+                        class="opt-modality d-flex align-items-center justify-content-center"
+                        v-for="(modalidade, index) in modalidades"
+                        :key="index"
+                        >
+                        <p class="mb-0">{{ modalidade.name }}</p>
                     </div>
                 </div>
                 <div class="submain-block ">
@@ -133,6 +124,29 @@ import CardModality from './components/CardModality.vue'
     </div>
 
 </template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import Header from './components/Header.vue';
+import CardModality from './components/CardModality.vue';
+import { instance } from '../../ConfigAxios.js';
+
+const modalidades = ref([]);
+
+onMounted(() => {
+  instance({
+    method: "GET",
+    url: "/courses",
+    data: {}
+  })
+    .then(response => {
+      modalidades.value = response.data;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+});
+</script>
 
 
 <style scoped>
