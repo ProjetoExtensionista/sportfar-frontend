@@ -70,7 +70,30 @@ const props = defineProps<{
     width: 64px;
     border-radius: 18px;
 }
+
+@media screen and (min-width:1440px) {
+    .card-box {
+        width: calc(25% - 12px);
+        height: 180px;
+    }
+}
+
+@media screen and (min-width:1200px) {
+    .card-box {
+        width: calc(25% - 12px);
+        height: 180px;
+    }
+}
+
+@media screen and (min-width:778px) {
+    .card-box {
+        width: calc(25% - 12px);
+        height: 180px;
+    }
+}
 </style>
+
+
 
 
 <!-- professor, modalidades, turma,  -->
