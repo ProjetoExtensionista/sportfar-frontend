@@ -21,8 +21,18 @@
                     <router-link to="/calendario">
                         <p :class="{ active: $route.name === 'calendario' }" class="mb-0">Calendário</p>
                     </router-link>
-                    <div class="" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                        <p class="logout mb-0">sair</p>
+                    <div class="position-relative">  
+                        <p class="my-profile mb-0" @click="myProfilePopup">Meu perfil</p>
+                        <div ref="myProfilePopupRef" class="my-profile-popup d-flex flex-column align-items-center justify-content-center position-absolute disabled">
+                            <div>
+                                <a>
+                                    <p class="logout mb-0">Meu perfil</p>
+                                </a>
+                            </div>
+                            <div class="" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                                <p class="logout mb-0">Sair</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,17 +57,28 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+
+const myProfilePopupRef = ref(null);
 
 function logoutBtn() {
- 
-  const token = sessionStorage.getItem('accesstoken');
+    const token = sessionStorage.getItem('accesstoken');
     if (token) {
-      sessionStorage.removeItem('accesstoken');
-       window.location.href = "/login";
+        sessionStorage.removeItem('accesstoken');
+        window.location.href = "/login";
     }
 }
 
+function myProfilePopup() {
+    const el = myProfilePopupRef.value;
+    if (el.classList.contains('disabled')) {
+        el.classList.remove('disabled');
+    } else {
+        el.classList.add('disabled');
+    }
+}
 </script>
+
 
 <style scoped> 
 
@@ -107,6 +128,29 @@ function logoutBtn() {
   cursor: pointer;
 }
 
+#header .my-profile:hover  {
+  color: #191919;
+  cursor: pointer;
+}
+
+#header .my-profile-popup  {
+    transition: 0.2s all ease-in;
+    left: calc(50% - 70px);
+    z-index: 10;
+    border-radius: 12px;
+    width: 140px;
+    background-color: white;
+    border:1px solid #c3c3c3a2;
+}
+
+#header .my-profile-popup > div {
+    padding: 6px 0;
+}
+
+#header .disabled {
+    z-index: -1;
+    opacity: 0;
+}
 
 #header .line-header {
     width: calc(100% + 164px);
