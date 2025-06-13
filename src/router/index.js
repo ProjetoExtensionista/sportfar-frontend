@@ -7,7 +7,7 @@ import ForgotPass from "../views/ForgotPass.vue";
 import Dashboard from "../views/Dashboard.vue";
 import ClassList from "../views/Class-list.vue";
 import Class from "../views/Class.vue";
-import Teachers from "../views/Teachers.vue";
+import Users from "../views/Users-list.vue";
 import Attendance from "../views/Attendance.vue";
 import ModalitiesList from "../views/Modalities-list.vue";
 
@@ -21,7 +21,7 @@ const routes = [
   { path: "/dashboard", name: "Dashboard", component: Dashboard },
   { path: "/class-list", name: "ClassList", component: ClassList },
   { path: "/class", name: "Class", component: Class },
-  { path: "/teachers", name: "Teachers", component: Teachers },
+  { path: "/users", name: "Users", component: Users },
   { path: "/attendance", name: "Attendance", component: Attendance },
   { path: "/modalities-list", name: "ModalitiesList", component: ModalitiesList },
 ];

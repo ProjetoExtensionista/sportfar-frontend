@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import Header from './components/Header.vue'
-import CardBoxTeacher from './components/CardBoxTeacher.vue'
+
 // import { getProfessores } from './services/professor.js'
-import { getUsers } from '../services/userType.ts'
+// import { getUsers } from '../services/userType.ts'
 
 const professores = ref([])
 
