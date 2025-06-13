@@ -9,6 +9,7 @@ import ClassList from "../views/Class-list.vue";
 import Class from "../views/Class.vue";
 import Teachers from "../views/Teachers.vue";
 import Attendance from "../views/Attendance.vue";
+import ClassRoom from "../views/ClassRoom.vue"
 import ModalitiesList from "../views/Modalities-list.vue";
 import ModalitiesForm from "../views/Modalities-form.vue";
 
@@ -25,6 +26,7 @@ const routes = [
   { path: "/class", name: "Class", component: Class },
   { path: "/teachers", name: "Teachers", component: Teachers },
   { path: "/attendance", name: "Attendance", component: Attendance },
+  { path: "/class-room", name: "ClassRoom", component: ClassRoom },
   { path: "/modalities-list", name: "ModalitiesList", component: ModalitiesList },
   { path: "/modalities-edit/:id?", name: "ModalitiesForm", component: ModalitiesForm, props: true },
 ];

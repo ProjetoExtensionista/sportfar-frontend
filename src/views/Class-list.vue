@@ -129,22 +129,19 @@
 import { ref, onMounted } from 'vue';
 import Header from './components/Header.vue';
 import CardModality from './components/CardModality.vue';
-import { instance } from '../../ConfigAxios.js';
+import ModalitiesService from '../services/ModalitiesService.js';
 
 const modalidades = ref([]);
 
+async function getData() {
+  const response = await ModalitiesService.getAll();
+  if (response.success) {
+    modalidades.value = response.data; 
+  }
+}
+
 onMounted(() => {
-  instance({
-    method: "GET",
-    url: "/courses",
-    data: {}
-  })
-      .then(response => {
-        modalidades.value = response.data;
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    getData();
 });
 </script>
 

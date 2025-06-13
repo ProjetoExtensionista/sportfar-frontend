@@ -4,7 +4,7 @@
         </Header>
         <div class="d-flex" style="margin-top: 20px;">
             <a class="btn-add rounded" href="modalities-edit/">
-                <p class="mb-0">Adicionar Turma</p>
+                <p class="mb-0">Adicionar Modalidade</p>
             </a>
             <div>
                 <div class="main-search d-flex align-items-end">

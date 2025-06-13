@@ -12,7 +12,7 @@
                     <router-link to="/modalidades">
                         <p :class="{ active: $route.name === 'modalidades' }" class="mb-0">Modalidades</p>
                     </router-link>
-                    <router-link to="/turmas">
+                    <router-link to="/class-list">
                         <p :class="{ active: $route.name === 'turmas' }" class="mb-0">Turmas</p>
                     </router-link>
                     <router-link to="/teachers">

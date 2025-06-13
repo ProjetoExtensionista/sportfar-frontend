@@ -16,7 +16,7 @@ instance.interceptors.request.use(config => {
 });
 
 const instanceAuth = axios.create({
-  baseURL: 'http://projetos.farroupilha.ifrs.edu.br:35010',
+  baseURL: 'http://projetos.farroupilha.ifrs.edu.br:35010/api',
   timeout: 1000
 });
 
