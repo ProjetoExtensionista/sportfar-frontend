@@ -10,6 +10,8 @@ import Class from "../views/Class.vue";
 import Teachers from "../views/Teachers.vue";
 import Attendance from "../views/Attendance.vue";
 import ModalitiesList from "../views/Modalities-list.vue";
+import ModalitiesForm from "../views/Modalities-form.vue";
+
 
 const routes = [
   { path: "/", name: "Home", component: LandingPage },
@@ -24,6 +26,7 @@ const routes = [
   { path: "/teachers", name: "Teachers", component: Teachers },
   { path: "/attendance", name: "Attendance", component: Attendance },
   { path: "/modalities-list", name: "ModalitiesList", component: ModalitiesList },
+  { path: "/modalities-edit/:id?", name: "ModalitiesForm", component: ModalitiesForm, props: true },
 ];
 
 const router = createRouter({

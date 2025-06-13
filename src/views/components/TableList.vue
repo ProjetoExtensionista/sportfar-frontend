@@ -16,13 +16,10 @@
 			</td>
 			<td class="btn-actions-row">
 				<div class="d-flex w-100 h-100 align-items-center justify-content-end">
-					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" />
-					</div>
-					<a href="reviews-edit/151" class="btn-action d-flex align-items-center justify-content-center">
+          <a @click.prevent="onEdit(row.id)" class="btn-action d-flex align-items-center justify-content-center">
 						<i class="fa-light fa-pencil-alt"></i>
 					</a>
-					<a href="reviews-edit/151" class="btn-action d-flex align-items-center justify-content-center">
+					<a @click.prevent="onDelete(row.id)" class="btn-action d-flex align-items-center justify-content-center">
 						<i class="fa-light fa-trash-alt"></i>
 					</a>
 				</div>
@@ -36,6 +33,8 @@
 const props = defineProps<{
   tableHeader: string[];
   tableValues: Array<Record<string, string>>;
+  onEdit: Function,
+  onDelete: Function
 }>();
 </script>
 
