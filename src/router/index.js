@@ -11,8 +11,12 @@ import Teachers from "../views/Teachers.vue";
 import Attendance from "../views/Attendance.vue";
 import ClassRoom from "../views/ClassRoom.vue"
 import ModalitiesList from "../views/Modalities-list.vue";
+<<<<<<< Updated upstream
 import ModalitiesForm from "../views/Modalities-form.vue";
 
+=======
+import PrivateReport from "../views/PrivateReport.vue";
+>>>>>>> Stashed changes
 
 const routes = [
   { path: "/", name: "Home", component: LandingPage },
@@ -28,7 +32,11 @@ const routes = [
   { path: "/attendance", name: "Attendance", component: Attendance },
   { path: "/class-room", name: "ClassRoom", component: ClassRoom },
   { path: "/modalities-list", name: "ModalitiesList", component: ModalitiesList },
+<<<<<<< Updated upstream
   { path: "/modalities-edit/:id?", name: "ModalitiesForm", component: ModalitiesForm, props: true },
+=======
+  { path: "/private-report", name: "PrivateReport", component: PrivateReport },
+>>>>>>> Stashed changes
 ];
 
 const router = createRouter({
