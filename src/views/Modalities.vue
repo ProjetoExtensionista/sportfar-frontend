@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center mb-4">
       <h1 class="text-2xl">Lista de Modalidades</h1>
       <button
-          @click="editar()"
+          @click="edit()"
           class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
       >
         ➕ Novo
@@ -24,13 +24,13 @@
         <td class="border px-4 py-2">{{ modalidade.name }}</td>
         <td class="border px-4 py-2 space-x-2">
           <button
-              @click="editar(modalidade.id)"
+              @click="edit(modalidade.id)"
               class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
           >
             Editar
           </button>
           <button
-              @click="excluir(modalidade.id)" id="button"
+              @click="remove(modalidade.id)" id="button"
               class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
           >
             Excluir
@@ -44,8 +44,8 @@
 
 <script setup>
 
-import { useListModalides} from "../scripts/modalities.js";
-const { modalidades, editar, excluir } = useListModalides();
+import { useModalitiesList} from "../scripts/modalities.js";
+const { modalidades, edit, remove } = useModalitiesList();
 
 </script>
 

@@ -3,23 +3,23 @@ import handleResponse from '../utils/handleResponse';
 
 export default {
     getAll() {
-        return handleResponse(api.get('/modalidades'));
+        return handleResponse(api.get('/courses'));
     },
 
     getById(id) {
-        return handleResponse(api.get(`/modalidades/${id}`));
+        return handleResponse(api.get(`/courses/${id}`));
     },
 
     create(data) {
-        return handleResponse(api.post('/modalidades', data));
+        return handleResponse(api.post('/courses', data));
     },
 
     update(id, data) {
-        return handleResponse(api.patch(`/modalidades/${id}`, data));
+        return handleResponse(api.patch(`/courses/${id}`, data));
     },
 
     delete(id) {
-        return handleResponse(api.delete(`/modalidades/${id}`));
+        return handleResponse(api.delete(`/courses/${id}`));
     },
 
     save(data) {

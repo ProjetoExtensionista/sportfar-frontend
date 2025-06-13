@@ -9,7 +9,7 @@
     <div class="container-sections">
       <section class="container-dados-modalidades">
         <div class="form-dados">
-          <label>Nome: <input type="text" v-model="modalidade.name" maxlength="100" /></label>
+          <label>Nome: <input type="text" v-model="modalitie.name" maxlength="100" /></label>
         </div>
       </section>
     </div>
@@ -22,10 +22,43 @@
 
 <script setup>
 
-import Header from "./components/Header.vue";
-import {useFormModalidades} from "../scripts/modalities.js";
+import { ref, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import ModalitiesService from '../services/ModalitiesService.js';
+import Header from './components/Header.vue';
 
-const { modalidade, save, nameIsEmpty } = useFormModalidades();
+const route = useRoute();
+const router = useRouter();
+
+const modalitie = ref({
+  name: '',
+  company_id: 1,
+});
+
+const nameIsEmpty = computed(() => {
+  return !modalitie.value.name || modalitie.value.name.trim() === '';
+});
+
+async function getDados(id) {
+  const response = await ModalitiesService.getById(id);
+  if(response.success){
+    modalitie.value = response.data;
+  }
+}
+
+async function save() {
+  const response = await ModalitiesService.create(modalitie.value);
+  if (response.success) {
+    await router.push({ name: 'ModalitiesList' });
+  }
+}
+
+onMounted(() => {
+  const id = route.params.id ?? null;
+  if (id) {
+    getDados(id);
+  }
+});
 
 </script>
 

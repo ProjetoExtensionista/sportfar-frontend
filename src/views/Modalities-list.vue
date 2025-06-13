@@ -101,7 +101,7 @@
                 </div>
                 <div class="submain-block ">
                     <div v-if="1==1" class="card-space d-flex flex-wrap align-items-start justify-content-start">
-                        <TableList :tableHeader="tableHeader" :tableValues="tableValues" :onEdit="editar" :onDelete="excluir"/>
+                        <TableList :tableHeader="tableHeader" :tableValues="tableValues" :onEdit="edit" :onDelete="remove"/>
                     </div>
                     <div v-else class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
                         <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhuma turma</p>
@@ -115,14 +115,47 @@
 </template>
 
 
-<script setup lang="ts">
-import Header from './components/Header.vue'
-import TableList from './components/TableList.vue'
-import { useListModalides} from "../scripts/modalities.js";
+<script setup>
+
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import Header from './components/Header.vue';
+import TableList from './components/TableList.vue';
+import ModalitiesService from '../services/ModalitiesService.js';
+
+const router = useRouter();
 
 const tableHeader = ["Nome"];
+const tableValues = ref([]);
 
-const { tableValues, editar, excluir } = useListModalides();
+function normalizeReturn(data) {
+  return data.map((i) => ({
+    id: i.id,
+    Nome: i.name,
+  }));
+}
+
+async function getData() {
+  const response = await ModalitiesService.getAll();
+  if(response.success){
+    tableValues.value = normalizeReturn(response.data);
+  }
+}
+
+function edit(id) {
+  router.push({ name: 'ModalitiesForm', params: { id } });
+}
+
+async function remove(id) {
+  const response = await ModalitiesService.delete(id);
+  if (response.success) {
+    await getData();
+  }
+}
+
+onMounted(() => {
+  getData();
+});
 
 </script>
 
