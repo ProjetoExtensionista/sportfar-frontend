@@ -41,7 +41,7 @@ function togglePassword() {
   isPasswordVisible.value = !isPasswordVisible.value
 }
 
-import {instance} from  '../../ConfigAxios.js'
+import {instanceAuth} from  '../../ConfigAxios.js'
 
 const email = ref(null)
 const password = ref(null)
@@ -50,7 +50,7 @@ function loginBtn() {
     const emailInfo = email.value.value
     const passInfo = password.value.value
 
-    instance({
+    instanceAuth({
         method: "POST",
         url: "/auth/login",
         data: {
@@ -58,7 +58,13 @@ function loginBtn() {
             password: passInfo
         }
     }).then(response => {
-        console.log(response.data)
+
+        if(response != null && response.data.accessToken){
+            sessionStorage.setItem('accesstoken', response.data.accessToken);
+
+            window.location.href = "/dashboard";
+        }
+        
     }).catch(error => {
         console.error(error)
     })
