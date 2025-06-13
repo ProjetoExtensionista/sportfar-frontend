@@ -4,48 +4,37 @@
   <div class="container mt-5 mb-4">
     <CardTitlePage
       icon='<i class="fa-light fa-user-tie"></i>'
-      title="Categoria Sub-15"
-      subtitle="30/05/2025 às 13h"
+      title="Categoria Sub-15 às 15hrs"
+      subtitle="Listagem de aulas"
       professor="Mauricio"
       color="#FF6607"
       img="basquete-completo.png"
     />
 
     <div class="content-wrapper">
-      <div class="students">
-        <div class="student-card py-3 px-4">
+      <div class="classrooms">
+      
+        <div class="classroom-card py-3 px-4" v-for="clroom in dados">
           <div class="d-flex align-items-center">
-            <div class="icon"><i class="fa-solid fa-user"></i></div>
+            <div class="icon"><i class="fa-solid fa-calendar-day"></i></div>
             <div class="info">
-              <h5 class="mb-0">Aluno</h5>
+              <h5 class="mb-0">Aula {{clroom.id}}</h5>
               <p class="mb-0">
-                Data de nascimento:
-                <b>30/05/2025</b>
+                Data da aula:
+                <b>{{clroom.data}}</b>
               </p>
             </div>
           </div>
-          <div class="attendance-check">
-            <input type="checkbox" checked />
-          </div>
-        </div>
-        <div class="student-card py-3 px-4">
-          <div class="d-flex align-items-center">
-            <div class="icon"><i class="fa-solid fa-user"></i></div>
-            <div class="info">
-              <h5 class="mb-0">Aluno</h5>
-              <p class="mb-0">
-                Data de nascimento:
-                <b>30/05/2025</b>
-              </p>
-            </div>
-          </div>
-          <div class="attendance-check">
-            <input type="checkbox" checked />
+          <div class="attendance-btn">
+            <button class="btn btn-primary btn-aula" @click="gottoclassrom(clroom.id)" title="Acessar aula">
+				Acessar aula
+			</button>
           </div>
         </div>
       </div>
-      <button class="btn btn-primary" @click="save" title="Enviar presenças">
-        Enviar presenças
+      
+      <button class="btn btn-primary btn-add" @click="addaula" title="Adicionar aula">
+        Adicionar aula
       </button>
     </div>
   </div>
@@ -54,10 +43,19 @@
 <script setup>
 import CardTitlePage from "./components/CardTitlePage.vue";
 import Header from "./components/Header.vue";
+import { ref, computed } from "vue";
 
-function save() {
-  //Aqui seria o local da requisição em que enviaremos cada um dos faltantes!
-  //Para isso o AbsenceService!!!!
+const dados = ref([
+  {id: "1", data: "30/05/2025"},
+  {id: "2", data: "05/06/2025"},
+]);
+
+function addaula() {
+  console.log("Add Aula clicked!")
+}
+
+function gottoclassrom(id) {
+  console.log("pushing the route: " + id)
 }
 </script>
 
@@ -79,19 +77,18 @@ h1 {
   padding: 40px;
   margin-top: -15px;
 }
-.students {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.classrooms {
+  display: block;
   gap: 40px;
   margin-bottom: 30px;
 }
-.student-card {
+.classroom-card {
   border: 2px solid #ff6607;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  margin-bottom: 30px;
 }
 .icon {
   border: 2px solid #ff6607;
@@ -106,13 +103,13 @@ h1 {
   font-size: 30px;
   margin-right: 20px;
 }
-.attendance-check {
+.attendance-btn {
   border-left: 2px solid #d9d9d9;
   height: 100%;
   display: flex;
   align-items: center;
 }
-.attendance-check input {
+.attendance-btn input {
   width: 24px;
   height: 24px;
   cursor: pointer;
@@ -125,4 +122,10 @@ button {
   justify-self: flex-end;
   padding: 8px 24px;
 }
+.btn-aula{
+	background-color: #fff;
+	margin-left: 20px;
+	color: #000
+}
+
 </style>

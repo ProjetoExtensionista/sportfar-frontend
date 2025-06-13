@@ -129,22 +129,19 @@
 import { ref, onMounted } from 'vue';
 import Header from './components/Header.vue';
 import CardModality from './components/CardModality.vue';
-import { instance } from '../../ConfigAxios.js';
+import ModalitiesService from '../services/ModalitiesService.js';
 
 const modalidades = ref([]);
 
+async function getData() {
+  const response = await ModalitiesService.getAll();
+  if (response.success) {
+    modalidades.value = response.data; 
+  }
+}
+
 onMounted(() => {
-  instance({
-    method: "GET",
-    url: "/courses",
-    data: {}
-  })
-      .then(response => {
-        modalidades.value = response.data;
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    getData();
 });
 </script>
 
@@ -340,34 +337,32 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
   gap: 16px;
 }
 
+@media screen and (max-width:665px) {
+    .card-box {
+        width: calc(100% - 12px);
+        height: 180px;
+    }
+}
+
+@media screen and (min-width:665px){
+    .card-box {
+        width: calc(50% - 12px);
+        height: 180px;
+    }
+}
+
+@media screen and (min-width:878px){
+    .card-box {
+        width: calc(33% - 12px);
+        height: 180px;
+    }
+}
+
 @media screen and (min-width:1440px) {
   .card-box {
     width: calc(25% - 12px);
     height: 180px;
   }
 }
-
-@media screen and (min-width:756px) and (max-width:1439px) {
-  .card-box {
-    width: calc(33% - 12px);
-    height: 180px;
-  }
-}
-
-@media screen and (min-width:565px) and (max-width:755px){
-  .card-box {
-    width: calc(50% - 12px);
-    height: 180px;
-  }
-}
-
-@media screen and (max-width:565px) {
-  .card-box {
-    width: calc(100% - 12px);
-    height: 180px;
-  }
-}
-
-
 
 </style>

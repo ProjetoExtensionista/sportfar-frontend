@@ -44,7 +44,6 @@ const color2 = computed(() => darkenColor(props.color, 8)) // Cor em hexadecimal
 
 <style scoped>
 .card-box {
-	min-width: 322px;
 	height: 161px;
 	box-shadow: 0 0 8px 0px #0000000d;
 	border-radius: 16px;
