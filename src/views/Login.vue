@@ -56,7 +56,7 @@ function loginBtn() {
 
     instanceAuth({
         method: "POST",
-        url: "/api/auth/login",
+        url: "/auth/login",
         data: {
             email: emailInfo,
             password: passInfo
