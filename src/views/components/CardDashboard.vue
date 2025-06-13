@@ -26,7 +26,6 @@ const props = defineProps<{
 
 <style scoped>
 .card-box {
-	min-width: 322px;
 	height: 161px;
 	box-shadow: 0 0 8px 0px #0000000d;
 	border-radius: 16px;
@@ -71,29 +70,4 @@ const props = defineProps<{
     border-radius: 18px;
 }
 
-@media screen and (min-width:1440px) {
-    .card-box {
-        width: calc(25% - 12px);
-        height: 180px;
-    }
-}
-
-@media screen and (min-width:1200px) {
-    .card-box {
-        width: calc(25% - 12px);
-        height: 180px;
-    }
-}
-
-@media screen and (min-width:778px) {
-    .card-box {
-        width: calc(25% - 12px);
-        height: 180px;
-    }
-}
 </style>
-
-
-
-
-<!-- professor, modalidades, turma,  -->
