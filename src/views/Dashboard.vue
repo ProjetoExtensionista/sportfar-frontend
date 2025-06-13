@@ -324,9 +324,31 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     margin: 40px 40px 0 40px;
     gap: 16px;
 }
+
 @media screen and (min-width:1440px) {
     .card-box {
         width: calc(25% - 12px);
+        height: 180px;
+    }
+}
+
+@media screen and (min-width:756px) and (max-width:1439px) {
+    .card-box {
+        width: calc(33% - 12px);
+        height: 180px;
+    }
+}
+
+@media screen and (min-width:565px) and (max-width:755px){
+    .card-box {
+        width: calc(50% - 12px);
+        height: 180px;
+    }
+}
+
+@media screen and (max-width:565px) {
+    .card-box {
+        width: calc(100% - 12px);
         height: 180px;
     }
 }
