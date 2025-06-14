@@ -6,7 +6,7 @@
                     <img src="../../assets/images/logo.png" alt="Logo" width="160" />
                 </div>
                 <div class="ms-auto links-header d-flex gap-4 align-items-center pe-0">
-                    <router-link to="/" class="">
+                    <router-link to="/dashboard" class="">
                         <p :class="{ active: $route.name === 'Home' }" class="mb-0">Home</p>
                     </router-link>
                     <router-link to="/modalities-list">
