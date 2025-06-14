@@ -43,7 +43,9 @@
 <script setup>
 import CardTitlePage from "./components/CardTitlePage.vue";
 import Header from "./components/Header.vue";
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+import { useRoute, useRouter } from 'vue-router';
+import classService from '../services/classService.js';
 
 const dados = ref([
   {id: "1", data: "30/05/2025"},
@@ -57,6 +59,22 @@ function addaula() {
 function gottoclassrom(id) {
   console.log("pushing the route: " + id)
 }
+
+const route = useRoute();
+async function getDados(id) {
+  const response = await classService.getById(id);
+  if(response.success){
+    console.log(response.data)
+  }
+}
+
+onMounted(() => {
+  const id = route.params.id ?? null;
+  if (id) {
+    getDados(id);
+  }
+});
+
 </script>
 
 <style scoped>

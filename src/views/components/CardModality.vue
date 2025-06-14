@@ -1,5 +1,6 @@
 <template>
-	<div class="card-box overflow-hidden d-flex justify-content-between flex-column " :style="'background-color:'+color+'; border: 2px solid '+color2+';'">
+	<div class="card-box overflow-hidden d-flex justify-content-between flex-column position-relative" :style="'background-color:'+color+'; border: 2px solid '+color2+';'">
+		<a href="./class-room/2" class="position-absolute w-100 h-100 z-1"></a>
 		<div class="card-header w-100 p-2" :style="'border-bottom: 2px solid '+color2+';'">
 			<h4 class="mb-2">{{ title }}</h4>
 		</div>

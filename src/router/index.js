@@ -26,7 +26,7 @@ const routes = [
   { path: "/class", name: "Class", component: Class },
   { path: "/teachers", name: "Teachers", component: Teachers },
   { path: "/attendance", name: "Attendance", component: Attendance },
-  { path: "/class-room", name: "ClassRoom", component: ClassRoom },
+  { path: "/class-room/:id?", name: "ClassRoom", component: ClassRoom },
   { path: "/modalities-list", name: "ModalitiesList", component: ModalitiesList },
   { path: "/modalities-edit/:id?", name: "ModalitiesForm", component: ModalitiesForm, props: true },
 ];

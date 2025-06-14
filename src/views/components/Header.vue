@@ -9,7 +9,7 @@
                     <router-link to="/" class="">
                         <p :class="{ active: $route.name === 'Home' }" class="mb-0">Home</p>
                     </router-link>
-                    <router-link to="/modalidades">
+                    <router-link to="/modalities-list">
                         <p :class="{ active: $route.name === 'modalidades' }" class="mb-0">Modalidades</p>
                     </router-link>
                     <router-link to="/class-list">
