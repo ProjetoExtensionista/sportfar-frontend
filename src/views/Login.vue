@@ -23,9 +23,9 @@
                         @click="loginBtn">
                         <p class="mb-0">Entrar</p>
                     </button>
-                    <div class="d-flex align-items-center justify-content-center mt-2">
+                    <div class="d-flex align-items-center justify-content-end mt-2">
                         <p class="p-link subtitle mb-0 l-spacing-2">Criar conta?</p> <a class="mb-0 " href="register">
-                            registre-se </a>
+                            Registre-se </a>
                     </div>
                 </div>
             </div>
@@ -189,7 +189,7 @@ a {
 }
 
 a:hover {
-    color: var(--main-color);
+    color:  #FF6607;
 }
 
 /* Bloco Principal */

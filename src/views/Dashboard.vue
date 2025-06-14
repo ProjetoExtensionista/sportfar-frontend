@@ -8,9 +8,6 @@ import CardDashboard from './components/CardDashboard.vue'
         <Header>
         </Header>
         <div class="d-flex" style="margin-top: 20px;">
-            <a class="btn-add rounded" href="class">
-                <p class="mb-0">Adicionar Turma</p>
-            </a>
             <div>
                 <div class="main-search d-flex align-items-end">
                     <div class=" mb-3 position-relative w-100">
@@ -95,25 +92,13 @@ import CardDashboard from './components/CardDashboard.vue'
             <div class="main-block w-100">
                 <div class="sub-header d-flex align-items-end w-100">
                     <div class="opt-modality d-flex align-items-center justify-content-center active">
-                        <p class="mb-0">Todos</p>
+                        <p class="mb-0">Dashboard</p>
                         <div class="curve-2">
                             <div></div>
                         </div>
                         <div class="curve-1">
                             <div></div>
                         </div>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Basquete</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Volei</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Futsal</p>
-                    </div>
-                    <div class="opt-modality d-flex align-items-center justify-content-center">
-                        <p class="mb-0">Handbal</p>
                     </div>
                 </div>
                 <div class="submain-block ">
@@ -147,7 +132,7 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
 
 #modalities .btn-add {
     bottom: 20px;
-    right: 82px;
+    right: 40px;
     position: absolute;
     background-color: white;
     border-width: 1px;
