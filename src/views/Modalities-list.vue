@@ -173,7 +173,7 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
 
 #modalities .btn-add {
     bottom: 20px;
-    right: 82px;
+    right: 40px;
     position: absolute;
     background-color: white;
     border-width: 1px;

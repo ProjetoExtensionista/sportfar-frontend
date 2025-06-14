@@ -27,15 +27,11 @@ const props = defineProps<{
 <style scoped>
 .card-box {
 	height: 161px;
-	box-shadow: 0 0 8px 0px #0000000d;
 	border-radius: 16px;
     background-color: white;
     border: 1px solid #dfdada63
 }
 
-.card-box:hover {
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
 
 .card-header {
     border-bottom: 2px solid #dfdada63

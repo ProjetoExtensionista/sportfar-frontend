@@ -5,32 +5,32 @@
                 <div class="logo-header">
                     <img src="../../assets/images/logo.png" alt="Logo" width="160" />
                 </div>
-                <div class="ms-auto links-header d-flex gap-4 align-items-center pe-0">
-                    <router-link to="/" class="">
-                        <p :class="{ active: $route.name === 'Home' }" class="mb-0">Home</p>
+                <div class="ms-auto links-header d-flex gap-2 align-items-center pe-0">
+                    <router-link to="/dashboard" :class="{ active: $route.path.includes('calendario') }">
+                        <p :class="{ active: $route.path.includes('dashboard') }" class="mb-0">Dashboard</p>
                     </router-link>
                     <router-link to="/modalities-list">
-                        <p :class="{ active: $route.name === 'modalidades' }" class="mb-0">Modalidades</p>
+                        <p :class="{ active: $route.path.includes('modalities') }" class="mb-0">Modalidades</p>
                     </router-link>
                     <router-link to="/class-list">
-                        <p :class="{ active: $route.name === 'turmas' }" class="mb-0">Turmas</p>
+                        <p :class="{ active: $route.path.includes('class') }" class="mb-0">Turmas</p>
                     </router-link>
                     <router-link to="/teachers">
-                        <p :class="{ active: $route.name === 'Teachers' }" class="mb-0">Professores</p>
+                        <p :class="{ active: $route.path.includes('teachers') }" class="mb-0">Professores</p>
                     </router-link>
                     <router-link to="/calendario">
-                        <p :class="{ active: $route.name === 'calendario' }" class="mb-0">Calendário</p>
+                        <p :class="{ active: $route.path.includes('calendario') }" class="mb-0">Calendário</p>
                     </router-link>
                     <div class="position-relative">  
                         <p class="my-profile mb-0" @click="myProfilePopup">Meu perfil</p>
                         <div ref="myProfilePopupRef" class="my-profile-popup d-flex flex-column align-items-center justify-content-center position-absolute disabled">
-                            <div>
-                                <a>
-                                    <p class="logout mb-0">Meu perfil</p>
+                            <div class="w-100">
+                                <a class="w-100">
+                                    <p class="px-0 logout mb-0 text-center">Meu perfil</p>
                                 </a>
-                            </div>
-                            <div class="" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                                <p class="logout mb-0">Sair</p>
+                            </div class="w-100">
+                            <div class="w-100" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                                <p class=" px-0 logout mb-0 w-100 text-center">Sair</p>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const myProfilePopupRef = ref(null);
 
@@ -77,6 +77,22 @@ function myProfilePopup() {
         el.classList.add('disabled');
     }
 }
+
+function handleClickOutside(event) {
+  const popup = myProfilePopupRef.value;
+  // Verifica se clicou fora
+  if (popup && !popup.contains(event.target) && !event.target.closest('.my-profile')) {
+    popup.classList.add('disabled');
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 </script>
 
 
@@ -85,7 +101,7 @@ function myProfilePopup() {
 
 #header {
     height: 90px;
-    padding: 16px 82px;
+    padding: 16px 40px;
     background-color: white;
 }
 
@@ -101,7 +117,7 @@ function myProfilePopup() {
 
 #header .links-header {
     border-radius: 8px;
-    padding: 8px 30px;
+    padding: 0px 30px;
     height: 50px;
 }
 
@@ -110,12 +126,19 @@ function myProfilePopup() {
 }
 
 #header .links-header p {
+    border-radius: 14px;
+    padding: 8px 12px;
     transition: all ease-in-out 0.2s;
     color: #929293;
     font-family: "Montserrat", sans-serif;
 }
 
-#header .links-header .active {
+#header .links-header > div p {
+    padding-right: 0 !important;
+}
+
+#header .links-header p.active {
+    background-color: #9292931c;
     color: #191919;
 }
 
@@ -144,7 +167,16 @@ function myProfilePopup() {
 }
 
 #header .my-profile-popup > div {
-    padding: 6px 0;
+    border-radius: 12px 12px 0 0;
+}
+
+#header .my-profile-popup > div:last-child {
+    border-radius: 0 0 12px 12px;
+}
+
+#header .my-profile-popup > div:hover {
+    background-color: #9292931c;
+	cursor: pointer;
 }
 
 #header .disabled {

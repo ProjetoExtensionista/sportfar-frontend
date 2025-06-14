@@ -1,29 +1,33 @@
 <template>
-    <table>
+    <table class="overflow-hidden">
 		<thead>
-			<tr>
-				<th v-for="header in tableHeader" :key="header">{{ header }}</th>
-				<th class="btn-actions-row">Botões da ação</th>
+			<tr class="bg-2">
+				<th v-for="header in tableHeader" :key="header">
+                    <h5 class="mb-0">{{ header }}</h5>
+                </th>
+				<th class="btn-actions-row">
+                    <h5 class="mb-0" style="font-size: 16px;">Botões da ação</h5>
+                </th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="(row, index) in tableValues" :key="index" class="flex-container flex-nowrap td-reviews-page">
-			<td v-for="(header, i) in tableHeader" :key="i":class="['title-categ-list','flex-container',i === 0 ? 'flex-item flex-nowrap flex-align-left first-td' : 'td-center flex-align-left']">
-				<div>
-					<h5 v-if="i < 2">{{ row[header] }}</h5>
-					<p v-else>{{ row[header] }}</p>
-				</div>
-			</td>
-			<td class="btn-actions-row">
-				<div class="d-flex w-100 h-100 align-items-center justify-content-end">
-          <a @click.prevent="onEdit(row.id)" class="btn-action d-flex align-items-center justify-content-center">
-						<i class="fa-light fa-pencil-alt"></i>
-					</a>
-					<a @click.prevent="onDelete(row.id)" class="btn-action d-flex align-items-center justify-content-center">
-						<i class="fa-light fa-trash-alt"></i>
-					</a>
-				</div>
-			</td>
+			<tr v-for="(row, index) in tableValues" :key="index" class="flex-container flex-nowrap td-reviews-page"  :class="{ 'bg-2': (index + 1) % 2 === 0 }">
+                <td v-for="(header, i) in tableHeader" :key="i":class="['title-categ-list','flex-container',i === 0 ? 'flex-item flex-nowrap flex-align-left first-td' : 'td-center flex-align-left']">
+                    <div>
+                        <h5 class="mb-0" v-if="i < 2">{{ row[header] }}</h5>
+                        <p v-else>{{ row[header] }}</p>
+                    </div>
+                </td>
+                <td class="btn-actions-row">
+                    <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+                        <a @click.prevent="onEdit(row.id)" class="btn-action d-flex align-items-center justify-content-center">
+                            <i class="fa-light fa-pencil-alt"></i>
+                        </a>
+                        <a @click.prevent="onDelete(row.id)" class="btn-action d-flex align-items-center justify-content-center">
+                            <i class="fa-light fa-trash-alt"></i>
+                        </a>
+                    </div>
+                </td>
 			</tr>
 		</tbody>
     </table>
@@ -42,12 +46,11 @@ const props = defineProps<{
 
 /* tabulacao */
 table {
-    box-shadow: 0px 2px 3px 0px rgb(167 167 167 / 33%);
     border-radius: 10px;
     width: 100%;
-    background-color: #F3F3F3;
     border-spacing: 0;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border: 3px solid #d9d9d9;
 }
 
 table thead {
@@ -60,20 +63,29 @@ table thead th {
     flex-grow: 1;
     padding: 15px;
     height: 100%;
-    border-right: #ece9e9 2px solid;
+    border-right: #ece9e9 3px solid;
 }
 
 table tr {
-    height: 70px;
-    border-bottom: #ece9e9 2px solid;
+    height: 60px;
+    border-bottom: #ece9e9 3px solid;
+}
+
+table tr.bg-2 {
+    background-color: #eaeaea80;
 }
 
 table td {
-    min-height: 70px;
     flex-grow: 1;
     padding: 15px;
     height: 100%;
-    border-right: #ece9e9 2px solid;
+    border-right: #ece9e9 3px solid;
+}
+
+table tr h5 {
+    color: #414141;
+    font-size: 19px;
+    font-weight: 600;
 }
 
 table td:last-child, table thead th:last-child {
@@ -81,8 +93,8 @@ table td:last-child, table thead th:last-child {
 }
 
 table .btn-actions-row {
-    width: 180px;
-    max-width: 180px;
+    width: 144px;
+    max-width: 144px;
 }
 
 table .btn-actions-row .form-check-input {
@@ -91,18 +103,23 @@ table .btn-actions-row .form-check-input {
 }
 
 table td .btn-action {
+    transition: all ease-in-out 0.2s;
     text-decoration: none !important;
     text-align: center;
     height: 30px;
     width: 30px;
     margin-left: 10px;
     border-radius: 5px;
-    background-color: rgb(219 219 219);
-    border: none;
+    background-color: white;
+    border: 1px solid rgb(219 219 219);
     cursor: pointer;
 }
 
+table td .btn-action:hover {
+    background-color: #eaeaea80;
+}
+
 table td .btn-action i {
-    color: #3d3d3dc6;
+    color: #414141;
 }
 </style>
