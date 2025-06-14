@@ -2,7 +2,10 @@ import api from './api';
 import handleResponse from '../utils/handleResponse';
 
 export default {
-    getById(id) {
+    getByClassId(id) {
         return handleResponse(api.get(`/classRoom/${id}`));
+    },
+    getAbsencesByClassRoomId(id) {
+        return handleResponse(api.get(`/classRoom/getStudentsAbsenceByClassId/${id}`));
     }
 };

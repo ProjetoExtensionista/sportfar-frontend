@@ -52,13 +52,42 @@
 </template>
 
 <script setup>
-import CardTitlePage from "./components/CardTitlePage.vue";
-import Header from "./components/Header.vue";
+  import CardTitlePage from "./components/CardTitlePage.vue";
+  import Header from "./components/Header.vue";
+  import { ref, onMounted } from "vue";
+  import { useRoute, useRouter } from 'vue-router';
+  import classService from '../services/classService.js';
 
-function save() {
-  //Aqui seria o local da requisição em que enviaremos cada um dos faltantes!
-  //Para isso o AbsenceService!!!!
-}
+  const route = useRoute();
+  const attendanceData = ref([]); // Aqui estão os dados que devem ser usados para dar update da UI;
+
+  async function getDados(id) {
+    const response = await classService.getAbsencesByClassRoomId(id); //TODO: Ajustar a rota para o backend, está retornando dados errados;
+    if(response.success){
+      if (Array.isArray(response.data)) {
+        attendanceData.value = response.data;
+      }
+      else if (response.data  && typeof response.data === 'object') {
+        console.log(response.data);
+        attendanceData.value.push(response.data);;
+      }
+      console.log(response.data);
+    }
+  }
+
+  onMounted(() => {
+    const id = route.params.id ?? null;
+    if (id) {
+      getDados(id);
+    }
+  });
+
+  function save() {
+    //Aqui seria o local da requisição em que enviaremos cada um dos faltantes!
+    //Para isso o AbsenceService!!!!
+  }
+
+
 </script>
 
 <style scoped>

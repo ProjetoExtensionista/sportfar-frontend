@@ -2,7 +2,7 @@ import axios from 'axios'
 import router from '../router'
 
 const axiosInstance = axios.create({
-  baseURL: 'http://projetos.farroupilha.ifrs.edu.br:35010/',
+  baseURL: 'http://projetos.farroupilha.ifrs.edu.br:35010/api',
 })
 
 axiosInstance.interceptors.request.use((config) => {

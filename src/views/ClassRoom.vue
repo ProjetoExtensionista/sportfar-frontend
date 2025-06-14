@@ -14,21 +14,21 @@
     <div class="content-wrapper">
       <div class="classrooms">
       
-        <div class="classroom-card py-3 px-4" v-for="clroom in dados">
+        <div class="classroom-card py-3 px-4" v-for="clroom in classRoomData">
           <div class="d-flex align-items-center">
             <div class="icon"><i class="fa-solid fa-calendar-day"></i></div>
             <div class="info">
               <h5 class="mb-0">Aula {{clroom.id}}</h5>
               <p class="mb-0">
                 Data da aula:
-                <b>{{clroom.data}}</b>
+                <b>{{clroom.classDate}}</b>
               </p>
             </div>
           </div>
           <div class="attendance-btn">
             <button class="btn btn-primary btn-aula" @click="gottoclassrom(clroom.id)" title="Acessar aula">
-				Acessar aula
-			</button>
+				      Acessar aula
+			      </button>
           </div>
         </div>
       </div>
@@ -41,40 +41,43 @@
 </template>
 
 <script setup>
-import CardTitlePage from "./components/CardTitlePage.vue";
-import Header from "./components/Header.vue";
-import { ref, computed, onMounted } from "vue";
-import { useRoute, useRouter } from 'vue-router';
-import classService from '../services/classService.js';
+  import CardTitlePage from "./components/CardTitlePage.vue";
+  import Header from "./components/Header.vue";
+  import { ref, onMounted } from "vue";
+  import { useRoute, useRouter } from 'vue-router';
+  import classService from '../services/classService.js';
 
-const dados = ref([
-  {id: "1", data: "30/05/2025"},
-  {id: "2", data: "05/06/2025"},
-]);
+  const route = useRoute();
+  const router = useRouter();
+  const classRoomData = ref([]);
 
-function addaula() {
-  console.log("Add Aula clicked!")
-}
-
-function gottoclassrom(id) {
-  console.log("pushing the route: " + id)
-}
-
-const route = useRoute();
-async function getDados(id) {
-  const response = await classService.getById(id);
-  if(response.success){
-    console.log(response.data)
+  async function getDados(id) {
+    const response = await classService.getByClassId(id);
+    if(response.success){
+      if (Array.isArray(response.data)) {
+        classRoomData.value = response.data;
+      }
+      else if (response.data  && typeof response.data === 'object') {
+        console.log(response.data);
+        classRoomData.value.push(response.data);;
+      }
+    }
   }
-}
 
-onMounted(() => {
-  const id = route.params.id ?? null;
-  if (id) {
-    getDados(id);
+  onMounted(() => {
+    const id = route.params.id ?? null;
+    if (id) {
+      getDados(id);
+    }
+  });
+
+  function gottoclassrom(id) {
+    router.push(`/attendance/${id}`);
   }
-});
 
+  function addaula() {
+    console.log("Add Aula clicked!")
+  }
 </script>
 
 <style scoped>
