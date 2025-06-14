@@ -3,108 +3,60 @@
         <Header>
         </Header>
         <div class="d-flex" style="margin-top: 20px;">
-            <a class="btn-add rounded" href="class">
-                <p class="mb-0">Adicionar Turma</p>
-            </a>
+            <button class="btn-add rounded" @click="abrirModal = true">
+                <p class="mb-0">Adicionar Usuário</p>
+            </button>
             <div>
-                <div class="main-search d-flex align-items-end">
-                    <div class=" mb-3 position-relative w-100">
-                        <input type="text" class="input-search form-control" placeholder="Digite o nome da turma">
-                        <i class="input-icon fa-regular fa-magnifying-glass"></i>
-                    </div>
-                </div>
                 <div class="menu-modalities d-flex flex-column">
-                    <div class="filters">
-                        <div>
-                            <p class="title-filter">Status da Turma</p>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Aberta
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                    Fechado
-                                </label>
-                            </div>
-                        </div>
-                    </div>
                     <div class="filters search">
                         <div>
-                            <p class="title-filter">Buscar Professor</p>
+                            <p class="title-filter">Buscar Usuário</p>
                         </div>
                         <div class=" mb-3 position-relative">
-                            <input type="text" class="input-search form-control"
-                                placeholder="Digite o nome do professor">
+                            <input type="text" class="input-search form-control" v-model="buscaNome"
+                                placeholder="Digite o nome do usuário">
                             <i class="input-icon fa-regular fa-magnifying-glass"></i>
                         </div>
-                        <div class="results">
-                            <div>
-                                <p class="result-filter">Lorem ipsum</p>
-                            </div>
-                            <div>
-                                <p class="result-filter">Lorem ipsum</p>
-                            </div>
-                            <div>
-                                <p class="result-filter">Lorem ipsum</p>
-                            </div>
-                            <div>
-                                <p class="result-filter">Lorem ipsum</p>
-                            </div>
-                            <div>
-                                <p class="result-filter mb-0">Lorem ipsum</p>
-                            </div>
+
+                        <div class=" mb-3 position-relative">
+                            <input type="text" class="input-search form-control" v-model="buscaEmail"
+                                placeholder="Digite o e-mail do usuário">
+                            <i class="input-icon fa-regular fa-magnifying-glass"></i>
                         </div>
-                    </div>
-                    <div class="filters">
-                        <div>
-                            <p class="title-filter">Horários</p>
-                        </div>
-                        <div class="d-flex flex-wrap align-items-center justify-content-between">
-                            <div class="form-check w-50">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Manhã
-                                </label>
-                            </div>
-                            <div class="form-check w-50">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                    Tarde
-                                </label>
-                            </div>
-                            <div class="form-check w-50">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                    Noite
-                                </label>
-                            </div>
+
+                        <div class=" mb-3 position-relative">
+                            <input type="text" class="input-search form-control" v-model="buscaNumero"
+                                placeholder="Digite o número do usuário">
+                            <i class="input-icon fa-regular fa-magnifying-glass"></i>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="main-block w-100">
                 <div class="sub-header d-flex align-items-end w-100">
-                    <div class="opt-modality d-flex align-items-center justify-content-center active">
-                        <p class="mb-0">Todos</p>
-                        <div class="curve-2">
-                            <div></div>
+                    <div
+                        v-for="(item, index) in modalities"
+                        :key="index"
+                        class="opt-modality d-flex align-items-center justify-content-center"
+                        :class="{ active: selected === item.value }"
+                        @click="selectModality(item.value)"
+                    >
+                        <p class="mb-0">{{ item.label }}</p>
+
+                        <div v-if="selected === item.value" class="curve-2">
+                        <div></div>
                         </div>
-                        <div class="curve-1">
-                            <div></div>
+                        <div v-if="selected === item.value" class="curve-1">
+                        <div></div>
                         </div>
                     </div>
                 </div>
-                <div class="submain-block ">
-                     <div v-if="tableValues.length > 0" class="card-space d-flex flex-wrap align-items-start justify-content-start">
-                        <TableList :tableHeader="tableHeader" :tableValues="tableValues" />
+                <div class="submain-block">
+                    <div v-if="tableValues.length > 0" class="card-space d-flex flex-wrap align-items-start justify-content-start">
+                        <TableList :tableHeader="tableHeader" :tableValues="usuariosFiltrados" />
                     </div>
                     <div v-else class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
-                        <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhuma turma</p>
+                        <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhum usuário</p>
                         <img src="../assets/images/caixa.png" alt="Caixa" width="120">
                     </div>
                 </div>
@@ -112,41 +64,207 @@
         </div>
     </div>
 
+    <div v-if="abrirModal" class="modal-overlay">
+    <div class="modal-content">
+      <!-- Botão de fechar -->
+      <button class="fechar-modal" @click="abrirModal = false">×</button>
+
+      <h2>Cadastrar Professor</h2>
+
+      <div class="modal-grid">
+        <!-- Criar novo usuário -->
+        <section class="modal-section">
+          <h3>Criar novo usuário</h3>
+          <input v-model="novoUsuario.full_name" placeholder="Nome completo" />
+          <input v-model="novoUsuario.cpf" placeholder="CPF" />
+          <input v-model="novoUsuario.birth_date" type="date" placeholder="Data de nascimento" />
+          <input v-model="novoUsuario.email" placeholder="Email" />
+          <input v-model="novoUsuario.address" placeholder="Endereço" />
+          <input v-model="novoUsuario.city" placeholder="Cidade" />
+          <input v-model="novoUsuario.cep" placeholder="CEP" />
+          <input v-model="novoUsuario.phone" placeholder="Telefone (opcional)" />
+          <input v-model="novoUsuario.password" placeholder="Senha" />
+
+          <button @click="criarNovoUsuario">Criar</button>
+        </section>
+
+        <!-- Relacionar com usuário existente -->
+        <section class="modal-section">
+          <h3>Relacionar usuário existente</h3>
+          <input v-model="filtroEmail" placeholder="Filtrar por email" />
+
+          <ul class="usuarios-lista">
+            <li v-for="user in usuariosFiltrados" :key="user.email" class="usuario-item">
+              <span>{{ user.nome }} ({{ user.email }})</span>
+              <button @click="relacionarUsuarioExistente(user)">Relacionar</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </div>
+    </div>
+
 </template>
 
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Header from './components/Header.vue'
 import TableList from './components/TableList.vue'
 import UserService from '../services/UsersService';
 
+const selected = ref('todos')
+
+const modalities = [
+  { label: 'Todos', value: 'todos' },
+  { label: 'Alunos', value: 'alunos' },
+  { label: 'Professores', value: 'professores' }
+
+]
+
+function selectModality(value: string) {
+  selected.value = value
+}
+
 
 const tableHeader = ["Nome", "Email", "Telefone"];
-const tableValues = ref<any[]>([]);
+
+const tableValues = ref<any[]>([])
+const buscaNome = ref('')
+const buscaEmail = ref('')
+const buscaNumero = ref('')
+
+
+const usuariosFiltrados = computed(() => {
+  return tableValues.value.filter(user => {
+    const nomeMatch = user.Nome.toLowerCase().includes(buscaNome.value.trim().toLowerCase())
+    const emailMatch = user.Email.toLowerCase().includes(buscaEmail.value.trim().toLowerCase())
+    const telefoneMatch = user.Telefone.toLowerCase().includes(buscaNumero.value.trim().toLowerCase())
+
+    const tipoMatch =
+      selected.value === 'todos' || (user.Tipo && user.Tipo.toLowerCase() === selected.value)
+
+
+    return nomeMatch && emailMatch && telefoneMatch && tipoMatch
+  })
+})
+
 
 const loadUsers = async () => {
   try {
-    const response = await UserService.getAll();
-    
-    const users = response.data ?? [];
+    const [professoresRes, alunosRes] = await Promise.all([
+      UserService.getByType(1),
+      UserService.getByType(2)
+    ])
 
-    tableValues.value = users.map((user: any) => ({
+    const professores = (professoresRes.data ?? []).map((user: any) => ({
       Nome: user.fullName,
       Email: user.email,
-      Telefone: user.phone
-    }));
-  } catch (error) {
-    console.error("Erro ao carregar usuários:", error);
-  }
-};
+      Telefone: user.phone,
+      Tipo: 'professores'
+    }))
 
-onMounted(() => {
-  loadUsers();
-});
+    const alunos = (alunosRes.data ?? []).map((user: any) => ({
+      Nome: user.fullName,
+      Email: user.email,
+      Telefone: user.phone,
+      Tipo: 'alunos'
+    }))
+
+    // Junta todos
+    tableValues.value = [...professores, ...alunos]
+
+  } catch (error) {
+    console.error("Erro ao carregar usuários:", error)
+  }
+}
+
+
+
+
+onMounted(loadUsers)
+
+
+const abrirModal = ref(false)
+
+const novoUsuario = ref({
+  full_name: '',
+  cpf: '',
+  birth_date: '',
+  email: '',
+  password: '',
+  address: '',
+  city: '',
+  cep: '',
+  phone: '',
+  type: ''
+})
+
+// MODELO 1: CRIANDO USUARIO DO ZERO
+function criarNovoUsuario() {
+    const camposObrigatorios = [
+    'full_name', 'cpf', 'birth_date', 'email',
+    'address', 'city', 'cep', 'password'
+    ]
+
+    const labels = {
+    full_name: 'Nome completo',
+    cpf: 'CPF',
+    birth_date: 'Data de nascimento',
+    email: 'Email',
+    password: 'Senha',
+    address: 'Endereço',
+    city: 'Cidade',
+    cep: 'CEP'
+    }
+
+    const faltando = camposObrigatorios.filter(
+    campo => !novoUsuario.value[campo]?.toString().trim()
+    )
+
+    if (faltando.length > 0) {
+    const faltandoLabel = faltando.map(campo => labels[campo] || campo)
+    alert(`Preencha todos os campos obrigatórios:\n- ${faltandoLabel.join('\n- ')}`)
+    return
+    }
+
+    try {
+    // Simulação de chamada à API — substitua por sua função real
+    // await apiCriarUsuario(novoUsuario.value)
+    console.log('Usuário criado:', novoUsuario.value)
+
+    // Adiciona à lista de professores
+    professores.value.push({
+        name: novoUsuario.value.full_name,
+        email: novoUsuario.value.email,
+        phone: novoUsuario.value.phone || '',
+        photo: novoUsuario.value.photo || 'foto1.jpg', // substitua por real se aplicável
+        cor: corAleatoria()
+    })
+
+    // Remove da lista de usuários (caso esteja lá por algum motivo)
+    usuariosExistentes.value = usuariosExistentes.value.filter(
+        u => u.email !== novoUsuario.value.email
+    )
+
+    // Limpa o formulário
+    Object.keys(novoUsuario.value).forEach(key => {
+        novoUsuario.value[key] = ''
+    })
+
+    // Fecha o modal
+    abrirModal.value = false
+    } catch (error) {
+    console.error('Erro ao criar usuário:', error)
+    alert('Erro ao criar o usuário. Tente novamente.')
+    }
+}
+
 
 
 </script>
+
+
 
 
 <style scoped>
@@ -212,6 +330,8 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     position: relative;
     width: 140px;
     height: 56px;
+    cursor: pointer;
+
 }
 
 #modalities .sub-header .opt-modality p {
@@ -338,6 +458,8 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
 .card-space {
     margin: 40px 40px 0 40px;
     gap: 16px;
+    height: calc(80% - 93px);
+    overflow-y: auto;
 }
 @media screen and (min-width:1440px) {
     .card-box {
@@ -345,5 +467,55 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
         height: 180px;
     }
 }
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 95%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.fechar-modal {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.modal-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 
 </style>

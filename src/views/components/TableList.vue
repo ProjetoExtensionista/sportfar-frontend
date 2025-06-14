@@ -54,6 +54,10 @@ table {
 table thead {
     height: 70px;
     border-bottom: #ece9e9 1px solid;
+    position: sticky;
+    top: 0;
+    background: #bebebe;
+    color: black;
 }
 
 table thead th {
