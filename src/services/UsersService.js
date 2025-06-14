@@ -4,8 +4,8 @@ import handleResponse from '../utils/handleResponse';
 
 
 export default {
-    getAll() {
-      return handleResponse(api.get('/api/users'))
+    getAll() { 
+      return handleResponse(api.get('/api/users/'))
     },
   
     getByType(type) {
