@@ -1,8 +1,3 @@
-<script setup>
-import Header from './components/Header.vue'
-import CardDashboard from './components/CardDashboard.vue'
-</script>
-
 <template>
     <div id="modalities">
         <Header>
@@ -105,7 +100,7 @@ import CardDashboard from './components/CardDashboard.vue'
                     <div v-if="1==1" class="card-space d-flex flex-wrap align-items-start justify-content-start">
                         <CardDashboard icon="fa-light fa-screen-users" title="Turmas" valor="2312" colorIcon="#20b3f68a"/>
                         <CardDashboard icon="fa-light fa-chalkboard-user" title="Professor" valor="1231" colorIcon="#54db18a1"/>
-                        <CardDashboard icon="fa-light fa-futbol" title="Modalidades" valor="1231" colorIcon="#ffa9039c"/>
+                        <CardDashboard icon="fa-light fa-futbol" title="Modalidades" :valor="modalitiesCount" colorIcon="#ffa9039c"/>
                     </div>
                     <div v-else class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
                         <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhuma turma</p>
@@ -117,6 +112,24 @@ import CardDashboard from './components/CardDashboard.vue'
     </div>
 
 </template>
+
+
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import ModalitiesService from '../services/ModalitiesService.js';
+import Header from './components/Header.vue';
+import CardDashboard from './components/CardDashboard.vue';
+
+const modalitiesCount = ref(0);
+
+onMounted(async () => {
+    const response = await ModalitiesService.getAll();
+    if (response.success) {
+        modalitiesCount.value = response.data.length;
+    }
+});
+</script>
 
 
 <style scoped>
