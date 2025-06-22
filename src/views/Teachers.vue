@@ -1,3 +1,86 @@
+<template>
+  <div class="pagina">
+    <Header></Header>
+
+    <div class="container-principal">
+      <aside class="filtros">
+        <h2>Filtros</h2>
+
+        <label for="nome">Nome:</label>
+        <input id="nome" type="text" v-model="buscaNome" placeholder="Filtrar por nome" />
+
+        <label for="email">Email:</label>
+        <input id="email" type="text" v-model="buscaEmail" placeholder="Filtrar por email" />
+
+        <label for="telefone">Telefone:</label>
+        <input id="telefone" type="text" v-model="buscaTelefone" placeholder="Filtrar por telefone" />
+      </aside>
+
+      <section class="conteudo-professores">
+        <div class="topo-professores">
+          <h1 class="titulo">LISTA PROFESSORES</h1>
+          <button @click="abrirModal = true">Novo Professor</button>
+        </div>
+
+        <div class="lista-cards">
+          <CardBoxTeacher
+            v-for="prof in professoresFiltrados"
+            :key="prof.email"
+            :name="prof.name"
+            :email="prof.email"
+            :phone="prof.phone"
+            :photo="prof.photo"
+            :cor="prof.cor"
+            @deletar="desativarProfessor"
+          />
+        </div>
+
+      </section>
+    </div>
+
+  <div v-if="abrirModal" class="modal-overlay">
+    <div class="modal-content">
+      <!-- Botão de fechar -->
+      <button class="fechar-modal" @click="abrirModal = false">×</button>
+
+      <h2>Cadastrar Professor</h2>
+
+      <div class="modal-grid">
+        <!-- Criar novo usuário -->
+        <section class="modal-section">
+          <h3>Criar novo usuário</h3>
+          <input v-model="novoUsuario.full_name" placeholder="Nome completo" />
+          <input v-model="novoUsuario.cpf" placeholder="CPF" />
+          <input v-model="novoUsuario.birth_date" type="date" placeholder="Data de nascimento" />
+          <input v-model="novoUsuario.email" placeholder="Email" />
+          <input v-model="novoUsuario.address" placeholder="Endereço" />
+          <input v-model="novoUsuario.city" placeholder="Cidade" />
+          <input v-model="novoUsuario.cep" placeholder="CEP" />
+          <input v-model="novoUsuario.phone" placeholder="Telefone (opcional)" />
+          <input v-model="novoUsuario.password" placeholder="Senha" />
+
+          <button @click="criarNovoUsuario">Criar</button>
+        </section>
+
+        <!-- Relacionar com usuário existente -->
+        <section class="modal-section">
+          <h3>Relacionar usuário existente</h3>
+          <input v-model="filtroEmail" placeholder="Filtrar por email" />
+
+          <ul class="usuarios-lista">
+            <li v-for="user in usuariosFiltrados" :key="user.email" class="usuario-item">
+              <span>{{ user.nome }} ({{ user.email }})</span>
+              <button @click="relacionarUsuarioExistente(user)">Relacionar</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</template>
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import Header from './components/Header.vue'
@@ -257,89 +340,6 @@ function relacionarUsuarioExistente(usuario) {
 }
 
 </script>
-
-<template>
-  <div class="pagina">
-    <Header></Header>
-
-    <div class="container-principal">
-      <aside class="filtros">
-        <h2>Filtros</h2>
-
-        <label for="nome">Nome:</label>
-        <input id="nome" type="text" v-model="buscaNome" placeholder="Filtrar por nome" />
-
-        <label for="email">Email:</label>
-        <input id="email" type="text" v-model="buscaEmail" placeholder="Filtrar por email" />
-
-        <label for="telefone">Telefone:</label>
-        <input id="telefone" type="text" v-model="buscaTelefone" placeholder="Filtrar por telefone" />
-      </aside>
-
-      <section class="conteudo-professores">
-        <div class="topo-professores">
-          <h1 class="titulo">LISTA PROFESSORES</h1>
-          <button @click="abrirModal = true">Novo Professor</button>
-        </div>
-
-        <div class="lista-cards">
-          <CardBoxTeacher
-            v-for="prof in professoresFiltrados"
-            :key="prof.email"
-            :name="prof.name"
-            :email="prof.email"
-            :phone="prof.phone"
-            :photo="prof.photo"
-            :cor="prof.cor"
-            @deletar="desativarProfessor"
-          />
-        </div>
-
-      </section>
-    </div>
-
-  <div v-if="abrirModal" class="modal-overlay">
-    <div class="modal-content">
-      <!-- Botão de fechar -->
-      <button class="fechar-modal" @click="abrirModal = false">×</button>
-
-      <h2>Cadastrar Professor</h2>
-
-      <div class="modal-grid">
-        <!-- Criar novo usuário -->
-        <section class="modal-section">
-          <h3>Criar novo usuário</h3>
-          <input v-model="novoUsuario.full_name" placeholder="Nome completo" />
-          <input v-model="novoUsuario.cpf" placeholder="CPF" />
-          <input v-model="novoUsuario.birth_date" type="date" placeholder="Data de nascimento" />
-          <input v-model="novoUsuario.email" placeholder="Email" />
-          <input v-model="novoUsuario.address" placeholder="Endereço" />
-          <input v-model="novoUsuario.city" placeholder="Cidade" />
-          <input v-model="novoUsuario.cep" placeholder="CEP" />
-          <input v-model="novoUsuario.phone" placeholder="Telefone (opcional)" />
-          <input v-model="novoUsuario.password" placeholder="Senha" />
-
-          <button @click="criarNovoUsuario">Criar</button>
-        </section>
-
-        <!-- Relacionar com usuário existente -->
-        <section class="modal-section">
-          <h3>Relacionar usuário existente</h3>
-          <input v-model="filtroEmail" placeholder="Filtrar por email" />
-
-          <ul class="usuarios-lista">
-            <li v-for="user in usuariosFiltrados" :key="user.email" class="usuario-item">
-              <span>{{ user.nome }} ({{ user.email }})</span>
-              <button @click="relacionarUsuarioExistente(user)">Relacionar</button>
-            </li>
-          </ul>
-        </section>
-      </div>
-    </div>
-  </div>
-
-  </div>
-</template>
 
 <style scoped>
 .pagina {

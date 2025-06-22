@@ -9,11 +9,26 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(config => {
-    const token = sessionStorage.getItem('accesstoken');
+    const token = localStorage.getItem('accesstoken');
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
 });
+
+api.interceptors.response.use(
+    response => response, 
+    error => {
+        if (error.response && error.response.status === 401) {
+            console.warn('Token expirado ou inválido. Redirecionando para login.');
+
+            localStorage.removeItem('accesstoken');
+
+            window.location.href = '/login'; 
+        }
+        return Promise.reject(error);
+    }
+);
+
 
 export default api;

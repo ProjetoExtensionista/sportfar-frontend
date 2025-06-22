@@ -49,13 +49,13 @@ router.afterEach((to) => {
 router.beforeEach((to, from, next) => {
   let token = null;
   try {
-    token = sessionStorage.getItem('accesstoken');
+    token = localStorage.getItem('accesstoken');
   } catch (e) {
     console.warn("Erro ao acessar sessionStorage:", e);
   }
 
   if ((to.path === '/login' || to.path === '/register') && token) {
-    return next('/dashboard');
+    return next('/dashboard2');
   } else if ((to.path !== '/login' && to.path !== '/register') && !token) {
     return next('/login');
   }

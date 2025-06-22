@@ -64,7 +64,7 @@ function loginBtn() {
     }).then(response => {
 
         if (response != null && response.data.accessToken) {
-            sessionStorage.setItem('accesstoken', response.data.accessToken);
+            localStorage.setItem('accesstoken', response.data.accessToken);
 
             window.location.href = "/dashboard";
         }
