@@ -13,15 +13,15 @@
 
     <div class="content-wrapper">
       <div class="classrooms">
-      
-        <div class="classroom-card py-3 px-4" v-for="clroom in classRoomData">
+        <div v-if="loading">Carregando...</div>
+        <div class="classroom-card py-3 px-4" v-for="(clroom, index) in classRoomData" :key="clroom.id" :id="`class-${clroom.id}`">
           <div class="d-flex align-items-center">
             <div class="icon"><i class="fa-solid fa-calendar-day"></i></div>
             <div class="info">
-              <h5 class="mb-0">Aula {{clroom.id}}</h5>
+              <h5 class="mb-0">Aula {{index +1 }}</h5>
               <p class="mb-0">
                 Data da aula:
-                <b>{{clroom.classDate}}</b>
+                <b>{{ formatDate(clroom.classDate) }}</b>
               </p>
             </div>
           </div>
@@ -43,13 +43,14 @@
 <script setup>
   import CardTitlePage from "./components/CardTitlePage.vue";
   import Header from "./components/Header.vue";
-  import { ref, onMounted } from "vue";
+  import { ref, onMounted, nextTick } from "vue";
   import { useRoute, useRouter } from 'vue-router';
   import classService from '../services/classService.js';
 
   const route = useRoute();
   const router = useRouter();
   const classRoomData = ref([]);
+  const loading = ref(true);
 
   async function getDados(id) {
     const response = await classService.getByClassId(id);
@@ -61,14 +62,32 @@
         console.log(response.data);
         classRoomData.value.push(response.data);;
       }
+      classRoomData.value.sort((a, b) => new Date(a.classDate) - new Date(b.classDate));
     }
   }
 
   onMounted(() => {
     const id = route.params.id ?? null;
     if (id) {
-      getDados(id);
+      getDados(id).then(() => {
+        nextTick(() => {
+          const [today_date] = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" }).split(', ');
+          const [tday, tmonth, tyear] = today_date.split('/');
+          const nextClassIndex = classRoomData.value.findIndex(cls => {
+            const [year, month, day] = cls.classDate.split('-');
+            return year + month + day >= tyear + tmonth + tday;
+          });
+          if (nextClassIndex !== -1) {
+            const el = document.getElementById(`class-${classRoomData.value[nextClassIndex].id}`);
+            if (el) {
+              el.classList.add('selected-date');
+              el.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        });
+      });
     }
+    loading.value = false; 
   });
 
   function gottoclassrom(id) {
@@ -77,6 +96,11 @@
 
   function addaula() {
     console.log("Add Aula clicked!")
+  }
+  
+  function formatDate(dateStr) {
+    const [year, month, day] = dateStr.split('-');
+    return `${day}/${month}/${year}`;
   }
 </script>
 
@@ -148,5 +172,9 @@ button {
 	margin-left: 20px;
 	color: #000
 }
-
+.selected-date {
+  color: #0D6EFD;
+  border-left: 4px solid #0D6EFD;
+  transition: background-color 0.3s ease;
+}
 </style>
