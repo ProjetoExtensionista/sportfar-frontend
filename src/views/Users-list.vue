@@ -3,9 +3,13 @@
         <Header>
         </Header>
         <div class="d-flex" style="margin-top: 20px;">
-            <button class="btn-add rounded" @click="abrirModal = true">
-                <p class="mb-0">Adicionar Usuário</p>
-            </button>
+            <div class="fab-wrapper">
+            <button class="fab" @click="toggleMenu">+</button>
+                <div v-if="showFabMenu" class="fab-menu">
+                    <button @click="abrirModal = true">Adicionar Usuário</button>
+                    <button @click="abrirPermissoesModal = true">Alterar Permissões</button>
+                </div>
+            </div>
             <div>
                 <div class="menu-modalities d-flex flex-column">
                     <div class="filters search">
@@ -64,6 +68,7 @@
         </div>
     </div>
 
+<!-- Modal cadastro de User -->
     <div v-if="abrirModal" class="modal-overlay">
     <div class="modal-content">
       <!-- Botão de fechar -->
@@ -87,20 +92,57 @@
 
           <button @click="criarNovoUsuario">Criar</button>
         </section>
-
-        <!-- Relacionar com usuário existente -->
-        <section class="modal-section">
-          <h3>Relacionar usuário existente</h3>
-          <input v-model="filtroEmail" placeholder="Filtrar por email" />
-
-          <ul class="usuarios-lista">
-            <li v-for="user in usuariosFiltrados" :key="user.email" class="usuario-item">
-              <span>{{ user.nome }} ({{ user.email }})</span>
-              <button @click="relacionarUsuarioExistente(user)">Relacionar</button>
-            </li>
-          </ul>
-        </section>
       </div>
+    </div>
+    </div>
+
+<!-- Modal altera tipo de User --> 
+    <div v-if="abrirPermissoesModal" class="modal-overlay">
+    <div class="modal-content medium">
+        <button class="fechar-modal" @click="abrirPermissoesModal = false">×</button>
+
+        <h2>Selecionar Usuário</h2>
+
+        <section class="modal-section">
+            <div>
+                <div class="input-dropdown-wrapper" style="position: relative;">
+                <input
+                    v-model="buscaTexto"
+                    @input="filtrarUsuarios"
+                    placeholder="Buscar por nome ou e-mail"
+                    class="form-control mb-2"
+                    @focus="dropdownAberto = true"
+                    @blur="() => setTimeout(() => dropdownAberto = false, 150)"
+                    autocomplete="off"
+                />
+                <ul v-if="dropdownAberto && sugestoes.length" class="dropdown-list">
+                    <li
+                    v-for="user in sugestoes"
+                    :key="user.Email"
+                    @mousedown.prevent="selecionarUsuario(user)"
+                    class="dropdown-item"
+                    >
+                    {{ user.Nome }} &lt;{{ user.Email }}&gt;
+                    </li>
+                </ul>
+                </div>
+
+                <div v-if="usuarioSelecionado" class="usuario-selecionado mt-3">
+                <p class="mb-0"><strong>Nome:</strong> {{ usuarioSelecionado.Nome }}</p>
+                <p class="mb-0"><strong>Email:</strong> {{ usuarioSelecionado.Email }}</p>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end mt-3">
+                <button
+                @click="confirmarSelecao"
+                :disabled="!usuarioSelecionado"
+                class="btn btn-primary"
+                >
+                Confirmar
+                </button>
+            </div>
+        </section>
     </div>
     </div>
 
@@ -149,31 +191,19 @@ const usuariosFiltrados = computed(() => {
   })
 })
 
-
 const loadUsers = async () => {
   try {
-    const [professoresRes, alunosRes] = await Promise.all([
-      UserService.getByType(1),
-      UserService.getByType(2)
-    ])
+    const professores = [
+      { Nome: 'Ana Paula', Email: 'ana@exemplo.com', Telefone: '11999990000', Tipo: 'professores' },
+      { Nome: 'Carlos Henrique', Email: 'carlos@exemplo.com', Telefone: '11988887777', Tipo: 'professores' }
+    ]
 
-    const professores = (professoresRes.data ?? []).map((user: any) => ({
-      Nome: user.fullName,
-      Email: user.email,
-      Telefone: user.phone,
-      Tipo: 'professores'
-    }))
+    const alunos = [
+      { Nome: 'Mariana Souza', Email: 'mariana@exemplo.com', Telefone: '11977776666', Tipo: 'alunos' },
+      { Nome: 'Pedro Silva', Email: 'pedro@exemplo.com', Telefone: '11966665555', Tipo: 'alunos' }
+    ]
 
-    const alunos = (alunosRes.data ?? []).map((user: any) => ({
-      Nome: user.fullName,
-      Email: user.email,
-      Telefone: user.phone,
-      Tipo: 'alunos'
-    }))
-
-    // Junta todos
     tableValues.value = [...professores, ...alunos]
-
   } catch (error) {
     console.error("Erro ao carregar usuários:", error)
   }
@@ -184,7 +214,7 @@ const loadUsers = async () => {
 
 onMounted(loadUsers)
 
-
+const abrirPermissoesModal = ref(false)
 const abrirModal = ref(false)
 
 const novoUsuario = ref({
@@ -233,7 +263,7 @@ function criarNovoUsuario() {
     // await apiCriarUsuario(novoUsuario.value)
     console.log('Usuário criado:', novoUsuario.value)
 
-    // Adiciona à lista de professores
+// Adiciona à lista de professores
     professores.value.push({
         name: novoUsuario.value.full_name,
         email: novoUsuario.value.email,
@@ -242,17 +272,17 @@ function criarNovoUsuario() {
         cor: corAleatoria()
     })
 
-    // Remove da lista de usuários (caso esteja lá por algum motivo)
+// Remove da lista de usuários (caso esteja lá por algum motivo)
     usuariosExistentes.value = usuariosExistentes.value.filter(
         u => u.email !== novoUsuario.value.email
     )
 
-    // Limpa o formulário
+// Limpa o formulário
     Object.keys(novoUsuario.value).forEach(key => {
         novoUsuario.value[key] = ''
     })
 
-    // Fecha o modal
+// Fecha o modal
     abrirModal.value = false
     } catch (error) {
     console.error('Erro ao criar usuário:', error)
@@ -260,8 +290,52 @@ function criarNovoUsuario() {
     }
 }
 
+// Botão flutuante
+    const showFabMenu = ref(false)
 
+    const toggleMenu = () => {
+    showFabMenu.value = !showFabMenu.value
+    }
 
+// Script do modal que altera o tipo do user    
+    const buscaTexto = ref('')
+    const dropdownAberto = ref(false)
+    const usuarioSelecionado = ref(null)
+
+    const usuarios = tableValues.value
+
+    const sugestoes = ref([])
+
+    function filtrarUsuarios() {
+        const termo = buscaTexto.value.trim().toLowerCase()
+        if (!termo) {
+            sugestoes.value = []
+            return
+        }
+
+        sugestoes.value = tableValues.value.filter(user =>
+            user.Nome.toLowerCase().startsWith(termo) ||
+            user.Email.toLowerCase().startsWith(termo)
+        ).slice(0, 5)
+    }
+
+    function selecionarUsuario(user) {
+        usuarioSelecionado.value = { ...user }
+        buscaTexto.value = `${user.Nome} <${user.Email}>`
+        sugestoes.value = []
+        dropdownAberto.value = false
+    }
+    
+    function removerSelecao() {
+        usuarioSelecionado.value = null
+    }
+
+    function confirmarSelecao() {
+        if (!usuarioSelecionado.value) return
+            alert(`Usuário selecionado: ${usuarioSelecionado.value.Nome} <${usuarioSelecionado.value.Email}>`)
+            abrirPermissoesModal.value = false
+            usuarioSelecionado.value = null
+    }
 </script>
 
 
@@ -517,5 +591,139 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
   gap: 10px;
 }
 
+/* Estilo do botão flutuante e menu */
+.fab-wrapper {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
 
+.fab {
+  position: relative;
+  background-color: white;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+
+  background-image: 
+    linear-gradient(white, white),
+    linear-gradient(90deg, #1BE7FF 0%, #6EEB83 25%, #E4FF1A 50%, #FFB800 75%, #FF5714 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+.fab-menu {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid #c3c3c3a2;
+  border-radius: 12px;
+  padding: 8px;
+  gap: 8px;
+  white-space: nowrap;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+.fab-menu button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+
+.fab-menu button:hover {
+  background-color: #e9ecef;
+}
+
+/* Estilo do modal que altera o tipo do User */
+.modal-content.medium {
+  max-width: 600px;
+  width: 95%;
+  height: 500px;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  position: relative; 
+}
+
+.modal-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.usuarios-lista {
+  list-style: none;
+  padding-left: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.usuario-item {
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.usuario-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  max-height: 180px;
+  overflow-y: auto;
+  border-radius: 6px;
+  background: white;
+  margin-top: 2px;
+  padding: 0;
+  list-style: none;
+  z-index: 1001;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #e9ecef;
+}
+
+.input-dropdown-wrapper {
+  position: relative;
+}
+
+.usuario-selecionado {
+  background-color: #f1f3f5;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.d-flex.justify-content-end.mt-3 {
+  margin-top: 16px;
+  flex-shrink: 0;
+}
 </style>
