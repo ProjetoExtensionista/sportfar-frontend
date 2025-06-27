@@ -4,11 +4,7 @@
         </Header>
         <div class="d-flex" style="margin-top: 20px;">
             <div class="fab-wrapper">
-            <button class="fab" @click="toggleMenu">+</button>
-                <div v-if="showFabMenu" class="fab-menu">
-                    <button @click="abrirModal = true">Adicionar Usuário</button>
-                    <button @click="abrirPermissoesModal = true">Alterar Permissões</button>
-                </div>
+            <button class="fab" @click="abrirNovoUsuarioModal = true">+</button>
             </div>
             <div>
                 <div class="menu-modalities d-flex flex-column">
@@ -56,8 +52,27 @@
                     </div>
                 </div>
                 <div class="submain-block">
-                    <div v-if="tableValues.length > 0" class="card-space d-flex flex-wrap align-items-start justify-content-start">
-                        <TableList :tableHeader="tableHeader" :tableValues="usuariosFiltrados" />
+                    <div v-if="usuariosFiltrados.length > 0" class="card-space d-flex flex-wrap align-items-start justify-content-start">
+                        <table class="table table-striped">
+                        <thead>
+                            <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Editar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(usuario, index) in usuariosFiltrados" :key="index">
+                            <td>{{ usuario.fullName }}</td>
+                            <td>{{ usuario.email }}</td>
+                            <td>{{ usuario.phone }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary" @click="editarUsuario(usuario.raw)">Editar</button>
+                            </td>
+                            </tr>
+                        </tbody>
+                        </table>
                     </div>
                     <div v-else class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
                         <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhum usuário</p>
@@ -69,18 +84,18 @@
     </div>
 
 <!-- Modal cadastro de User -->
-    <div v-if="abrirModal" class="modal-overlay">
+    <div v-if="abrirNovoUsuarioModal" class="modal-overlay">
     <div class="modal-content">
       <!-- Botão de fechar -->
-      <button class="fechar-modal" @click="abrirModal = false">×</button>
+      <button class="fechar-modal" @click="abrirNovoUsuarioModal = false">×</button>
 
-      <h2>Cadastrar Professor</h2>
+      <h2>Cadastrar Educador</h2>
 
       <div class="modal-grid">
         <!-- Criar novo usuário -->
         <section class="modal-section">
           <h3>Criar novo usuário</h3>
-          <input v-model="novoUsuario.full_name" placeholder="Nome completo" />
+          <input v-model="novoUsuario.fullName" placeholder="Nome completo" />
           <input v-model="novoUsuario.cpf" placeholder="CPF" />
           <input v-model="novoUsuario.birth_date" type="date" placeholder="Data de nascimento" />
           <input v-model="novoUsuario.email" placeholder="Email" />
@@ -96,55 +111,59 @@
     </div>
     </div>
 
-<!-- Modal altera tipo de User --> 
-    <div v-if="abrirPermissoesModal" class="modal-overlay">
-    <div class="modal-content medium">
-        <button class="fechar-modal" @click="abrirPermissoesModal = false">×</button>
+<!-- Modal editar de User -->
+    <div v-if="abrirEditarUser" class="modal-overlay">
+    <div class="modal-content">
+        <!-- Botão de fechar -->
+        <button class="fechar-modal" @click="fecharModalEdicao">×</button>
 
-        <h2>Selecionar Usuário</h2>
+        <h2>{{ modoEdicao ? 'Editar Usuário' : 'Cadastrar Educador' }}</h2>
 
+        <div class="modal-grid">
         <section class="modal-section">
-            <div>
-                <div class="input-dropdown-wrapper" style="position: relative;">
-                <input
-                    v-model="buscaTexto"
-                    @input="filtrarUsuarios"
-                    placeholder="Buscar por nome ou e-mail"
-                    class="form-control mb-2"
-                    @focus="dropdownAberto = true"
-                    @blur="() => setTimeout(() => dropdownAberto = false, 150)"
-                    autocomplete="off"
-                />
-                <ul v-if="dropdownAberto && sugestoes.length" class="dropdown-list">
-                    <li
-                    v-for="user in sugestoes"
-                    :key="user.Email"
-                    @mousedown.prevent="selecionarUsuario(user)"
-                    class="dropdown-item"
-                    >
-                    {{ user.Nome }} &lt;{{ user.Email }}&gt;
-                    </li>
-                </ul>
-                </div>
+            <h3>{{ modoEdicao ? 'Editar informações' : 'Criar novo usuário' }}</h3>
 
-                <div v-if="usuarioSelecionado" class="usuario-selecionado mt-3">
-                <p class="mb-0"><strong>Nome:</strong> {{ usuarioSelecionado.Nome }}</p>
-                <p class="mb-0"><strong>Email:</strong> {{ usuarioSelecionado.Email }}</p>
-                </div>
+            <input v-model="novoUsuario.fullName" placeholder="Nome completo" />
+            <input v-model="novoUsuario.cpf" placeholder="CPF" />
+            <input v-model="novoUsuario.birth_date" type="date" placeholder="Data de nascimento" />
+            <input v-model="novoUsuario.email" placeholder="Email" />
+            <input v-model="novoUsuario.address" placeholder="Endereço" />
+            <input v-model="novoUsuario.city" placeholder="Cidade" />
+            <input v-model="novoUsuario.cep" placeholder="CEP" />
+            <input v-model="novoUsuario.phone" placeholder="Telefone (opcional)" />
+
+            <div class="checkbox-group">
+                <label>
+                    <input
+                    type="checkbox"
+                    v-model="novoUsuario.isAluno"
+                    @change="alterarTipo('Aluno', novoUsuario.isAluno)"
+                    /> Aluno
+                </label>
+                <label>
+                    <input
+                    type="checkbox"
+                    v-model="novoUsuario.isEducador"
+                    @change="alterarTipo('Educador', novoUsuario.isEducador)"
+                    /> Educador
+                </label>
+                <label>
+                    <input
+                    type="checkbox"
+                    v-model="novoUsuario.isResponsavel"
+                    @change="alterarTipo('Responsável', novoUsuario.isResponsavel)"
+                    /> Responsável
+                </label>
             </div>
 
-            <div class="d-flex justify-content-end mt-3">
-                <button
-                @click="confirmarSelecao"
-                :disabled="!usuarioSelecionado"
-                class="btn btn-primary"
-                >
-                Confirmar
-                </button>
-            </div>
+            <button @click="modoEdicao ? salvarEdicaoUsuario() : criarNovoUsuario()">
+            {{ modoEdicao ? 'Salvar Alterações' : 'Criar' }}
+            </button>
         </section>
+        </div>
     </div>
     </div>
+
 
 </template>
 
@@ -152,15 +171,15 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import Header from './components/Header.vue'
-import TableList from './components/TableList.vue'
 import UserService from '../services/UsersService';
 
 const selected = ref('todos')
 
 const modalities = [
   { label: 'Todos', value: 'todos' },
-  { label: 'Alunos', value: 'alunos' },
-  { label: 'Professores', value: 'professores' }
+  { label: 'Responsáveis', value: 'Responsável' },
+  { label: 'Alunos', value: 'Aluno' },
+  { label: 'Educadores', value: 'Educador' }
 
 ]
 
@@ -168,8 +187,6 @@ function selectModality(value: string) {
   selected.value = value
 }
 
-
-const tableHeader = ["Nome", "Email", "Telefone"];
 
 const tableValues = ref<any[]>([])
 const buscaNome = ref('')
@@ -179,35 +196,34 @@ const buscaNumero = ref('')
 
 const usuariosFiltrados = computed(() => {
   return tableValues.value.filter(user => {
-    const nomeMatch = user.Nome.toLowerCase().includes(buscaNome.value.trim().toLowerCase())
-    const emailMatch = user.Email.toLowerCase().includes(buscaEmail.value.trim().toLowerCase())
-    const telefoneMatch = user.Telefone.toLowerCase().includes(buscaNumero.value.trim().toLowerCase())
 
-    const tipoMatch =
-      selected.value === 'todos' || (user.Tipo && user.Tipo.toLowerCase() === selected.value)
+    const nomeMatch = user.fullName?.toLowerCase().includes(buscaNome.value.trim().toLowerCase());
+    const emailMatch = user.email?.toLowerCase().includes(buscaEmail.value.trim().toLowerCase());
+    const telefoneMatch = user.phone?.toLowerCase().includes(buscaNumero.value.trim().toLowerCase());
+    const tipoMatch = selected.value === 'todos' || user.Tipo.includes(selected.value);
 
+    return nomeMatch && emailMatch && telefoneMatch && tipoMatch;
+  });
+});
 
-    return nomeMatch && emailMatch && telefoneMatch && tipoMatch
-  })
-})
 
 const loadUsers = async () => {
   try {
-    const professores = [
-      { Nome: 'Ana Paula', Email: 'ana@exemplo.com', Telefone: '11999990000', Tipo: 'professores' },
-      { Nome: 'Carlos Henrique', Email: 'carlos@exemplo.com', Telefone: '11988887777', Tipo: 'professores' }
-    ]
+    const response = await UserService.getAll();
+    const users = response ?? [];
 
-    const alunos = [
-      { Nome: 'Mariana Souza', Email: 'mariana@exemplo.com', Telefone: '11977776666', Tipo: 'alunos' },
-      { Nome: 'Pedro Silva', Email: 'pedro@exemplo.com', Telefone: '11966665555', Tipo: 'alunos' }
-    ]
-
-    tableValues.value = [...professores, ...alunos]
+    tableValues.value = users.map((user: any) => ({
+        fullName: user.fullName,
+        email: user.email,
+        phone: user.phone,
+        Tipo: user.Tipo,
+        raw: user
+    }));
   } catch (error) {
-    console.error("Erro ao carregar usuários:", error)
+    console.error("Erro ao carregar usuários:", error);
   }
-}
+};
+
 
 
 
@@ -215,30 +231,38 @@ const loadUsers = async () => {
 onMounted(loadUsers)
 
 const abrirPermissoesModal = ref(false)
-const abrirModal = ref(false)
+const abrirNovoUsuarioModal = ref(false)
+
+const abrirEditarUser = ref(false)
+const modoEdicao = ref(false);
+
 
 const novoUsuario = ref({
-  full_name: '',
-  cpf: '',
-  birth_date: '',
-  email: '',
-  password: '',
-  address: '',
-  city: '',
-  cep: '',
-  phone: '',
-  type: ''
+    fullName: '',
+    cpf: '',
+    birth_date: '',
+    email: '',
+    password: '',
+    address: '',
+    city: '',
+    cep: '',
+    phone: '',
+    type: '',
+
+    isAluno: false,
+    isEducador: false,
+    isResponsavel: false
 })
 
 // MODELO 1: CRIANDO USUARIO DO ZERO
 function criarNovoUsuario() {
     const camposObrigatorios = [
-    'full_name', 'cpf', 'birth_date', 'email',
+    'fullName', 'cpf', 'birth_date', 'email',
     'address', 'city', 'cep', 'password'
     ]
 
     const labels = {
-    full_name: 'Nome completo',
+    fullName: 'Nome completo',
     cpf: 'CPF',
     birth_date: 'Data de nascimento',
     email: 'Email',
@@ -264,8 +288,8 @@ function criarNovoUsuario() {
     console.log('Usuário criado:', novoUsuario.value)
 
 // Adiciona à lista de professores
-    professores.value.push({
-        name: novoUsuario.value.full_name,
+    Educadores.value.push({
+        name: novoUsuario.value.fullName,
         email: novoUsuario.value.email,
         phone: novoUsuario.value.phone || '',
         photo: novoUsuario.value.photo || 'foto1.jpg', // substitua por real se aplicável
@@ -283,11 +307,63 @@ function criarNovoUsuario() {
     })
 
 // Fecha o modal
-    abrirModal.value = false
+    abrirNovoUsuarioModal.value = false
     } catch (error) {
     console.error('Erro ao criar usuário:', error)
     alert('Erro ao criar o usuário. Tente novamente.')
     }
+}
+
+// MODELO 2: EDITAR UM USUARIO
+function editarUsuario(usuario) {
+    console.log(usuario)
+  // Preenche os campos com os dados existentes
+  novoUsuario.value = {
+    fullName: usuario.fullName || '',
+    cpf: usuario.cpf || '',
+    birth_date: usuario.birthDate || '',
+    email: usuario.email || '',
+    address: usuario.address || '',
+    city: usuario.city || '',
+    cep: usuario.cep || '',
+    phone: usuario.phone || '',
+
+    isAluno: usuario.Tipo?.includes('Aluno') || false,
+    isEducador: usuario.Tipo?.includes('Educador') || false,
+    isResponsavel: usuario.Tipo?.includes('Responsável') || false
+  }
+
+  modoEdicao.value = true
+  abrirEditarUser.value = true
+}
+
+function fecharModalEdicao() {
+  abrirEditarUser.value = false
+  modoEdicao.value = false
+  Object.keys(novoUsuario.value).forEach(key => {
+    novoUsuario.value[key] = ''
+  })
+}
+
+function alterarTipo(tipo, status) {
+  console.log(`Tipo: ${tipo} foi ${status ? 'marcado' : 'desmarcado'}`);
+
+  // Aqui você pode adicionar lógica para atualizar o array novoUsuario.Tipo
+  if (!novoUsuario.value.Tipo) {
+    novoUsuario.value.Tipo = [];
+  }
+
+  if (status) {
+    // Adiciona o tipo se ainda não tiver
+    if (!novoUsuario.value.Tipo.includes(tipo)) {
+      novoUsuario.value.Tipo.push(tipo);
+    }
+  } else {
+    // Remove o tipo se desmarcou
+    novoUsuario.value.Tipo = novoUsuario.value.Tipo.filter(t => t !== tipo);
+  }
+
+  console.log('Tipos atuais:', novoUsuario.value.Tipo);
 }
 
 // Botão flutuante
@@ -297,45 +373,6 @@ function criarNovoUsuario() {
     showFabMenu.value = !showFabMenu.value
     }
 
-// Script do modal que altera o tipo do user    
-    const buscaTexto = ref('')
-    const dropdownAberto = ref(false)
-    const usuarioSelecionado = ref(null)
-
-    const usuarios = tableValues.value
-
-    const sugestoes = ref([])
-
-    function filtrarUsuarios() {
-        const termo = buscaTexto.value.trim().toLowerCase()
-        if (!termo) {
-            sugestoes.value = []
-            return
-        }
-
-        sugestoes.value = tableValues.value.filter(user =>
-            user.Nome.toLowerCase().startsWith(termo) ||
-            user.Email.toLowerCase().startsWith(termo)
-        ).slice(0, 5)
-    }
-
-    function selecionarUsuario(user) {
-        usuarioSelecionado.value = { ...user }
-        buscaTexto.value = `${user.Nome} <${user.Email}>`
-        sugestoes.value = []
-        dropdownAberto.value = false
-    }
-    
-    function removerSelecao() {
-        usuarioSelecionado.value = null
-    }
-
-    function confirmarSelecao() {
-        if (!usuarioSelecionado.value) return
-            alert(`Usuário selecionado: ${usuarioSelecionado.value.Nome} <${usuarioSelecionado.value.Email}>`)
-            abrirPermissoesModal.value = false
-            usuarioSelecionado.value = null
-    }
 </script>
 
 
@@ -647,83 +684,4 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
   background-color: #e9ecef;
 }
 
-/* Estilo do modal que altera o tipo do User */
-.modal-content.medium {
-  max-width: 600px;
-  width: 95%;
-  height: 500px;
-  padding: 32px 40px;
-  display: flex;
-  flex-direction: column;
-  position: relative; 
-}
-
-.modal-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.usuarios-lista {
-  list-style: none;
-  padding-left: 0;
-  max-height: 300px;
-  overflow-y: auto;
-  border: 1px solid #d9d9d9;
-  border-radius: 8px;
-  padding: 10px;
-}
-
-.usuario-item {
-  padding: 6px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.usuario-item:last-child {
-  border-bottom: none;
-}
-
-.dropdown-list {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  border: 1px solid #ccc;
-  max-height: 180px;
-  overflow-y: auto;
-  border-radius: 6px;
-  background: white;
-  margin-top: 2px;
-  padding: 0;
-  list-style: none;
-  z-index: 1001;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.dropdown-item {
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-.dropdown-item:hover {
-  background-color: #e9ecef;
-}
-
-.input-dropdown-wrapper {
-  position: relative;
-}
-
-.usuario-selecionado {
-  background-color: #f1f3f5;
-  border-radius: 8px;
-  padding: 10px 14px;
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-.d-flex.justify-content-end.mt-3 {
-  margin-top: 16px;
-  flex-shrink: 0;
-}
 </style>
