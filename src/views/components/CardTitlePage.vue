@@ -3,7 +3,7 @@
     class="card-box overflow-hidden d-flex justify-content-between p-3"
     :style="'background-color:' + color + '; border: 2px solid ' + color2 + ';'"
   >
-    <img :src="'src/assets/images/' + img + ''" width="65" />
+    <img :src="img" width="65" />
     <div class="card-header w-100 d-flex align-items-center">
       <a class="go-back" href="javascript:history.back()"
         ><i class="fa-light fa-circle-arrow-left"></i
