@@ -110,7 +110,7 @@ onMounted(() => {
 });
 
 function gottoclassrom(id) {
-  router.push(`/attendance/${id}`);
+  router.push({name: 'Attendance', params: {id: id}, query: {prof: 'Maurício', nome_turma: 'Categoria Sub-15', dia: '30/05/2025', hora:'13'}});
 }
 
 function addaula() {
