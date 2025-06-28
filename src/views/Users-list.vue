@@ -4,7 +4,7 @@
         </Header>
         <div class="d-flex" style="margin-top: 20px;">
             <div class="fab-wrapper">
-            <button class="fab" @click="abrirNovoUsuarioModal = true">+</button>
+                <button class="fab" @click="abrirNovoUsuarioModal = true">+</button>
             </div>
             <div>
                 <div class="menu-modalities d-flex flex-column">
@@ -34,44 +34,42 @@
             </div>
             <div class="main-block w-100">
                 <div class="sub-header d-flex align-items-end w-100">
-                    <div
-                        v-for="(item, index) in modalities"
-                        :key="index"
+                    <div v-for="(item, index) in modalities" :key="index"
                         class="opt-modality d-flex align-items-center justify-content-center"
-                        :class="{ active: selected === item.value }"
-                        @click="selectModality(item.value)"
-                    >
+                        :class="{ active: selected === item.value }" @click="selectModality(item.value)">
                         <p class="mb-0">{{ item.label }}</p>
 
                         <div v-if="selected === item.value" class="curve-2">
-                        <div></div>
+                            <div></div>
                         </div>
                         <div v-if="selected === item.value" class="curve-1">
-                        <div></div>
+                            <div></div>
                         </div>
                     </div>
                 </div>
                 <div class="submain-block">
-                    <div v-if="usuariosFiltrados.length > 0" class="card-space d-flex flex-wrap align-items-start justify-content-start">
+                    <div v-if="usuariosFiltrados.length > 0"
+                        class="card-space d-flex flex-wrap align-items-start justify-content-start">
                         <table class="table table-striped">
-                        <thead>
-                            <tr>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Telefone</th>
-                            <th>Editar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(usuario, index) in usuariosFiltrados" :key="index">
-                            <td>{{ usuario.fullName }}</td>
-                            <td>{{ usuario.email }}</td>
-                            <td>{{ usuario.phone }}</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary" @click="editarUsuario(usuario.raw)">Editar</button>
-                            </td>
-                            </tr>
-                        </tbody>
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Telefone</th>
+                                    <th>Editar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(usuario, index) in usuariosFiltrados" :key="index">
+                                    <td>{{ usuario.fullName }}</td>
+                                    <td>{{ usuario.email }}</td>
+                                    <td>{{ usuario.phone }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary"
+                                            @click="editarUsuario(usuario.raw)">Editar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                     <div v-else class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
@@ -83,85 +81,76 @@
         </div>
     </div>
 
-<!-- Modal cadastro de User -->
+    <!-- Modal cadastro de User -->
     <div v-if="abrirNovoUsuarioModal" class="modal-overlay">
-    <div class="modal-content">
-      <!-- Botão de fechar -->
-      <button class="fechar-modal" @click="abrirNovoUsuarioModal = false">×</button>
+        <div class="modal-content">
+            <!-- Botão de fechar -->
+            <button class="fechar-modal" @click="abrirNovoUsuarioModal = false">×</button>
 
-      <h2>Cadastrar Educador</h2>
+            <h2>Cadastrar Educador</h2>
 
-      <div class="modal-grid">
-        <!-- Criar novo usuário -->
-        <section class="modal-section">
-          <h3>Criar novo usuário</h3>
-          <input v-model="novoUsuario.fullName" placeholder="Nome completo" />
-          <input v-model="novoUsuario.cpf" placeholder="CPF" />
-          <input v-model="novoUsuario.birth_date" type="date" placeholder="Data de nascimento" />
-          <input v-model="novoUsuario.email" placeholder="Email" />
-          <input v-model="novoUsuario.address" placeholder="Endereço" />
-          <input v-model="novoUsuario.city" placeholder="Cidade" />
-          <input v-model="novoUsuario.cep" placeholder="CEP" />
-          <input v-model="novoUsuario.phone" placeholder="Telefone (opcional)" />
-          <input v-model="novoUsuario.password" placeholder="Senha" />
+            <div class="modal-grid">
+                <!-- Criar novo usuário -->
+                <section class="modal-section">
+                    <h3>Criar novo usuário</h3>
+                    <input v-model="novoUsuario.fullName" placeholder="Nome completo" />
+                    <input v-model="novoUsuario.cpf" placeholder="CPF" />
+                    <input v-model="novoUsuario.birthDate" type="datetime-local" placeholder="Data de nascimento" />
+                    <input v-model="novoUsuario.email" placeholder="Email" />
+                    <input v-model="novoUsuario.address" placeholder="Endereço" />
+                    <input v-model="novoUsuario.city" placeholder="Cidade" />
+                    <input v-model="novoUsuario.cep" placeholder="CEP" />
+                    <input v-model="novoUsuario.phone" placeholder="Telefone (opcional)" />
+                    <input v-model="novoUsuario.password" placeholder="Senha" />
 
-          <button @click="criarNovoUsuario">Criar</button>
-        </section>
-      </div>
-    </div>
-    </div>
-
-<!-- Modal editar de User -->
-    <div v-if="abrirEditarUser" class="modal-overlay">
-    <div class="modal-content">
-        <!-- Botão de fechar -->
-        <button class="fechar-modal" @click="fecharModalEdicao">×</button>
-
-        <h2>{{ modoEdicao ? 'Editar Usuário' : 'Cadastrar Educador' }}</h2>
-
-        <div class="modal-grid">
-        <section class="modal-section">
-            <h3>{{ modoEdicao ? 'Editar informações' : 'Criar novo usuário' }}</h3>
-
-            <input v-model="novoUsuario.fullName" placeholder="Nome completo" />
-            <input v-model="novoUsuario.cpf" placeholder="CPF" />
-            <input v-model="novoUsuario.birth_date" type="date" placeholder="Data de nascimento" />
-            <input v-model="novoUsuario.email" placeholder="Email" />
-            <input v-model="novoUsuario.address" placeholder="Endereço" />
-            <input v-model="novoUsuario.city" placeholder="Cidade" />
-            <input v-model="novoUsuario.cep" placeholder="CEP" />
-            <input v-model="novoUsuario.phone" placeholder="Telefone (opcional)" />
-
-            <div class="checkbox-group">
-                <label>
-                    <input
-                    type="checkbox"
-                    v-model="novoUsuario.isAluno"
-                    @change="alterarTipo('Aluno', novoUsuario.isAluno)"
-                    /> Aluno
-                </label>
-                <label>
-                    <input
-                    type="checkbox"
-                    v-model="novoUsuario.isEducador"
-                    @change="alterarTipo('Educador', novoUsuario.isEducador)"
-                    /> Educador
-                </label>
-                <label>
-                    <input
-                    type="checkbox"
-                    v-model="novoUsuario.isResponsavel"
-                    @change="alterarTipo('Responsável', novoUsuario.isResponsavel)"
-                    /> Responsável
-                </label>
+                    <button @click="criarNovoUsuario">Criar</button>
+                </section>
             </div>
-
-            <button @click="modoEdicao ? salvarEdicaoUsuario() : criarNovoUsuario()">
-            {{ modoEdicao ? 'Salvar Alterações' : 'Criar' }}
-            </button>
-        </section>
         </div>
     </div>
+
+    <!-- Modal editar de User -->
+    <div v-if="abrirEditarUser" class="modal-overlay">
+        <div class="modal-content">
+            <!-- Botão de fechar -->
+            <button class="fechar-modal" @click="fecharModalEdicao">×</button>
+
+            <h2>{{ modoEdicao ? 'Editar Usuário' : 'Cadastrar Educador' }}</h2>
+
+            <div class="modal-grid">
+                <section class="modal-section">
+                    <h3>{{ modoEdicao ? 'Editar informações' : 'Criar novo usuário' }}</h3>
+
+                    <input v-model="novoUsuario.fullName" placeholder="Nome completo" />
+                    <input v-model="novoUsuario.cpf" placeholder="CPF" />
+                    <input v-model="novoUsuario.birthDate" type="date" placeholder="Data de nascimento" />
+                    <input v-model="novoUsuario.email" placeholder="Email" />
+                    <input v-model="novoUsuario.address" placeholder="Endereço" />
+                    <input v-model="novoUsuario.city" placeholder="Cidade" />
+                    <input v-model="novoUsuario.cep" placeholder="CEP" />
+                    <input v-model="novoUsuario.phone" placeholder="Telefone (opcional)" />
+
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" v-model="novoUsuario.isAluno"
+                                @change="alterarTipo('Aluno', novoUsuario.isAluno)" /> Aluno
+                        </label>
+                        <label>
+                            <input type="checkbox" v-model="novoUsuario.isEducador"
+                                @change="alterarTipo('Educador', novoUsuario.isEducador)" /> Educador
+                        </label>
+                        <label>
+                            <input type="checkbox" v-model="novoUsuario.isResponsavel"
+                                @change="alterarTipo('Responsável', novoUsuario.isResponsavel)" /> Responsável
+                        </label>
+                    </div>
+
+                    <button @click="modoEdicao ? salvarEdicaoUsuario() : criarNovoUsuario()">
+                        {{ modoEdicao ? 'Salvar Alterações' : 'Criar' }}
+                    </button>
+                </section>
+            </div>
+        </div>
     </div>
 
 
@@ -176,15 +165,15 @@ import UserService from '../services/UsersService';
 const selected = ref('todos')
 
 const modalities = [
-  { label: 'Todos', value: 'todos' },
-  { label: 'Responsáveis', value: 'Responsável' },
-  { label: 'Alunos', value: 'Aluno' },
-  { label: 'Educadores', value: 'Educador' }
+    { label: 'Todos', value: 'todos' },
+    { label: 'Responsáveis', value: 'Responsável' },
+    { label: 'Alunos', value: 'Aluno' },
+    { label: 'Educadores', value: 'Educador' }
 
 ]
 
 function selectModality(value: string) {
-  selected.value = value
+    selected.value = value
 }
 
 
@@ -195,33 +184,33 @@ const buscaNumero = ref('')
 
 
 const usuariosFiltrados = computed(() => {
-  return tableValues.value.filter(user => {
+    return tableValues.value.filter(user => {
 
-    const nomeMatch = user.fullName?.toLowerCase().includes(buscaNome.value.trim().toLowerCase());
-    const emailMatch = user.email?.toLowerCase().includes(buscaEmail.value.trim().toLowerCase());
-    const telefoneMatch = user.phone?.toLowerCase().includes(buscaNumero.value.trim().toLowerCase());
-    const tipoMatch = selected.value === 'todos' || user.Tipo.includes(selected.value);
+        const nomeMatch = user.fullName?.toLowerCase().includes(buscaNome.value.trim().toLowerCase());
+        const emailMatch = user.email?.toLowerCase().includes(buscaEmail.value.trim().toLowerCase());
+        const telefoneMatch = user.phone?.toLowerCase().includes(buscaNumero.value.trim().toLowerCase());
+        const tipoMatch = selected.value === 'todos' || user.Tipo.includes(selected.value);
 
-    return nomeMatch && emailMatch && telefoneMatch && tipoMatch;
-  });
+        return nomeMatch && emailMatch && telefoneMatch && tipoMatch;
+    });
 });
 
 
 const loadUsers = async () => {
-  try {
-    const response = await UserService.getAll();
-    const users = response ?? [];
+    try {
+        const response = await UserService.getAll();
+        const users = response ?? [];
 
-    tableValues.value = users.map((user: any) => ({
-        fullName: user.fullName,
-        email: user.email,
-        phone: user.phone,
-        Tipo: user.Tipo,
-        raw: user
-    }));
-  } catch (error) {
-    console.error("Erro ao carregar usuários:", error);
-  }
+        tableValues.value = users.map((user: any) => ({
+            fullName: user.fullName,
+            email: user.email,
+            phone: user.phone,
+            Tipo: user.Tipo,
+            raw: user
+        }));
+    } catch (error) {
+        console.error("Erro ao carregar usuários:", error);
+    }
 };
 
 
@@ -240,14 +229,14 @@ const modoEdicao = ref(false);
 const novoUsuario = ref({
     fullName: '',
     cpf: '',
-    birth_date: '',
+    birthDate: '',
     email: '',
     password: '',
+    passwordTemp: true,
     address: '',
     city: '',
     cep: '',
     phone: '',
-    type: '',
 
     isAluno: false,
     isEducador: false,
@@ -255,123 +244,112 @@ const novoUsuario = ref({
 })
 
 // MODELO 1: CRIANDO USUARIO DO ZERO
-function criarNovoUsuario() {
+async function criarNovoUsuario() {
     const camposObrigatorios = [
-    'fullName', 'cpf', 'birth_date', 'email',
-    'address', 'city', 'cep', 'password'
+        'fullName', 'cpf', 'birthDate', 'email',
+        'address', 'city', 'cep', 'password'
     ]
 
     const labels = {
-    fullName: 'Nome completo',
-    cpf: 'CPF',
-    birth_date: 'Data de nascimento',
-    email: 'Email',
-    password: 'Senha',
-    address: 'Endereço',
-    city: 'Cidade',
-    cep: 'CEP'
+        fullName: 'Nome completo',
+        cpf: 'CPF',
+        birthDate: 'Data de nascimento',
+        email: 'Email',
+        password: 'Senha',
+        address: 'Endereço',
+        city: 'Cidade',
+        cep: 'CEP'
     }
 
     const faltando = camposObrigatorios.filter(
-    campo => !novoUsuario.value[campo]?.toString().trim()
+        campo => !novoUsuario.value[campo]?.toString().trim()
     )
 
     if (faltando.length > 0) {
-    const faltandoLabel = faltando.map(campo => labels[campo] || campo)
-    alert(`Preencha todos os campos obrigatórios:\n- ${faltandoLabel.join('\n- ')}`)
-    return
+        const faltandoLabel = faltando.map(campo => labels[campo] || campo)
+        alert(`Preencha todos os campos obrigatórios:\n- ${faltandoLabel.join('\n- ')}`)
+        return
     }
 
     try {
-    // Simulação de chamada à API — substitua por sua função real
-    // await apiCriarUsuario(novoUsuario.value)
-    console.log('Usuário criado:', novoUsuario.value)
 
-// Adiciona à lista de professores
-    Educadores.value.push({
-        name: novoUsuario.value.fullName,
-        email: novoUsuario.value.email,
-        phone: novoUsuario.value.phone || '',
-        photo: novoUsuario.value.photo || 'foto1.jpg', // substitua por real se aplicável
-        cor: corAleatoria()
-    })
+        const response = await UserService.createUser(novoUsuario.value);
+        console.log(response)
+        console.log('Usuário criado:', novoUsuario.value)
 
-// Remove da lista de usuários (caso esteja lá por algum motivo)
-    usuariosExistentes.value = usuariosExistentes.value.filter(
-        u => u.email !== novoUsuario.value.email
-    )
+        // Limpa o formulário
+        Object.keys(novoUsuario.value).forEach(key => {
+            novoUsuario.value[key] = ''
+        })
 
-// Limpa o formulário
-    Object.keys(novoUsuario.value).forEach(key => {
-        novoUsuario.value[key] = ''
-    })
+        // Fecha o modal
+        abrirNovoUsuarioModal.value = false
+        await loadUsers(); // <== atualiza a lista após criação
 
-// Fecha o modal
-    abrirNovoUsuarioModal.value = false
     } catch (error) {
-    console.error('Erro ao criar usuário:', error)
-    alert('Erro ao criar o usuário. Tente novamente.')
+        console.error('Erro ao criar usuário:', error)
+        alert('Erro ao criar o usuário. Tente novamente.')
     }
 }
 
 // MODELO 2: EDITAR UM USUARIO
 function editarUsuario(usuario) {
     console.log(usuario)
-  // Preenche os campos com os dados existentes
-  novoUsuario.value = {
-    fullName: usuario.fullName || '',
-    cpf: usuario.cpf || '',
-    birth_date: usuario.birthDate || '',
-    email: usuario.email || '',
-    address: usuario.address || '',
-    city: usuario.city || '',
-    cep: usuario.cep || '',
-    phone: usuario.phone || '',
+    // Preenche os campos com os dados existentes
+    novoUsuario.value = {
+        fullName: usuario.fullName || '',
+        cpf: usuario.cpf || '',
+        birthDate: usuario.birthDate || '',
+        email: usuario.email || '',
+        address: usuario.address || '',
+        city: usuario.city || '',
+        cep: usuario.cep || '',
+        phone: usuario.phone || '',
 
-    isAluno: usuario.Tipo?.includes('Aluno') || false,
-    isEducador: usuario.Tipo?.includes('Educador') || false,
-    isResponsavel: usuario.Tipo?.includes('Responsável') || false
-  }
+        isAluno: usuario.Tipo?.includes('Aluno') || false,
+        isEducador: usuario.Tipo?.includes('Educador') || false,
+        isResponsavel: usuario.Tipo?.includes('Responsável') || false
+    }
 
-  modoEdicao.value = true
-  abrirEditarUser.value = true
+    modoEdicao.value = true
+    abrirEditarUser.value = true
 }
 
 function fecharModalEdicao() {
-  abrirEditarUser.value = false
-  modoEdicao.value = false
-  Object.keys(novoUsuario.value).forEach(key => {
-    novoUsuario.value[key] = ''
-  })
+    abrirEditarUser.value = false
+    modoEdicao.value = false
+    Object.keys(novoUsuario.value).forEach(key => {
+        novoUsuario.value[key] = ''
+    })
 }
 
 function alterarTipo(tipo, status) {
-  console.log(`Tipo: ${tipo} foi ${status ? 'marcado' : 'desmarcado'}`);
+    console.log(`Tipo: ${tipo} foi ${status ? 'marcado' : 'desmarcado'}`);
 
-  // Aqui você pode adicionar lógica para atualizar o array novoUsuario.Tipo
-  if (!novoUsuario.value.Tipo) {
-    novoUsuario.value.Tipo = [];
-  }
-
-  if (status) {
-    // Adiciona o tipo se ainda não tiver
-    if (!novoUsuario.value.Tipo.includes(tipo)) {
-      novoUsuario.value.Tipo.push(tipo);
+    // Aqui você pode adicionar lógica para atualizar o array novoUsuario.Tipo
+    if (!novoUsuario.value.Tipo) {
+        novoUsuario.value.Tipo = [];
     }
-  } else {
-    // Remove o tipo se desmarcou
-    novoUsuario.value.Tipo = novoUsuario.value.Tipo.filter(t => t !== tipo);
-  }
 
-  console.log('Tipos atuais:', novoUsuario.value.Tipo);
+    if (status) {
+        // Adiciona o tipo se ainda não tiver
+        if (!novoUsuario.value.Tipo.includes(tipo)) {
+            novoUsuario.value.Tipo.push(tipo);
+        }
+    } else {
+        // Remove o tipo se desmarcou
+        novoUsuario.value.Tipo = novoUsuario.value.Tipo.filter(t => t !== tipo);
+    }
+
+    console.log('Tipos atuais:', novoUsuario.value.Tipo);
 }
 
 // Botão flutuante
-    const showFabMenu = ref(false)
+const showFabMenu = ref(false)
 
-    const toggleMenu = () => {
+const toggleMenu = () => {
     showFabMenu.value = !showFabMenu.value
-    }
+}
 
 </script>
 
@@ -379,7 +357,16 @@ function alterarTipo(tipo, status) {
 
 
 <style scoped>
-body, p, h1, h2, h3, h4, h5, h6, label, span {
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+span {
     font-family: "Montserrat", sans-serifs;
 }
 
@@ -415,7 +402,7 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     border-top-left-radius: 32px;
 }
 
-#modalities .submain-block .subtitle{
+#modalities .submain-block .subtitle {
     font-size: 17px;
     font-weight: 600;
     color: #212529;
@@ -449,6 +436,7 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     height: fit-content;
     font-weight: 700;
 }
+
 #modalities .sub-header .curve-2 {
     position: absolute;
     background-color: white;
@@ -483,7 +471,7 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     border-top: 0px solid;
 }
 
-#modalities .menu-modalities{
+#modalities .menu-modalities {
     transition: all ease-in-out 0.4s;
     width: 305px;
     height: calc(100vh - 200px);
@@ -572,6 +560,7 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
     height: calc(80% - 93px);
     overflow-y: auto;
 }
+
 @media screen and (min-width:1440px) {
     .card-box {
         width: calc(25% - 12px);
@@ -581,107 +570,106 @@ body, p, h1, h2, h3, h4, h5, h6, label, span {
 
 
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
 
 .modal-content {
-  position: relative;
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  width: 95%;
-  max-width: 900px;
-  max-height: 90vh;
-  overflow: auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 95%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .fechar-modal {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .modal-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .modal-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 /* Estilo do botão flutuante e menu */
 .fab-wrapper {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  z-index: 999;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
 }
 
 .fab {
-  position: relative;
-  background-color: white;
-  border: 3px solid transparent;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  font-size: 30px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    position: relative;
+    background-color: white;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 
-  background-image: 
-    linear-gradient(white, white),
-    linear-gradient(90deg, #1BE7FF 0%, #6EEB83 25%, #E4FF1A 50%, #FFB800 75%, #FF5714 100%);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
+    background-image:
+        linear-gradient(white, white),
+        linear-gradient(90deg, #1BE7FF 0%, #6EEB83 25%, #E4FF1A 50%, #FFB800 75%, #FF5714 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
 }
 
 .fab-menu {
-  position: absolute;
-  bottom: 70px;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  border: 1px solid #c3c3c3a2;
-  border-radius: 12px;
-  padding: 8px;
-  gap: 8px;
-  white-space: nowrap;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid #c3c3c3a2;
+    border-radius: 12px;
+    padding: 8px;
+    gap: 8px;
+    white-space: nowrap;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
 .fab-menu button {
-  padding: 8px 16px;
-  border: none;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: left;
+    padding: 8px 16px;
+    border: none;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
 }
 
 .fab-menu button:hover {
-  background-color: #e9ecef;
+    background-color: #e9ecef;
 }
-
 </style>
