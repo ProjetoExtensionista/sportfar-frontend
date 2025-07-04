@@ -1,4 +1,6 @@
+// @ts-ignore
 import api from "./api";
+// @ts-ignore
 import handleResponse from "../utils/handleResponse";
 
 export interface AbsenceData {
@@ -10,7 +12,7 @@ export interface AbsenceData {
 export type AbsenceCreateData = AbsenceData;
 
 export type AbsenceUpdateData = {
-  id: number;
+  abs_id: number;
 } & Partial<AbsenceData>;
 
 export default {
@@ -22,9 +24,9 @@ export default {
     return handleResponse(api.patch(`/absence/${id}`, data));
   },
 
-  save(data: Partial<AbsenceData>) {
-    return "id" in data && data.id
-      ? this.update(data.id, data)
+  save(data: AbsenceCreateData | AbsenceUpdateData) {
+    return "abs_id" in data && data.abs_id
+      ? this.update(data.abs_id, data)
       : this.create(data as AbsenceCreateData);
   },
 };
