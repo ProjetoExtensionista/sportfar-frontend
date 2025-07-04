@@ -1,27 +1,27 @@
 import api from './api';
-import handleResponse from '../utils/handleResponse';
 
 
 
 export default {
 
-  createUser(userData) {
+  async createUser(userData) {
     try {
       const payload = {
         fullName: userData.fullName,
         cpf: userData.cpf,
-        birthDate: new Date(userData.birthDate).toISOString(), // conversão aqui
+        birthDate: new Date(userData.birthDate),
         email: userData.email,
         password: userData.password,
-        passwordTemp: true, // ou false se não for senha temporária
+        passwordTemp: true,
         address: userData.address,
         city: userData.city,
         cep: userData.cep,
         phone: userData.phone
       };
 
-      const response = api.post('/api/users', payload);
-      return response.data;
+      const response = await api.post('/api/users', payload);
+      return response.data; // Retorna só o corpo da resposta
+
     } catch (error) {
       console.error('Erro ao criar usuário:', error);
       throw error;
@@ -72,10 +72,15 @@ export default {
     });
   },
 
-  getByType(type) {
-    return handleResponse(api.get(`/api/users/findByClass/${type}`))
+  // adiciona “Educador”
+  grantEducatorTypeToUser(userId) {
+    return api.post('/api/grantEducatorTypeToUser', {
+      user_id: userId
+    });
+  },
+
+  // remove “Educador”
+  removeEducatorTypeFromUser(userId) {
+    return api.delete(`/api/grantEducatorTypeToUser/${userId}`);
   }
-
-
-
 }

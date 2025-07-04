@@ -15,8 +15,8 @@
                     <router-link to="/turmas">
                         <p :class="{ active: $route.name === 'turmas' }" class="mb-0">Turmas</p>
                     </router-link>
-                    <router-link to="/teachers">
-                        <p :class="{ active: $route.name === 'Teachers' }" class="mb-0">Professores</p>
+                    <router-link to="/users">
+                        <p :class="{ active: $route.name === 'Users' }" class="mb-0">Usuários</p>
                     </router-link>
                     <router-link to="/calendario">
                         <p :class="{ active: $route.name === 'calendario' }" class="mb-0">Calendário</p>

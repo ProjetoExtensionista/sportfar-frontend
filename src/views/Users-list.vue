@@ -49,28 +49,41 @@
                 </div>
                 <div class="submain-block">
                     <div v-if="usuariosFiltrados.length > 0"
-                        class="card-space d-flex flex-wrap align-items-start justify-content-start">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Email</th>
-                                    <th>Telefone</th>
-                                    <th>Editar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(usuario, index) in usuariosFiltrados" :key="index">
-                                    <td>{{ usuario.fullName }}</td>
-                                    <td>{{ usuario.email }}</td>
-                                    <td>{{ usuario.phone }}</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-primary"
-                                            @click="editarUsuario(usuario.raw)">Editar</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        class="card-space d-flex flex-wrap align-items-start justify-content-start overflow-y: auto;">
+                        <div class="table-scroll">
+                            <table class="overflow-hidden">
+                                <thead>
+                                    <tr class="bg-2">
+                                        <th class="th-nome">Nome</th>
+                                        <th class="th-email">Email</th>
+                                        <th class="th-telefone">Telefone</th>
+                                        <th class="th-editar btn-actions-row">Editar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(usuario, index) in usuariosFiltrados" :key="index"
+                                        :class="{ 'bg-2': (index + 1) % 2 === 0 }">
+                                        <td>
+                                            <h5 class="mb-0">{{ usuario.fullName }}</h5>
+                                        </td>
+                                        <td>
+                                            <h5 class="mb-0">{{ usuario.email }}</h5>
+                                        </td>
+                                        <td>
+                                            <h5 class="mb-0">{{ usuario.phone }}</h5>
+                                        </td>
+                                        <td class="btn-actions-row">
+                                            <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+                                                <a @click.prevent="editarUsuario(usuario.raw)"
+                                                    class="btn-action d-flex align-items-center justify-content-center">
+                                                    <i class="fa-light fa-pencil-alt"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div v-else class=" d-flex flex-column align-items-center justify-content-center h-100 w-100">
                         <p class="subtitle mt-0 mb-5">Ainda não foi registrado nenhum usuário</p>
@@ -86,68 +99,427 @@
         <div class="modal-content">
             <!-- Botão de fechar -->
             <button class="fechar-modal" @click="abrirNovoUsuarioModal = false">×</button>
-
-            <h2>Cadastrar Educador</h2>
-
             <div class="modal-grid">
                 <!-- Criar novo usuário -->
                 <section class="modal-section">
-                    <h3>Criar novo usuário</h3>
-                    <input v-model="novoUsuario.fullName" placeholder="Nome completo" />
-                    <input v-model="novoUsuario.cpf" placeholder="CPF" />
-                    <input v-model="novoUsuario.birthDate" type="datetime-local" placeholder="Data de nascimento" />
-                    <input v-model="novoUsuario.email" placeholder="Email" />
-                    <input v-model="novoUsuario.address" placeholder="Endereço" />
-                    <input v-model="novoUsuario.city" placeholder="Cidade" />
-                    <input v-model="novoUsuario.cep" placeholder="CEP" />
-                    <input v-model="novoUsuario.phone" placeholder="Telefone (opcional)" />
-                    <input v-model="novoUsuario.password" placeholder="Senha" />
+                    <form @submit.prevent="criarNovoUsuario">
+                        <h2>Formulário para cadastro de usuário</h2>
+                        <div class="form-header">
+                            <div class="form-sections">
+                                <section>
+                                    <h3>Dados pessoais do responsável</h3>
+                                    <div class="field">
+                                        <label>Nome:</label>
+                                        <input type="text" v-model="novoUsuario.fullName" placeholder="Nome completo"
+                                            required />
+                                    </div>
+                                    <div class="field">
+                                        <label>Nascimento:</label>
+                                        <input type="date" v-model="novoUsuario.birthDate" placeholder="dd/mm/aaaa"
+                                            required />
+                                    </div>
+                                    <div class="field">
+                                        <label>CPF:</label>
+                                        <input type="text" v-model="novoUsuario.cpf" placeholder="000.000.000-00"
+                                            required />
+                                    </div>
+                                    <div class="field">
+                                        <label>Celular:</label>
+                                        <input type="tel" v-model="novoUsuario.phone" placeholder="(00) 00000-0000"
+                                            required />
+                                    </div>
+                                </section>
 
-                    <button @click="criarNovoUsuario">Criar</button>
+                                <hr />
+
+                                <section>
+                                    <h3>Endereço</h3>
+                                    <div class="field">
+                                        <label>Rua:</label>
+                                        <input type="text" v-model="rua" placeholder="Nome da rua" required />
+                                    </div>
+                                    <div class="field">
+                                        <label>Número:</label>
+                                        <input type="text" v-model="numero" placeholder="Número da casa" required />
+                                    </div>
+                                    <div class="field">
+                                        <label>Bairro:</label>
+                                        <input type="text" v-model="bairro" placeholder="Nome do bairro" required />
+                                    </div>
+                                    <div class="field">
+                                        <label>CEP:</label>
+                                        <input type="text" v-model="novoUsuario.cep" placeholder="00000-000" required />
+                                    </div>
+                                    <div class="field">
+                                        <label>Cidade:</label>
+                                        <input type="text" v-model="novoUsuario.city" placeholder="Nome da cidade"
+                                            required />
+                                    </div>
+                                </section>
+
+                                <hr />
+
+                                <section>
+                                    <h3>Login</h3>
+                                    <div class="field">
+                                        <label>E-mail:</label>
+                                        <input type="email" v-model="novoUsuario.email" placeholder="email@dominio.com"
+                                            required />
+                                        <small class="aviso">A senha temporária será enviada neste e-mail!</small>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>Senha:</label>
+                                        <div class="input-senha-wrapper">
+                                            <input :type="mostrarSenha ? 'text' : 'password'"
+                                                v-model="novoUsuario.password" placeholder="Digite uma senha"
+                                                required />
+                                            <i :class="mostrarSenha ? 'fas fa-eye-slash' : 'fas fa-eye'"
+                                                class="icone-senha" @click="mostrarSenha = !mostrarSenha"
+                                                title="Mostrar/ocultar senha"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- Seção separada apenas para tipos -->
+                                    <div class="tipos-usuario">
+                                        <label>Tipo de Usuário</label>
+                                        <div class="checkbox-group">
+                                            <label>
+                                                <input type="checkbox" v-model="novoUsuario.isEducador"
+                                                    @change="alterarTipo('Educador', novoUsuario.isEducador)" />
+                                                Educador
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" v-model="novoUsuario.isResponsavel"
+                                                    @change="alterarTipo('Responsável', novoUsuario.isResponsavel)" />
+                                                Responsável
+                                            </label>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <hr />
+
+                                <section>
+                                    <div class="dependente-btn">
+                                        <button class="btn-adicionar" type="button" @click="abrirModalDependente">
+                                            <i class="fas fa-plus-circle"></i> Adicionar dependente
+                                        </button>
+                                    </div>
+
+                                    <div class="lista-dependentes" v-if="dependentes.length > 0">
+                                        <div class="dependente-card" v-for="(dep, index) in dependentes" :key="index">
+                                            <div class="dependente-nome">{{ dep.fullName }}</div>
+                                            <div class="btn-actions">
+                                                <button @click="editarDependente(index)" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button @click="excluirDependente(index)" title="Excluir">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <button class="btn-salvar" @click="criarNovoUsuario">
+                                    Salvar
+                                </button>
+                            </div>
+
+                            <div class="image-upload-section">
+                                <h3 style="margin-bottom: 20px; color: #333; font-size: 16px;">Foto do perfil</h3>
+                                <div class="image-upload-container">
+                                    <div class="image-preview" id="imagePreview">
+                                        <div class="upload-placeholder">
+                                            <svg class="upload-icon" viewBox="0 0 24 24" fill="currentColor">
+                                                <path
+                                                    d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V19A2 2 0 0 0 5 21H11V19H5V3H13V9H21Z" />
+                                            </svg>
+                                            <div class="upload-text">Clique ou arraste<br />uma foto aqui</div>
+                                        </div>
+                                        <div class="upload-overlay">
+                                            <svg class="change-icon" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="remove-image" id="removeImage"
+                                        title="Remover imagem">×</button>
+                                </div>
+
+                                <input type="file" id="imageInput" accept="image/*" hidden />
+                                <button type="button" class="upload-button"
+                                    @click="document.getElementById('imageInput').click()">
+                                    Selecionar Imagem
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </section>
             </div>
         </div>
     </div>
 
-    <!-- Modal editar de User -->
+    <div v-if="abrirNovoEstudanteModal" class="modal-overlay">
+        <div class="modal-content">
+            <!-- Botão de fechar -->
+            <button class="fechar-modal" @click="fecharNovoDependenteModal">×</button>
+            <div class="modal-grid">
+                <!-- Criar novo usuário -->
+                <section class="modal-section">
+                    <form @submit.prevent="salvarDependenteTemporario">
+                        <h2>Formulário para cadastro de dependente</h2>
+                        <div class="form-header">
+                            <div class="form-sections">
+                                <section>
+                                    <h3>Dados pessoais do dependente</h3>
+                                    <div class="field">
+                                        <label>Nome:</label>
+                                        <input type="text" v-model="novoDependente.fullName" placeholder="Nome completo"
+                                            required />
+                                    </div>
+                                    <div class="field">
+                                        <label>Nascimento:</label>
+                                        <input type="date" v-model="novoDependente.birthDate" placeholder="dd/mm/aaaa"
+                                            required />
+                                    </div>
+                                    <div class="field">
+                                        <label>CPF:</label>
+                                        <input type="text" v-model="novoDependente.cpf" placeholder="000.000.000-00"
+                                            required />
+                                    </div>
+                                    <div class="field">
+                                        <label>Celular:</label>
+                                        <input type="tel" v-model="novoDependente.phone" placeholder="(00) 00000-0000"
+                                            required />
+                                    </div>
+                                </section>
+
+                                <hr />
+
+                                <section>
+                                    <h3>Login</h3>
+                                    <div class="field">
+                                        <label>E-mail:</label>
+                                        <input type="email" v-model="novoDependente.email"
+                                            placeholder="email@dominio.com" required />
+                                        <small class="aviso">A senha temporária será enviada neste e-mail!</small>
+                                    </div>
+                                    <div class="field">
+                                        <label>Senha:</label>
+                                        <div class="input-senha-wrapper">
+                                            <input :type="mostrarSenha ? 'text' : 'password'"
+                                                v-model="novoDependente.password" placeholder="Digite uma senha"
+                                                required />
+                                            <i :class="mostrarSenha ? 'fas fa-eye-slash' : 'fas fa-eye'"
+                                                class="icone-senha" @click="mostrarSenha = !mostrarSenha"
+                                                title="Mostrar/ocultar senha"></i>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <button class="btn-salvar" type="submit" @click="salvarDependenteTemporario">
+                                    Salvar
+                                </button>
+                            </div>
+
+                            <div class="image-upload-section">
+                                <h3 style="margin-bottom: 20px; color: #333; font-size: 16px;">Foto do perfil</h3>
+                                <div class="image-upload-container">
+                                    <div class="image-preview" id="imagePreview">
+                                        <div class="upload-placeholder">
+                                            <svg class="upload-icon" viewBox="0 0 24 24" fill="currentColor">
+                                                <path
+                                                    d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V19A2 2 0 0 0 5 21H11V19H5V3H13V9H21Z" />
+                                            </svg>
+                                            <div class="upload-text">Clique ou arraste<br />uma foto aqui</div>
+                                        </div>
+                                        <div class="upload-overlay">
+                                            <svg class="change-icon" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="remove-image" id="removeImage"
+                                        title="Remover imagem">×</button>
+                                </div>
+
+                                <input type="file" id="imageInput" accept="image/*" hidden />
+                                <button type="button" class="upload-button"
+                                    @click="document.getElementById('imageInput').click()">
+                                    Selecionar Imagem
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal cadastro de User -->
     <div v-if="abrirEditarUser" class="modal-overlay">
         <div class="modal-content">
             <!-- Botão de fechar -->
-            <button class="fechar-modal" @click="fecharModalEdicao">×</button>
-
-            <h2>{{ modoEdicao ? 'Editar Usuário' : 'Cadastrar Educador' }}</h2>
-
+            <button class="fechar-modal" @click="abrirEditarUser = false">×</button>
             <div class="modal-grid">
+                <!-- Criar novo usuário -->
                 <section class="modal-section">
-                    <h3>{{ modoEdicao ? 'Editar informações' : 'Criar novo usuário' }}</h3>
+                    <form @submit.prevent="criarNovoUsuario">
+                        <h2>Formulário para cadastro de usuário</h2>
+                        <div class="form-header">
+                            <div class="form-sections">
+                                <section>
+                                    <h3>Dados pessoais do responsável</h3>
+                                    <div class="field">
+                                        <label>Nome:</label>
+                                        <input type="text" v-model="novoUsuario.fullName" placeholder="Nome completo" />
+                                    </div>
+                                    <div class="field">
+                                        <label>Nascimento:</label>
+                                        <input type="date" v-model="novoUsuario.birthDate" placeholder="dd/mm/aaaa" />
+                                    </div>
+                                    <div class="field">
+                                        <label>CPF:</label>
+                                        <input type="text" v-model="novoUsuario.cpf" placeholder="000.000.000-00" />
+                                    </div>
+                                    <div class="field">
+                                        <label>Celular:</label>
+                                        <input type="tel" v-model="novoUsuario.phone" placeholder="(00) 00000-0000" />
+                                    </div>
+                                </section>
 
-                    <input v-model="novoUsuario.fullName" placeholder="Nome completo" />
-                    <input v-model="novoUsuario.cpf" placeholder="CPF" />
-                    <input v-model="novoUsuario.birthDate" type="date" placeholder="Data de nascimento" />
-                    <input v-model="novoUsuario.email" placeholder="Email" />
-                    <input v-model="novoUsuario.address" placeholder="Endereço" />
-                    <input v-model="novoUsuario.city" placeholder="Cidade" />
-                    <input v-model="novoUsuario.cep" placeholder="CEP" />
-                    <input v-model="novoUsuario.phone" placeholder="Telefone (opcional)" />
+                                <hr />
 
-                    <div class="checkbox-group">
-                        <label>
-                            <input type="checkbox" v-model="novoUsuario.isAluno"
-                                @change="alterarTipo('Aluno', novoUsuario.isAluno)" /> Aluno
-                        </label>
-                        <label>
-                            <input type="checkbox" v-model="novoUsuario.isEducador"
-                                @change="alterarTipo('Educador', novoUsuario.isEducador)" /> Educador
-                        </label>
-                        <label>
-                            <input type="checkbox" v-model="novoUsuario.isResponsavel"
-                                @change="alterarTipo('Responsável', novoUsuario.isResponsavel)" /> Responsável
-                        </label>
-                    </div>
+                                <section>
+                                    <h3>Endereço</h3>
+                                    <div class="field">
+                                        <label>Rua:</label>
+                                        <input type="text" v-model="rua" placeholder="Nome da rua" />
+                                    </div>
+                                    <div class="field">
+                                        <label>Número:</label>
+                                        <input type="text" v-model="numero" placeholder="Número da casa" />
+                                    </div>
+                                    <div class="field">
+                                        <label>Bairro:</label>
+                                        <input type="text" v-model="bairro" placeholder="Nome do bairro" />
+                                    </div>
+                                    <div class="field">
+                                        <label>CEP:</label>
+                                        <input type="text" v-model="novoUsuario.cep" placeholder="00000-000" />
+                                    </div>
+                                    <div class="field">
+                                        <label>Cidade:</label>
+                                        <input type="text" v-model="novoUsuario.city" placeholder="Nome da cidade" />
+                                    </div>
+                                </section>
 
-                    <button @click="modoEdicao ? salvarEdicaoUsuario() : criarNovoUsuario()">
-                        {{ modoEdicao ? 'Salvar Alterações' : 'Criar' }}
-                    </button>
+                                <hr />
+
+                                <section>
+                                    <h3>Login</h3>
+                                    <div class="field">
+                                        <label>E-mail:</label>
+                                        <input type="email" v-model="novoUsuario.email"
+                                            placeholder="email@dominio.com" />
+                                        <small class="aviso">A senha temporária será enviada neste e-mail!</small>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>Senha:</label>
+                                        <div class="input-senha-wrapper">
+                                            <input :type="mostrarSenha ? 'text' : 'password'"
+                                                v-model="novoUsuario.password" placeholder="Digite uma senha" />
+                                            <i :class="mostrarSenha ? 'fas fa-eye-slash' : 'fas fa-eye'"
+                                                class="icone-senha" @click="mostrarSenha = !mostrarSenha"
+                                                title="Mostrar/ocultar senha"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- Seção separada apenas para tipos -->
+                                    <div class="tipos-usuario">
+                                        <label>Tipo de Usuário</label>
+                                        <div class="checkbox-group">
+                                            <label>
+                                                <input type="checkbox" v-model="novoUsuario.isAluno" />
+                                                Aluno
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" v-model="novoUsuario.isEducador" />
+                                                Educador
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" v-model="novoUsuario.isResponsavel" />
+                                                Responsável
+                                            </label>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <hr />
+
+                                <section>
+                                    <div class="dependente-btn">
+                                        <button class="btn-adicionar" type="button" @click="abrirModalDependente">
+                                            <i class="fas fa-plus-circle"></i> Adicionar dependente
+                                        </button>
+                                    </div>
+
+                                    <div class="lista-dependentes" v-if="dependentes.length > 0">
+                                        <div class="dependente-card" v-for="(dep, index) in dependentes" :key="index">
+                                            <div class="dependente-nome">{{ dep.fullName }}</div>
+                                            <div class="btn-actions">
+                                                <button @click="editarDependente(index)" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button @click="excluirDependente(index)" title="Excluir">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <form @submit.prevent="modoEdicao ? salvarUsuarioEditado() : criarNovoUsuario()">
+
+                                    <button class="btn-salvar" type="submit">Salvar</button>
+                                </form>
+                            </div>
+
+                            <div class="image-upload-section">
+                                <h3 style="margin-bottom: 20px; color: #333; font-size: 16px;">Foto do perfil</h3>
+                                <div class="image-upload-container">
+                                    <div class="image-preview" id="imagePreview">
+                                        <div class="upload-placeholder">
+                                            <svg class="upload-icon" viewBox="0 0 24 24" fill="currentColor">
+                                                <path
+                                                    d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V19A2 2 0 0 0 5 21H11V19H5V3H13V9H21Z" />
+                                            </svg>
+                                            <div class="upload-text">Clique ou arraste<br />uma foto aqui</div>
+                                        </div>
+                                        <div class="upload-overlay">
+                                            <svg class="change-icon" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="remove-image" id="removeImage"
+                                        title="Remover imagem">×</button>
+                                </div>
+
+                                <input type="file" id="imageInput" accept="image/*" hidden />
+                                <button type="button" class="upload-button"
+                                    @click="document.getElementById('imageInput').click()">
+                                    Selecionar Imagem
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </section>
             </div>
         </div>
@@ -158,7 +530,7 @@
 
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import Header from './components/Header.vue'
 import UserService from '../services/UsersService';
 
@@ -169,19 +541,16 @@ const modalities = [
     { label: 'Responsáveis', value: 'Responsável' },
     { label: 'Alunos', value: 'Aluno' },
     { label: 'Educadores', value: 'Educador' }
-
 ]
 
 function selectModality(value: string) {
     selected.value = value
 }
 
-
 const tableValues = ref<any[]>([])
 const buscaNome = ref('')
 const buscaEmail = ref('')
 const buscaNumero = ref('')
-
 
 const usuariosFiltrados = computed(() => {
     return tableValues.value.filter(user => {
@@ -194,7 +563,6 @@ const usuariosFiltrados = computed(() => {
         return nomeMatch && emailMatch && telefoneMatch && tipoMatch;
     });
 });
-
 
 const loadUsers = async () => {
     try {
@@ -213,18 +581,13 @@ const loadUsers = async () => {
     }
 };
 
-
-
-
-
 onMounted(loadUsers)
 
-const abrirPermissoesModal = ref(false)
 const abrirNovoUsuarioModal = ref(false)
-
+const abrirNovoEstudanteModal = ref(false)
 const abrirEditarUser = ref(false)
 const modoEdicao = ref(false);
-
+const mostrarSenha = ref(false);
 
 const novoUsuario = ref({
     fullName: '',
@@ -243,59 +606,227 @@ const novoUsuario = ref({
     isResponsavel: false
 })
 
-// MODELO 1: CRIANDO USUARIO DO ZERO
+// Endereço
+const rua = ref('')
+const numero = ref('')
+const bairro = ref('')
+
+const updateAddress = () => {
+    novoUsuario.value.address = `${rua.value} ${numero.value}, ${bairro.value}`.trim()
+}
+
+watch(rua, updateAddress)
+watch(numero, updateAddress)
+watch(bairro, updateAddress)
+
+// --- NOVO: LISTA LOCAL DE DEPENDENTES ---
+const dependentes = ref<any[]>([]);
+const indexEditandoDependente = ref<number | null>(null);
+
+const novoDependente = ref({
+    fullName: '',
+    cpf: '',
+    birthDate: '',
+    email: '',
+    password: '',
+    passwordTemp: true,
+    address: '',
+    city: '',
+    cep: '',
+    phone: '',
+    Tipo: []
+});
+
+// Abrir modal dependente para novo cadastro ou edição
+function abrirModalDependente() {
+    indexEditandoDependente.value = null;
+
+    novoDependente.value = {
+        fullName: '',
+        cpf: '',
+        birthDate: '',
+        email: '',
+        password: '',
+        phone: '',
+        address: novoUsuario.value.address,
+        city: novoUsuario.value.city,
+        cep: novoUsuario.value.cep,
+        passwordTemp: true,
+        Tipo: ['Aluno']
+    };
+
+    abrirNovoEstudanteModal.value = true;
+}
+
+// Salvar dependente localmente (adiciona novo ou atualiza existente)
+function salvarDependenteTemporario() {
+    // Sempre herda o endereço do responsável
+    Object.assign(novoDependente.value, {
+        address: novoUsuario.value.address,
+        city: novoUsuario.value.city,
+        cep: novoUsuario.value.cep
+    });
+
+    if (indexEditandoDependente.value !== null) {
+        dependentes.value[indexEditandoDependente.value] = JSON.parse(JSON.stringify(novoDependente.value));
+    } else {
+        dependentes.value.push(JSON.parse(JSON.stringify(novoDependente.value)));
+    }
+
+    abrirNovoEstudanteModal.value = false;
+    indexEditandoDependente.value = null;
+    limparNovoDependente();  // limpa o formulário do modal
+}
+
+function editarDependente(index: number) {
+    indexEditandoDependente.value = index;
+
+    // Cópia independente: mantém tudo mas quebra a referência reativa
+    novoDependente.value = JSON.parse(JSON.stringify(dependentes.value[index]));
+    // (use JSON.parse(JSON.stringify(...)) se não tiver structuredClone)
+
+    abrirNovoEstudanteModal.value = true;
+}
+
+// Excluir dependente da lista
+function excluirDependente(index: number) {
+    dependentes.value.splice(index, 1);
+}
+
+// Salvar responsável junto com dependentes
 async function criarNovoUsuario() {
-    const camposObrigatorios = [
-        'fullName', 'cpf', 'birthDate', 'email',
-        'address', 'city', 'cep', 'password'
-    ]
-
-    const labels = {
-        fullName: 'Nome completo',
-        cpf: 'CPF',
-        birthDate: 'Data de nascimento',
-        email: 'Email',
-        password: 'Senha',
-        address: 'Endereço',
-        city: 'Cidade',
-        cep: 'CEP'
-    }
-
-    const faltando = camposObrigatorios.filter(
-        campo => !novoUsuario.value[campo]?.toString().trim()
-    )
-
-    if (faltando.length > 0) {
-        const faltandoLabel = faltando.map(campo => labels[campo] || campo)
-        alert(`Preencha todos os campos obrigatórios:\n- ${faltandoLabel.join('\n- ')}`)
-        return
-    }
+    novoUsuario.value.birthDate = new Date(novoUsuario.value.birthDate);
 
     try {
+        // Cria o usuário (sem Tipo)
+        const response = await UserService.createUser({
+            fullName: novoUsuario.value.fullName,
+            cpf: novoUsuario.value.cpf,
+            birthDate: novoUsuario.value.birthDate,
+            email: novoUsuario.value.email,
+            password: novoUsuario.value.password,
+            passwordTemp: true,
+            address: novoUsuario.value.address,
+            city: novoUsuario.value.city,
+            cep: novoUsuario.value.cep,
+            phone: novoUsuario.value.phone
+        });
 
-        const response = await UserService.createUser(novoUsuario.value);
-        console.log(response)
-        console.log('Usuário criado:', novoUsuario.value)
+        const novoId = response.id;
 
-        // Limpa o formulário
-        Object.keys(novoUsuario.value).forEach(key => {
-            novoUsuario.value[key] = ''
-        })
+        if (!novoId) {
+            throw new Error('ID do novo usuário não foi retornado pela API');
+        }
 
-        // Fecha o modal
-        abrirNovoUsuarioModal.value = false
-        await loadUsers(); // <== atualiza a lista após criação
+        // Se for Educador, chama a rota específica para conceder o tipo
+        if (novoUsuario.value.isEducador) {
+            await UserService.grantEducatorTypeToUser(novoId);
+        }
+
+        // Salvar dependentes, sempre como Aluno
+        for (const dep of dependentes.value) {
+            await UserService.createUser({
+                ...dep,
+                address: novoUsuario.value.address,
+                city: novoUsuario.value.city,
+                cep: novoUsuario.value.cep,
+                Tipo: ['Aluno']
+            });
+        }
+
+        limparNovoUsuario();
+        limparNovoDependente();
+        dependentes.value = [];
+        abrirNovoUsuarioModal.value = false;
+
+        await loadUsers();
 
     } catch (error) {
-        console.error('Erro ao criar usuário:', error)
-        alert('Erro ao criar o usuário. Tente novamente.')
+        console.error('Erro ao criar novo usuário:', error);
+        alert('Erro ao salvar os dados.');
     }
 }
 
-// MODELO 2: EDITAR UM USUARIO
+function limparNovoUsuario() {
+    novoUsuario.value = {
+        fullName: '',
+        cpf: '',
+        birthDate: '',
+        email: '',
+        password: '',
+        passwordTemp: true,
+        address: '',
+        city: '',
+        cep: '',
+        phone: '',
+
+        isAluno: false,
+        isEducador: false,
+        isResponsavel: false
+    };
+}
+
+function limparNovoDependente() {
+    novoDependente.value = {
+        fullName: '',
+        cpf: '',
+        birthDate: '',
+        email: '',
+        password: '',
+        phone: '',
+        address: '',
+        city: '',
+        cep: '',
+        passwordTemp: true,
+        Tipo: ['Aluno']
+    };
+}
+
+function fecharNovoDependenteModal() {
+    abrirNovoEstudanteModal.value = false;
+    limparNovoDependente();
+}
+
+function getTiposSelecionados() {
+    const tipos = [];
+    if (novoUsuario.value.isAluno) tipos.push('Aluno');
+    if (novoUsuario.value.isEducador) tipos.push('Educador');
+    if (novoUsuario.value.isResponsavel) tipos.push('Responsável');
+    return tipos;
+}
+
+function alterarTipo(tipo, status) {
+    // Impede que "Aluno" seja adicionado em modais errados
+    if (tipo === 'Aluno' && abrirNovoUsuarioModal.value) {
+        novoUsuario.value.isAluno = false;
+        return;
+    }
+
+    if (!novoUsuario.value.Tipo) {
+        novoUsuario.value.Tipo = [];
+    }
+
+    if (status) {
+        if (!novoUsuario.value.Tipo.includes(tipo)) {
+            novoUsuario.value.Tipo.push(tipo);
+        }
+    } else {
+        novoUsuario.value.Tipo = novoUsuario.value.Tipo.filter(t => t !== tipo);
+    }
+}
+
+
+// MODELO 3: EDITAR UM USUARIO
+
+// guarda o ID e se era Educador antes da edição
+
+const usuarioIdEditando = ref(null);
+const eraEducador = ref(false);
+
 function editarUsuario(usuario) {
-    console.log(usuario)
-    // Preenche os campos com os dados existentes
+    usuarioIdEditando.value = usuario.id;
+    eraEducador.value = usuario.Tipo?.includes('Educador') || false;
+
     novoUsuario.value = {
         fullName: usuario.fullName || '',
         cpf: usuario.cpf || '',
@@ -307,49 +838,38 @@ function editarUsuario(usuario) {
         phone: usuario.phone || '',
 
         isAluno: usuario.Tipo?.includes('Aluno') || false,
-        isEducador: usuario.Tipo?.includes('Educador') || false,
+        isEducador: eraEducador.value,
         isResponsavel: usuario.Tipo?.includes('Responsável') || false
-    }
+    };
 
-    modoEdicao.value = true
-    abrirEditarUser.value = true
+    modoEdicao.value = true;
+    abrirEditarUser.value = true;
 }
 
-function fecharModalEdicao() {
-    abrirEditarUser.value = false
-    modoEdicao.value = false
-    Object.keys(novoUsuario.value).forEach(key => {
-        novoUsuario.value[key] = ''
-    })
-}
+async function salvarUsuarioEditado() {
+    if (!usuarioIdEditando.value) return;
 
-function alterarTipo(tipo, status) {
-    console.log(`Tipo: ${tipo} foi ${status ? 'marcado' : 'desmarcado'}`);
+    const agoraEducador = novoUsuario.value.isEducador;
 
-    // Aqui você pode adicionar lógica para atualizar o array novoUsuario.Tipo
-    if (!novoUsuario.value.Tipo) {
-        novoUsuario.value.Tipo = [];
-    }
-
-    if (status) {
-        // Adiciona o tipo se ainda não tiver
-        if (!novoUsuario.value.Tipo.includes(tipo)) {
-            novoUsuario.value.Tipo.push(tipo);
+    try {
+        if (!eraEducador.value && agoraEducador) {
+            await UserService.grantEducatorTypeToUser(usuarioIdEditando.value);
         }
-    } else {
-        // Remove o tipo se desmarcou
-        novoUsuario.value.Tipo = novoUsuario.value.Tipo.filter(t => t !== tipo);
+
+        if (eraEducador.value && !agoraEducador) {
+            await UserService.removeEducatorTypeFromUser(usuarioIdEditando.value);
+        }
+
+        await loadUsers();
+        abrirEditarUser.value = false;
+        modoEdicao.value = false;
+        limparNovoUsuario();
+
+    } catch (err) {
+        console.error('Erro ao atualizar tipo Educador:', err);
     }
-
-    console.log('Tipos atuais:', novoUsuario.value.Tipo);
 }
 
-// Botão flutuante
-const showFabMenu = ref(false)
-
-const toggleMenu = () => {
-    showFabMenu.value = !showFabMenu.value
-}
 
 </script>
 
@@ -376,6 +896,7 @@ span {
     max-height: 100vh;
 }
 
+
 #modalities .btn-add {
     bottom: 20px;
     right: 82px;
@@ -396,7 +917,7 @@ span {
 
 
 #modalities .submain-block {
-    height: calc(100% - 93px);
+    min-height: calc(100vh - 93px);
     border-top: 3px solid #d9d9d9;
     border-left: 3px solid #d9d9d9;
     border-top-left-radius: 32px;
@@ -429,7 +950,6 @@ span {
     width: 140px;
     height: 56px;
     cursor: pointer;
-
 }
 
 #modalities .sub-header .opt-modality p {
@@ -557,15 +1077,98 @@ span {
 .card-space {
     margin: 40px 40px 0 40px;
     gap: 16px;
-    height: calc(80% - 93px);
-    overflow-y: auto;
 }
 
-@media screen and (min-width:1440px) {
-    .card-box {
-        width: calc(25% - 12px);
-        height: 180px;
-    }
+
+/* NOVO CSS DA TABELA */
+table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: separate;
+}
+
+
+table thead {
+    height: 70px;
+    border-bottom: #ece9e9 1px solid;
+}
+
+table thead th {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
+    padding: 15px;
+    font-size: 19px;
+    font-weight: 600;
+    color: #414141;
+    border-right: #ece9e9 3px solid;
+}
+
+table tr {
+    height: 60px;
+    border-bottom: #ece9e9 3px solid;
+}
+
+table tr.bg-2 {
+    background-color: #eaeaea80;
+}
+
+table td {
+    flex-grow: 1;
+    padding: 15px;
+    height: 100%;
+    border-right: #ece9e9 3px solid;
+}
+
+table tr h5 {
+    color: #414141;
+    font-size: 19px;
+    font-weight: 600;
+}
+
+table td:last-child,
+table thead th:last-child {
+    border-right: #ece9e9 0px solid;
+}
+
+table .btn-actions-row {
+    width: 149px;
+    min-width: 149px;
+}
+
+table .btn-actions-row .form-check-input {
+    height: 30px;
+    width: 60px;
+}
+
+table td .btn-action {
+    transition: all ease-in-out 0.2s;
+    text-decoration: none !important;
+    text-align: center;
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+    border-radius: 5px;
+    background-color: white;
+    border: 1px solid rgb(219 219 219);
+    cursor: pointer;
+}
+
+table td .btn-action:hover {
+    background-color: #eaeaea80;
+}
+
+table td .btn-action i {
+    color: #414141;
+}
+
+.table-scroll {
+    max-height: 650px;
+    overflow-y: auto;
+    width: 100%;
+    border-radius: 10px;
+    border: 3px solid #d9d9d9;
 }
 
 
@@ -644,32 +1247,431 @@ span {
     background-clip: padding-box, border-box;
 }
 
-.fab-menu {
-    position: absolute;
-    bottom: 70px;
-    right: 0;
+
+/* Modais */
+
+.modal-section h2 {
+    margin-bottom: 30px;
+}
+
+.modal-section h3 {
+    color: #000000;
+    font-weight: bold;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.modal-section hr {
+    border: 0;
+    height: 1px;
+    background-color: #ccc;
+    margin: 20px 0;
+}
+
+/* Estrutura do formulário */
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.form-sections {
+    flex: 1;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+.field {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+/* Inputs genéricos (mantém cor já definida em #modalities input[type=text]) */
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="tel"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* ------------------ */
+/*  Upload de Imagem  */
+/* ------------------ */
+
+.image-upload-section {
     display: flex;
     flex-direction: column;
-    background-color: white;
-    border: 1px solid #c3c3c3a2;
-    border-radius: 12px;
-    padding: 8px;
-    gap: 8px;
-    white-space: nowrap;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 30px;
+    margin-right: 20px;
+    margin-left: 25px;
 }
 
-.fab-menu button {
-    padding: 8px 16px;
-    border: none;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    font-weight: 600;
+.image-upload-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+}
+
+.image-preview {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid #e1e5e9;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    text-align: left;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
 }
 
-.fab-menu button:hover {
-    background-color: #e9ecef;
+.image-preview:hover {
+    border-color: #4caf50;
+    transform: scale(1.05);
+}
+
+.image-preview.dragover {
+    border-color: #4caf50;
+    background: #e8f5e8;
+    transform: scale(1.02);
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    text-align: center;
+    padding: 20px;
+}
+
+.upload-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+    opacity: 0.6;
+}
+
+.upload-text {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.upload-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(76, 175, 80, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.image-preview:hover .upload-overlay {
+    opacity: 1;
+}
+
+.change-icon {
+    width: 30px;
+    height: 30px;
+    fill: white;
+}
+
+#imageInput {
+    display: none;
+}
+
+.upload-button {
+    background: linear-gradient(45deg, #4caf50, #45a049);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.upload-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.remove-image {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4757;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.remove-image:hover {
+    background: #ff3742;
+    transform: scale(1.1);
+}
+
+.image-preview.has-image .remove-image {
+    display: flex;
+}
+
+.btn-upload {
+    background-color: #e0e0e0;
+}
+
+/* Botões extras */
+.btn-salvar {
+    background-color: #2e7d32;
+    color: white;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-adicionar {
+    display: flex;
+    background: none;
+    border: none;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: -4px;
+}
+
+.btn-adicionar i {
+    margin-right: 8px;
+}
+
+.aviso {
+    color: #696969cc;
+    font-size: 12px;
+    margin-top: 15px;
+    margin-left: 3px;
+}
+
+.row-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Seção para tipo de usuário */
+.tipos-usuario {
+    margin-top: 24px;
+    font-size: 18px;
+}
+
+.tipos-usuario h3 {
+    margin-bottom: 10px;
+}
+
+.tipos-usuario .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.tipos-usuario .checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.tipos-usuario .checkbox-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #2e7d32;
+}
+
+/* Estilo do botão de adicionar dependente */
+.dependente-btn {
+    margin-top: 20px;
+}
+
+.dependente-btn .btn-adicionar {
+    font-size: 18px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #333;
+    /* ou sua cor preferida */
+    transition: color 0.3s;
+}
+
+.dependente-btn .btn-adicionar i {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.dependente-btn .btn-adicionar:hover {
+    color: #007BFF;
+    /* muda cor no hover */
+}
+
+/* Cards pequenos dos dependentes */
+.lista-dependentes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.dependente-card {
+    position: relative;
+    background: #f9f9f9;
+    padding: 10px 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    min-width: 150px;
+    cursor: default;
+    transition: box-shadow 0.3s;
+    user-select: none;
+}
+
+.dependente-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Nome do dependente */
+.dependente-nome {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Botões ocultos por padrão */
+.dependente-card .btn-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+/* Mostrar botões no hover do card */
+.dependente-card:hover .btn-actions {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Botões editar e excluir */
+.dependente-card .btn-actions button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #666;
+    font-size: 16px;
+    padding: 2px 5px;
+    transition: color 0.2s;
+}
+
+.dependente-card .btn-actions button:hover {
+    color: #007BFF;
+}
+
+
+/* Visualizar a Senha*/
+.input-senha-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input-senha-wrapper input {
+    width: 100%;
+    padding: 10px 40px 10px 10px;
+    /* espaço à direita para o ícone */
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.icone-senha {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #666;
+    cursor: pointer;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .form-header {
+        flex-direction: column;
+    }
+
+    .upload-box {
+        margin-left: 0;
+        margin-top: 20px;
+        align-self: center;
+    }
+}
+
+@media screen and (min-width:1440px) {
+    .card-box {
+        width: calc(25% - 12px);
+        height: 180px;
+    }
 }
 </style>
